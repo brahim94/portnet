@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+
+
+        <record id="monthly_treasury_wizard_view" model="ir.ui.view">
+            <field name="name">monthly.treasury.wizard.view</field>
+            <field name="model">monthly.treasury.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Suivi mensuel de la trésorerie">
+                    <group col="4">
+                        <!--<group colspan="2">
+                            <field name="recalculate"/>
+                        </group>-->
+                        <separator string="Périodes" colspan="4"/>
+                        <field name="period_ids" colspan="4" nolabel="1"/>
+                    </group>
+                    <newline/>
+                    <footer>
+                        <button string="Générer" class="oe_highlight" type="object" name="action_gen"/>
+                        ou
+                        <button string="Annuler" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+
+
+        <!-- Action -->
+
+        <act_window id="action_monthly_treasury_wizard"
+                    name="Suivi mensuel de la trésorerie"
+                    res_model="monthly.treasury.wizard"
+                    view_mode="form"
+                    target ="new"
+                    groups="account.group_account_manager"
+                    />
+
+        <menuitem id="menu_monthly_monitoring_treasury_report" name="Suivi mensuel de la trésorerie" action="action_monthly_treasury_wizard" sequence="5" parent="account.menu_finance_reports" />
+
+    </data>
+</openerp>

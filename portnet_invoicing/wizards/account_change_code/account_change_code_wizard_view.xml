@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <!-- invoice xml get wizard -->
+
+        <record id="account_change_code_wizard_view" model="ir.ui.view">
+            <field name="name">account.change.code.wizard.view</field>
+            <field name="model">account.change.code.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Modification code des comptes">
+                    <footer>
+                        <button string="Lancer" class="oe_highlight" type="object" name="action_change"/>
+                        ou
+                        <button string="Annuler" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+
+        <act_window id="action_account_change_code_wizard"
+                    name="changer les codes des comptes"
+                    res_model="account.change.code.wizard"
+                    src_model="account.account"
+                    view_mode="form"
+                    target ="new"
+                    key2="client_action_multi"
+                    groups="account.group_account_manager"
+                    />
+
+        
+
+    </data>
+</openerp>

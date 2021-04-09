@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <!--_______________________________________Contrat______________________________________-->
+
+        <record id="advanced_contract_form_view" model="ir.ui.view">
+            <field name="name">advanced.contract.form.view</field>
+            <field name="model">res.contract</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <form string="Contrat">
+                       <header>
+                            <button name="action_validate" string="Valider" type="object"
+                                    attrs="{'invisible': [('state','!=','draft')]}" class="oe_highlight"  groups="purchase.group_purchase_manager,base.group_sale_manager,account.group_account_manager"/>
+                            <button name="set_closed" string="Clôturer" type="object"
+                                    attrs="{'invisible': [('state','!=','pending')]}" class="oe_highlight"  groups="purchase.group_purchase_manager,base.group_sale_manager,account.group_account_manager"/>
+                            <button name="set_draft" string="Mettre en brouillon" type="object"
+                                    attrs="{'invisible': [('state','=','draft')]}" class="oe_highlight" groups="purchase.group_purchase_manager,base.group_sale_manager,account.group_account_manager"/>
+                            <field name="state" readonly="1" widget="statusbar"
+                                statusbar_visible="opened,pending,closed" statusbar_colors='{"pending":"red", "draft":"blue", "closed":"green"}'/>
+                       </header>
+                    <sheet string="Contrat">
+
+                        <div class="oe_title">
+                        <label for="name" class="oe_edit_only" string="Numéro Contrat" />
+                            <h1>
+                                <field name="name" class="oe_inline" readonly="1" />
+                            </h1>
+                        <label for="template_id" class="oe_edit_only" string="Modèle contrat" placeholder="Modèle contrat" />
+                            <h3>
+                                <field name="template_id" placeholder="Modèle contrat" class="oe_inline" attrs="{'readonly': [('state','in',['pending','closed'])]}"/>
+                            </h3>
+                        </div>
+                        <group col="4" colspan="4">
+                            <group colspan="2">
+                                <separator string="Informations client" colspan="2"/>
+                                <field name="partner_categ_id" required="1" attrs="{'readonly': [('state','in',['pending','closed'])]}"/>
+                                <field name="partner_id" required="1" domain="[('customer','=',True),('categ_id','=',partner_categ_id)]" attrs="{'invisible': [('partner_categ_id','=',False)],'readonly': [('state','in',['pending','closed'])]}"/>
+
+                                <separator string="Informations facturation" colspan="2"/>
+                                <field name="pricelist_id" domain="[('type','=','sale')]" readonly="1"/>
+                                <field name="currency_id" required="1" attrs="{'readonly': [('state','in',['pending','closed'])]}"/>
+                                <field name="first_invoice_date" required="1" attrs="{'readonly': [('state','in',['pending','closed'])]}"/>
+                                <field name="next_invoice_date" required="1" attrs="{'readonly': [('state','in',['pending','closed'])]}"/>
+                                <field name="anticipated_invoice_date" required="1" attrs="{'readonly': [('state','in',['pending','closed'])]}"/>Mois
+                                <field name="tacite" attrs="{'readonly': [('state','in',['pending','closed'])]}"></field>
+                            </group>
+                            <group colspan="2">
+                                <separator string="Informations contrat" colspan="2"/>
+                                <field name="product_category_id" attrs="{'readonly': [('state','in',['pending','closed'])]}" />
+                                <field name="product_id" domain="[('sale_ok','=',True)]" attrs="{'invisible': [('product_category_id','=',False)], 'readonly': [('state','in',['pending','closed'])]}" />
+                                <field name="amount" required="1" readonly="1"/>
+                                <field name="periodicity_id" attrs="{'readonly': [('state','in',['pending','closed'])]}"/>
+                                <field name="date_start" string="Date début" required="1" attrs="{'readonly': [('state','in',['pending','closed'])]}"/>
+                                <field name="date" string="Date fin" required="1" attrs="{'readonly': [('state','in',['pending','closed'])]}"/>
+                                <field name="diff_months" invisible="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="advanced_contract_tree_view" model="ir.ui.view">
+            <field name="name">advanced.contract.tree.view</field>
+            <field name="model">res.contract</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <tree string="Contrats" colors="blue:state=='draft';green:state=='pending'">
+                    <field name="name" string="N° Contrat"/>
+                    <field name="partner_categ_id"/>
+                    <field name="partner_id" string="Nom du client"/>
+                    <field name="date_start" string="Date début du contrat"/>
+                    <field name="date" string="Date fin du contrat"/>
+                    <field name="first_invoice_date" string="Date début facturation"/>
+                    <field name="next_invoice_date"/>
+                    <field name="anticipated_invoice_date"/>
+                    <field name="periodicity_id" string="Type de périodicité"/>
+                    <field name="product_category_id" string="Catégorie du produit"/>
+                    <field name="product_id"/>
+                    <field name="amount" string="Montant global du contrat"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="advanced_contract_search" model="ir.ui.view">
+            <field name="name">advanced.contract.search</field>
+            <field name="model">res.contract</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <search string="Contrat">
+                    <field name="name" filter_domain="[('name','ilike',self)]" string="Contrat"/>
+                    <field name="partner_id" operator="child_of"/>
+                    <filter string="Brouillon" domain="[('state','=','draft')]"/>
+                    <filter string="En cours" domain="[('state','=','pending')]"/>
+                    <filter string="Clôturés" domain="[('state','=','closed')]" />
+                    <filter string="Tacite reconduction" domain="[('tacite','=',True)]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Client" domain="[]" context="{'group_by':'partner_id'}"/>
+                        <filter string="Statut" domain="[]" context="{'group_by':'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Action Ventes/Ventes/Contrats -->
+        <record id="action_contracts" model="ir.actions.act_window">
+            <field name="name">Contrats</field>
+            <field name="res_model">res.contract</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('is_template','=',False)]</field>
+            <field name="search_view_id" ref="advanced_contract_search"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Cliquer ici pour créer un nouveau contrat
+                </p>
+            </field>
+        </record>
+
+        <record id="action_contracts_tree" model="ir.actions.act_window.view">
+            	<field name="sequence" eval="1"/>
+            	<field name="view_mode">tree</field>
+            	<field name="view_id" ref="advanced_contract_tree_view"/>
+            	<field name="act_window_id" ref="action_contracts"/>
+        </record>
+
+        <record id="action_contracts_form" model="ir.actions.act_window.view">
+            	<field name="sequence" eval="2"/>
+            	<field name="view_mode">form</field>
+            	<field name="view_id" ref="advanced_contract_form_view"/>
+            	<field name="act_window_id" ref="action_contracts"/>
+        </record>
+
+
+        <!-- _______________________________ Modèle de contrat ____________________________-->
+
+
+        <record id="advanced_contract_tmpl_form_view" model="ir.ui.view">
+            <field name="name">advanced.contract.tmpl.form.view</field>
+            <field name="model">res.contract</field>
+            <field name="arch" type="xml">
+                <form string="Modèles de contrat">
+                    <sheet string="Modèles de contrat">
+                        <div class="oe_title">
+                        <label for="name" class="oe_edit_only" string="Nom du modèle" placeholder="Nom du modèle" />
+                            <h1>
+                                <field name="name" class="oe_inline" required="1"  />
+                            </h1>
+                        <label for="partner_categ_id" class="oe_edit_only" string="Catégorie de client" placeholder="Catégorie de client" />
+                             <h3>
+                                <field name="partner_categ_id" placeholder="Catégorie de client" class="oe_inline"/>
+                            </h3>
+                        </div>
+                        <group col="4" colspan="4">
+                            <group colspan="2">
+                                <separator string="Informations facturation" colspan="2"/>
+                                <field name="pricelist_id" domain="[('type','=','sale')]" readonly="1"/>
+                                <field name="currency_id" required="1"/>
+                                <field name="tacite"/>
+                            </group>
+                            <group colspan="2">
+                                <separator string="Informations contrat" colspan="2"/>
+                                <field name="product_category_id" />
+                                <field name="product_id" attrs="{'invisible': [('product_category_id','=',False)]}" />
+                                <field name="amount" required="1" readonly="1"/>
+                                <field name="periodicity_id"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="advanced_contract_tmpl_tree_view" model="ir.ui.view">
+            <field name="name">advanced.contract.tmpl.tree.view</field>
+            <field name="model">res.contract</field>
+            <field name="arch" type="xml">
+                <tree string="Modèles de contrats">
+                    <field name="name"/>
+                    <field name="partner_categ_id"/>
+                    <field name="product_category_id" string="Catégorie du produit"/>
+                    <field name="product_id"/>
+                    <field name="periodicity_id" string="Type de périodicité"/>
+                    <field name="currency_id"/>
+                    <field name="amount" string="Montant global du contrat"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="advanced_contract_tmpl_search" model="ir.ui.view">
+            <field name="name">advanced.contract.tmpl.search</field>
+            <field name="model">res.contract</field>
+            <field name="arch" type="xml">
+                <search string="Contrat">
+                    <field name="name" filter_domain="[('name','ilike',self)]" string="Nom"/>
+                    <field name="product_id" filter_domain="['|', ('product_id','ilike',self)]" string="Produit"/>
+                    <field name="product_category_id" filter_domain="['|', ('product_category_id','ilike',self)]" string="Catégorie de produit"/>
+                    <filter string="Tacite reconduction" domain="[('tacite','=',True)]"/>
+                </search>
+            </field>
+        </record>
+
+
+        <!-- Action Ventes/Configuration/ Modèles de contrats -->
+        <record id="action_contracts_tmpl" model="ir.actions.act_window">
+            <field name="name">Modèles de contrats</field>
+            <field name="res_model">res.contract</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('is_template','=',True)]</field>
+            <field name="context">{'is_template':True}</field>
+            <field name="search_view_id" ref="advanced_contract_tmpl_search"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Cliquer ici pour créer un nouveau contrat
+                </p>
+            </field>
+        </record>
+
+        <record id="action_contracts_tmpl_tree" model="ir.actions.act_window.view">
+            	<field name="sequence" eval="1"/>
+            	<field name="view_mode">tree</field>
+            	<field name="view_id" ref="advanced_contract_tmpl_tree_view"/>
+            	<field name="act_window_id" ref="action_contracts_tmpl"/>
+        </record>
+
+        <record id="action_contracts_tmpl_form" model="ir.actions.act_window.view">
+            	<field name="sequence" eval="2"/>
+            	<field name="view_mode">form</field>
+            	<field name="view_id" ref="advanced_contract_tmpl_form_view"/>
+            	<field name="act_window_id" ref="action_contracts_tmpl"/>
+        </record>
+
+
+        <!--__________________________________ Menus _____________________________-->
+
+
+        <delete id="base.menu_invoiced" model="ir.ui.menu"/>
+
+        <menuitem action="action_contracts" id="menu_contracts" name="Contrats" sequence="8" parent="base.menu_sales"/>
+        <menuitem action="action_contracts_tmpl" id="menu_contracts_tmpl" name="Modèles de contrats" parent="base.menu_base_config" groups="base.group_sale_manager,account.group_account_manager"/>
+
+
+
+
+    </data>
+</openerp>

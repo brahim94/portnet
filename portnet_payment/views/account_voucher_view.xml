@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_voucher_receipt_form">
+            <field name="name">account.voucher.receipt.form</field>
+            <field name="model">account.voucher</field>
+            <field name="inherit_id" ref="account_voucher.view_vendor_receipt_form"/>
+            <field name="arch" type="xml">
+              <xpath expr='//field[@name="journal_id"]' position="after">
+                  <field name="reference_delivery" readonly="1"/>
+              </xpath>
+              <field name="reference" position="replace">
+                  <field name="reference" string="Ref. du règlement" placeholder="e.g. 003/10" required="1" />
+              </field>
+              <xpath expr='//field[@name="line_cr_ids"]' position="replace">
+                  <field name="line_cr_ids" context="{'journal_id':journal_id, 'type':type, 'partner_id':partner_id}" on_change="onchange_line_ids(line_dr_ids, line_cr_ids, amount, currency_id, type, context)">
+                        <tree string="Invoices and outstanding transactions" editable="bottom" colors="gray:amount==0">
+                            <field name="move_line_id" context="{'journal_id':parent.journal_id, 'partner_id':parent.partner_id}"
+                                on_change="onchange_move_line_id(move_line_id)"
+                                domain="[('account_id.type','in',('receivable','payable')), ('reconcile_id','=', False), ('partner_id','=',parent.partner_id)]"
+                                required="1"/>
+                            <field name="account_id"  groups="base.group_no_one" domain="[('type','=','receivable')]"/>
+                            <field name="date_original" readonly="1"/>
+                            <field name="date_due" readonly="1"/>
+                            <field name="amount_original" readonly="1"/>
+                            <field name="amount_unreconciled" readonly="1" />
+                            <field name="reconcile" on_change="onchange_reconcile(reconcile, amount, amount_unreconciled, context)" />
+                            <field name="amount" sum="Total Allocation" on_change="onchange_amount(amount, amount_unreconciled, context)" string="Allocation"/>
+                        </tree>
+                  </field>
+              </xpath>
+
+            </field>
+        </record>
+
+        <record id="portnet_voucher_customer_filter_view" model="ir.ui.view">
+            <field name="name">portnet.view_voucher.filter.customer.pay</field>
+            <field name="model">account.voucher</field>
+            <field name="inherit_id" ref="account_voucher.view_voucher_filter_customer_pay"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='partner_id']" position="after">
+                     <field name="reference" string="Numéro de chéque" />
+                     <field name="reference_delivery" string="Numéro de remise" />
+                </xpath>
+
+            </field>
+        </record>
+
+
+
+
+        <!--<record model="ir.ui.view" id="view_vendor_payment_form1">
+            <field name="name">account.voucher.payment.form1</field>
+            <field name="model">account.voucher</field>
+            <field name="inherit_id" ref="account_voucher.view_vendor_payment_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="replace" >
+                  <header>
+                     <button name="proforma_voucher" string="Validate" states="draft" invisible="context.get('line_type', False)" class="oe_highlight" groups="purchase.group_purchase_manager,account.group_account_manager,portnet_invoicing.group_agent"/>
+                     <button name="cancel_voucher" string="Cancel Voucher" states="draft,proforma"  invisible="context.get('line_type', False)" groups="purchase.group_purchase_manager,account.group_account_manager,portnet_invoicing.group_agent"/>
+                     <button name="cancel_voucher" string="Unreconcile" type="object" states="posted" invisible="context.get('line_type', False)" confirm="Are you sure to unreconcile and cancel this record ?" groups="purchase.group_purchase_manager,account.group_account_manager,portnet_invoicing.group_agent"/>
+                     <button name="action_cancel_draft" type="object" states="cancel" string="Set to Draft" invisible="context.get('line_type', False)" groups="purchase.group_purchase_manager,account.group_account_manager,portnet_invoicing.group_agent"/>
+                     <field name="state" widget="statusbar" statusbar_visible="draft,posted" statusbar_colors='{"proforma":"blue"}'/>
+                  </header>
+                </xpath>
+            </field>
+        </record>-->
+
+<!--        <record model="ir.ui.view" id="view_vendor_receipt_form1">
+            <field name="name">account.voucher.receipt.form1</field>
+            <field name="model">account.voucher</field>
+            <field name="inherit_id" ref="account_voucher.view_vendor_receipt_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="replace">
+                  <header invisible="context.get('line_type', False)">
+                     <button name="proforma_voucher" string="Validate" states="draft" class="oe_highlight" groups="purchase.group_purchase_manager,account.group_account_manager"/>
+                     <button name="cancel_voucher" string="Cancel Receipt" states="draft,proforma" groups="purchase.group_purchase_manager,account.group_account_manager"/>
+                     <button name="cancel_voucher" string="Unreconcile" type="object" states="posted" confirm="Are you sure to unreconcile and cancel this record ?" groups="purchase.group_purchase_manager,account.group_account_manager"/>
+                      &lt;!&ndash; On a caché ce bouton pour le bon fonctionnement du delettrage des chéque inmpayés !!! faire attention si on veut le mettre à nouveau visible&ndash;&gt;
+                      <button name="action_cancel_draft" type="object" invisible="1" string="Set to Draft" groups="purchase.group_purchase_manager,account.group_account_manager"/>
+                     <field name="state" widget="statusbar" statusbar_visible="draft,posted" statusbar_colors='{"proforma":"blue"}' />
+                  </header>
+                </xpath>
+            </field>
+        </record>-->
+
+
+
+
+
+
+
+
+         <menuitem name="Invoicing"
+            id="account.menu_finance"
+            groups="purchase.group_purchase_manager,base.group_sale_manager,account.group_account_manager,portnet_invoicing.group_agent"
+            sequence="50"/>
+
+        <menuitem id="account.menu_finance_receivables" name="Customers" parent="account.menu_finance" sequence="2" groups="base.group_sale_manager,account.group_account_manager,portnet_invoicing.group_agent"/>
+        <menuitem id="account.menu_finance_payables" name="Suppliers" parent="account.menu_finance" sequence="3" groups="purchase.group_purchase_manager,account.group_account_manager"/>
+
+
+        <menuitem action="account_voucher.action_vendor_payment" icon="STOCK_JUSTIFY_FILL" sequence="12"
+            id="account_voucher.menu_action_vendor_payment"  parent="account.menu_finance_payables" groups="purchase.group_purchase_manager,account.group_account_manager,portnet_invoicing.group_agent"/>
+
+        <menuitem id="account_voucher.menu_action_purchase_receipt" icon="STOCK_JUSTIFY_FILL"
+            action="account_voucher.action_purchase_receipt" parent="account.menu_finance_payables" sequence="10" groups="purchase.group_purchase_manager,account.group_account_manager"/>
+
+        <menuitem id="account_voucher.menu_action_sale_receipt" icon="STOCK_JUSTIFY_FILL"
+            action="account_voucher.action_sale_receipt"
+            parent="account.menu_finance_receivables"
+            sequence="10" groups="base.group_sale_manager,account.group_account_manager"/>
+    </data>
+</openerp>

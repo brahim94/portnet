@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Partner Supplier View Action -->
+    <record id="action_partner_supplier_form_wt" model="ir.actions.act_window">
+        <field name="name">Fournisseurs</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_type">form</field>
+        <field name="domain">[]</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{'search_default_supplier': 1,'default_customer': 0,'default_supplier': 1, 'default_is_company': True}</field>
+        <field name="filter" eval="True"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new fournisseurs in your address book
+            </p>
+        </field>
+    </record>
+
+    <!-- Partner Customer View Action -->
+    <record id="action_partner_customer_form_wt" model="ir.actions.act_window">
+        <field name="name">Clients</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{'default_customer':1, 'search_default_customer':1, 'default_is_company': True}</field>
+        <field name="filter" eval="True"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new client in your address book
+            </p>
+        </field>
+    </record>
+
+	<!-- Main Menus -->
+    <menuitem id="helpdesk_main_menu_root"
+            name="SAV"
+            sequence="1"   web_icon="wt_helpdesk,static/img/sav.png"/>
+
+    <menuitem id="helpdesk_menu_root"
+            name="SAV"
+            parent="helpdesk_main_menu_root"
+            sequence="5"/>
+
+    <menuitem id="helpdesk_parameters_menu_root"
+            name="Parameters"
+            parent="helpdesk_main_menu_root"
+            sequence="10"/>
+
+    <menuitem id="helpdesk_reference_menu_root"
+            name="Référentiels"
+            parent="helpdesk_main_menu_root"
+            sequence="13"/>
+
+    <menuitem id="helpdesk_configuration_menu_root"
+            name="Configuration"
+            parent="helpdesk_main_menu_root"
+            sequence="15"/>
+
+    <!-- Sub menus of parameters -->
+    <menuitem id="pannes_type_parameter_menu"
+            name="Types de Pannes"
+            parent="wt_helpdesk.helpdesk_parameters_menu_root"
+            action="wt_helpdesk.pannes_type_parameter_action"
+            sequence="1"/>
+
+    <menuitem id="fournisseurs_supplier_menu"
+            name="Fournisseurs"
+            parent="wt_helpdesk.helpdesk_reference_menu_root"
+            action="wt_helpdesk.action_partner_supplier_form_wt"
+            sequence="3"/>
+
+    <menuitem id="client_customer_menu"
+            name="Clients"
+            parent="wt_helpdesk.helpdesk_reference_menu_root"
+            action="wt_helpdesk.action_partner_customer_form_wt"
+            sequence="5"/>
+
+    <menuitem id="articles_parameter_menu"
+            name="Articles"
+            parent="wt_helpdesk.helpdesk_reference_menu_root"
+            action="wt_helpdesk.articles_parameter_action"
+            sequence="6"/>
+
+    <menuitem id="ticket_type_parameter_menu"
+            name="Types Réclamation"
+            parent="wt_helpdesk.helpdesk_parameters_menu_root"
+            action="wt_helpdesk.ticket_type_parameter_action"
+            sequence="9"/>
+
+    <menuitem id="decision_parameter_menu"
+            name="Decisions"
+            parent="wt_helpdesk.helpdesk_parameters_menu_root"
+            action="wt_helpdesk.decision_parameter_action"
+            sequence="12"/>
+
+    <menuitem id="action_client_parameter_menu"
+            name="Actions Client"
+            parent="wt_helpdesk.helpdesk_parameters_menu_root"
+            action="wt_helpdesk.action_client_parameter_action"
+            sequence="15"/>
+
+    <menuitem id="action_fournisseur_parameter_menu"
+            name="Actions Fournisseur"
+            parent="wt_helpdesk.helpdesk_parameters_menu_root"
+            action="wt_helpdesk.action_fournisseur_parameter_action"
+            sequence="18"/>
+
+    <menuitem id="motif_parameter_menu"
+            name="Motifs"
+            parent="wt_helpdesk.helpdesk_parameters_menu_root"
+            action="wt_helpdesk.motif_parameter_action"
+            sequence="21"/>
+
+    <menuitem id="factures_menu"
+            name="Factures"
+            parent="wt_helpdesk.helpdesk_reference_menu_root"
+            action="wt_helpdesk.factures_action"
+            sequence="22"/>
+
+    <menuitem id="processus_menu"
+            name="Processus"
+            parent="wt_helpdesk.helpdesk_configuration_menu_root"
+            action="wt_helpdesk.processus_action"
+            sequence="24"/>
+
+    <menuitem id="sychronize_menu"
+            name="Sychronisation"
+            parent="wt_helpdesk.helpdesk_configuration_menu_root"
+            action="wt_helpdesk.sychronize_action"
+            sequence="26"/>
+
+    <!-- Helddesk Réclamation Menu -->
+    <menuitem id="ticket_menu"
+            name="Réclamation"
+            parent="wt_helpdesk.helpdesk_menu_root"
+            action="wt_helpdesk.ticket_action"
+            sequence="1"/>
+</odoo>

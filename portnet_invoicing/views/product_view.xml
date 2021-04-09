@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="portnet_product_template_only_form_view" model="ir.ui.view">
+            <field name="name">portnet.product.template.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+
+                <field name="active" position="after">
+                    <field name="is_subscription"/>
+                    <field name="periodicity_id" attrs="{'invisible': [('is_subscription','=',False)],'required': [('is_subscription','=',True)]}"/>
+                    <field name="penalty_fees"/>
+                    <field name="supplier_penalty_fees"/>
+                    <field name="penalty_rate" placeholder="ex : 0.1" attrs="{'invisible': [('penalty_fees','=',False),('supplier_penalty_fees','=',False)],'required': ['|',('penalty_fees','=',True),('supplier_penalty_fees','=',True)]}"/>
+                </field>
+
+                <field name="type" position="after">
+                    <field name="is_service" attrs="{'invisible': [('type','!=','consu')]}"/>
+                </field>
+
+            </field>
+        </record>
+
+        <record id="portnet_product_template_tree_view" model="ir.ui.view">
+            <field name="name">portnet.product.template.tree</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_tree_view"/>
+            <field name="arch" type="xml">
+
+                <field name="state" position="after">
+                    <field name="is_subscription"/>
+                </field>
+
+
+            </field>
+        </record>
+
+    </data>
+</openerp>

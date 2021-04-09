@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- Account Voucher -->
+        <record id="view_vendor_receipt_form_inherit" model="ir.ui.view">
+            <field name="name">account.voucher.form.inherit</field>
+            <field name="model">account.voucher</field>
+            <field name="inherit_id" ref="account_voucher.view_vendor_receipt_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet//group[2]" position="inside">
+                    <field name="attachment_name" invisible="1"/>
+                    <field name="attachment_id" filename="attachment_name"/>
+                    <field name="date_create_portnet" readonly="1"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

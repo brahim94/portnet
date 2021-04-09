@@ -1,0 +1,54 @@
+<odoo>
+
+    <report
+        id="action_report_convocation"
+        model="purchase.requisition"
+        string="Avis de convocation"
+        report_type="qweb-pdf"
+		name="tech_reports_extention.convocation"
+		print_report_name="'Decision de convocation'"/>
+
+        <template id="convocation">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.internal_layout">
+                <style>
+                div.a{
+                text-indent: 50px;
+                }
+                div.marg {
+                margin-top:100px;
+                }
+                </style>
+                    <div class="a marg "></div>
+
+                    <div style="position:absolute;left:570.99px;top:5.98px">
+                        A: 
+                        <br></br>
+                        <br><i>-  R A B A T -</i></br>
+			        </div>
+                    
+                    
+                    <div style="vertical-align:left;text-align: left" class="marg">
+                        <strong>OBJET:</strong> Commission d’Ouverture des plis.
+                        <br></br>
+                        <br><strong>R E F  /  :</strong> Décret N° 2-12-349 du 08 Joumada I 1434 (20 Mars 2013).</br>
+			        </div>
+
+                    <div style="vertical-align:center;text-align: left" class="a marg">
+                        <p>J’ai l’honneur de vous informer que la réunion d’ouverture des plis relative à l’Appel d’Offres  Ouvert  sur            
+                            <br> Offres de prix N° …………………… concernant, ‘‘……………………………………………’’;  est prévue le ……………….. à …..H à la salle de réunion de l’ENSMR.</br></p>
+                        <p>Tous les membres de la commission d’ouverture des plis concernant cet Appel d’Offres ont été avisés pour assister à cette réunion.</p>
+                        <p>Veuillez agréer, Monsieur, l’expression de mes salutations distinguées.</p>
+                        <p><small> P.J/ : « Tous les Documents relatifs à l’Appel d’Offres en question».</small></p>
+
+                    </div>
+
+
+
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

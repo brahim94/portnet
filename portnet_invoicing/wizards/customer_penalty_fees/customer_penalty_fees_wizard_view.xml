@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <!--  customer penalty fees wizard -->
+
+        <record id="customer_penalty_fees_wizard_view" model="ir.ui.view">
+            <field name="name">customer.penalty.fees.wizard.view</field>
+            <field name="model">customer.penalty.fees.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Pénalités de retard">
+                    <group col="4">
+                        <group colspan="2">
+                            <field name="base_amount" invisible="1" />
+                            <field name="planned_date" required="1"/>
+                            <field name="reception_date" required="1"/>
+                            <field name="total_days" colspan="2" required="1"/>
+                        </group>
+                        <group colspan="2">
+                            <field name="penalty_fees_product_id" colspan="2" required="1" widget="selection"/>
+                            <field name="penalty_rate" readonly="1"/>
+                            <field name="amount" colspan="2" required="1"/>
+                            <field name="invoice_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Valider" class="oe_highlight" type="object" name="action_validate"/>
+                        ou
+                        <button string="Annuler" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+
+    </data>
+</openerp>

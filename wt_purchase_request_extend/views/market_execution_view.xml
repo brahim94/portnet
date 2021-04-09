@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- <act_window
+            id="action_open_purchase_requisition"
+            name="Journal Items"
+            context="{'search_default_account_id': [active_id]}"
+            res_model="account.move.line"/> -->
+
+    <!--Market Execution Form -->
+    <record id="view_market_execution_form" model="ir.ui.view">
+        <field name="name">market.execution.form</field>
+        <field name="model">market.execution</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="print_engagement" string="Print Engagement" type="object" class="btn-primary" states="pre_engagement"/>
+                    <button name="print_notification" string="Notification Order" type="object" class="btn-primary" attrs="{'invisible': ['|', '|', '|', ('state', '!=', 'pre_engagement'), ('is_bc_execution', '!=', False), ('is_execution_convention', '!=', False), ('is_regie_execution', '!=', False)]}"/>
+                    <button name="print_commencement_order" string="Beginning Order" type="object" class="btn-primary" states="engagement" groups="wt_purchase_request_extend.group_market_execution_achat"/>
+                    <button name="action_engager" states="pre_engagement" string="Engager" type="object" class="btn-primary" groups="wt_purchase_request_extend.group_market_execution_controleur"/>
+                    <button name="action_payer" states="engagement" string="Payer" type="object" class="btn-primary" groups="wt_purchase_request_extend.group_market_execution_achat"/>
+                    <button name="action_cancel" states="engagement" string="Résilier" type="object" class="btn-primary" groups="wt_purchase_request_extend.group_market_execution_achat"/>
+                    <button name="action_done" states="paiement" string="Close" type="object" class="btn-primary" groups="wt_purchase_request_extend.group_market_execution_achat"/>
+                    <field name="state" widget="statusbar" statusbar_visible="pre_engagement,engagement,paiement,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object"
+                                name="action_view_purchase_order"
+                                class="oe_stat_button"
+                                attrs="{'invisible':[('purchase_order', '=', False)]}"
+                                string="Purchase Order"
+                                icon="fa-shopping-cart">
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <!-- <label for="name" string="Market Execution Name" class="oe_edit_only"/> -->
+                        <h1>
+                            <field name="is_bc_execution" invisible="1"/>
+                            <field name="is_execution_convention" invisible="1"/>
+                            <field name="is_regie_execution" invisible="1"/>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="purchase_requisition" domain="[('state', '=', 'done'), ('contract_type', '=', 'Appel d’offres')]" attrs="{'invisible': ['|', '|', ('is_bc_execution', '!=', False), ('is_regie_execution', '!=', False), ('is_execution_convention', '!=', False)]}"/>
+                            
+                            <field name="purchase_order" domain="[('requisition_id', '=', purchase_requisition), ('requisition_id', '!=', False), ('tender_decision_line_id.decision', '=', 'Attributaire')]" attrs="{'invisible': ['|', '|', ('is_bc_execution', '!=', False), ('is_regie_execution', '!=', False), ('is_execution_convention', '!=', False)]}"/>
+                            <field name="purchase_requisition_bc" domain="[('state', '=', 'done'), ('contract_type', '=', 'Consultation / BC')]" attrs="{'invisible': [('is_bc_execution', '=', False)]}"/>
+                            <field name="contrat_convention_id" domain="[('state', '=', 'done'), ('contract_type', '=', 'Contrat / Convention')]" attrs="{'invisible': [('is_execution_convention', '=', False)]}"/>
+                            <field name="contrat_regie_id" domain="[('state', '=', 'done'), ('contract_type', '=', 'Régie')]" attrs="{'invisible': [('is_regie_execution', '=', False)]}"/>
+
+                            <field name="consultation_name" attrs="{'invisible': [('is_bc_execution', '=', False)]}" string="Object de la consultation"/>
+                            <field name="convention_name" string="Object de la convention" attrs="{'invisible': [('is_execution_convention', '=', False)]}"/>
+                        </group>
+                        <group>
+                            <field name="partner_id" attrs="{'invisible': ['|', '|', ('is_bc_execution', '!=', False), ('is_regie_execution', '!=', False), ('is_execution_convention', '!=', False)]}"/>
+                            <field name="date" attrs="{'invisible': ['|', '|', ('is_bc_execution', '!=', False), ('is_regie_execution', '!=', False), ('is_execution_convention', '!=', False)]}"/>
+                            
+                            <field name="purchase_order_id_bc" domain="[('requisition_id', '=', purchase_requisition_bc), ('requisition_id', '!=', False)]" attrs="{'invisible': [('is_bc_execution', '=', False)]}"  options="{'no_create_edit': True}"/>
+                            <field name="purchase_order_id_convention" domain="[('requisition_id', '=', contrat_convention_id), ('requisition_id', '!=', False)]" attrs="{'invisible': [('is_execution_convention', '=', False)]}"  options="{'no_create_edit': True}"/>
+                            <field name="purchase_order_id_rigie" domain="[('requisition_id', '=', contrat_regie_id), ('requisition_id', '!=', False)]" attrs="{'invisible': [('is_regie_execution', '=', False)]}" options="{'no_create_edit': True}"/>
+
+                         
+                            <field name="date_notification_bc" string="Date de notification du BC" widget="date" attrs="{'invisible': [('is_bc_execution', '=', False)]}"/>
+                            <field name="date_notification_convention" string="Date de notification de la convention" widget="date" attrs="{'invisible': [('is_execution_convention', '=', False)]}"/>
+                            <field name="date_notification_rigie" string="Date de notification fournisseur" widget="date" attrs="{'invisible': [('is_regie_execution', '=', False)]}"/>
+                          
+                            <field name="term" attrs="{'invisible': [('is_execution_convention', '=', False)]}" readonly="1"/>
+                            
+                            <label for="date_debut" string="Début terme" attrs="{'invisible': [('is_execution_convention', '=', False)]}"/>
+                            <div class="o_row" attrs="{'invisible': [('is_execution_convention', '=', False)]}">                                
+                                <field name="date_debut" attrs="{'invisible': [('is_execution_convention', '=', False)]}" readonly="1"/>
+                                 <label for="date_fin" string="Fin terme"/>
+                                <field name="date_fin" attrs="{'invisible': [('is_execution_convention', '=', False)]}" readonly="1"/>
+                            </div>        
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Engagement">
+                            <notebook>
+                                <page string="Detail">
+                                    <label for="engagement_ids" attrs="{'invisible': ['|', '|', ('is_bc_execution', '!=', False), ('is_regie_execution', '!=', False), ('is_execution_convention', '!=', False)]}"/>
+                                    <field name="engagement_ids" nolabel="1" context="{'default_date': date}" attrs="{'invisible': ['|', '|', ('is_bc_execution', '!=', False), ('is_regie_execution', '!=', False), ('is_execution_convention', '!=', False)]}">
+                                        <tree editable="bottom">
+                                            <field name="object_id"/>
+                                            <field name="action_id"/>
+                                            <field name="days"/>
+                                            <field name="date"/>
+                                            <field name="quality_id"/>
+                                            <field name="engagement_type"/>
+                                            <field name="hr_responsible" attrs="{'invisible': ['|',('engagement_type', '=', 'Partner'), ('engagement_type', '=', False)], 'required': [('engagement_type', '=', 'Employee')]}"/>
+                                            <field name="partner_responsible" attrs="{'invisible': ['|',('engagement_type', '=', 'Employee'), ('engagement_type', '=', False)], 'required': [('engagement_type', '=', 'Partner')]}"/>
+                                            <field name="department_id" attrs="{'invisible': ['|',('engagement_type', '=', 'Partner'), ('engagement_type', '=', False)]}"/>
+                                        </tree>
+                                    </field>
+                                    <group string="Fiche d`engagement">
+                                        <group>
+                                            <field name="engagement_number"/>
+                                            <field name="enagagement_date"/>
+                                            <field name="engagement_amount"/>
+                                        </group>
+                                        <group>
+                                            <field name="final_deposit"/>
+                                            <!-- <field name="budget_type" attrs="{'invisible': [('is_bc_execution', '=', False), ('is_regie_execution', '=', False), ('is_execution_convention', '=', False)]}"/> -->
+                                            <!-- <field name="programme_chb"/> -->
+                                            <!-- <field name="programme_prestation"/> -->
+                                            <!-- <field name="nature_bc" attrs="{'invisible': [('is_bc_execution', '=', False), ('is_regie_execution', '=', False), ('is_execution_convention', '=', False)]}"/> -->
+                                        </group>
+                                    </group>
+                                    <!-- <label for="budget_id" string="Rubrique budgétaire" attrs="{'invisible': ['|', '|', ('is_bc_execution', '!=', False), ('is_regie_execution', '!=', False), ('is_execution_convention', '!=', False)]}" style="width: 153px;"/> -->
+                                    <!-- <label for="budget_id" string="Compte Budgétaire" attrs="{'invisible': [('is_bc_execution', '=', False), ('is_regie_execution', '=', False), ('is_execution_convention', '=', False)]}" style="width: 153px;"/>
+                                    <field name="budget_id" nolabel="1" style="width: 343px;"/> -->
+                                    
+                                    <group string="Ordre de notification" attrs="{'invisible': ['|', '|', ('is_bc_execution', '!=', False), ('is_regie_execution', '!=', False), ('is_execution_convention', '!=', False)]}">
+                                        <group>
+                                            <field name="notification_number"/>
+                                            <field name="notification_date"/>
+                                        </group>
+                                        <group>
+                                            <field name="caution_recue"/>
+                                            <field name="caution_date" attrs="{'invisible': [('caution_recue', '=', False)], 'required': [('caution_recue', '!=', False)]}"/>
+                                            <field name="documents_ids" widget="many2many_tags"/>
+                                        </group>
+                                    </group>
+
+                                    
+                                </page>
+                                <page string="Piéces Jointes">
+                                    <group attrs="{'invisible': ['|',('is_bc_execution', '!=', False), ('is_execution_convention', '!=', False)]}">
+                                        <group>
+                                            <field name="contract_filename" invisible="1"/>
+                                            <field name="contract_attachment_id" filename="contract_filename"/>
+                                            <field name="presentation_filename" invisible="1"/>
+                                            <field name="presentation_attachment_id" filename="presentation_filename"/>
+                                        </group>
+                                        <group>
+                                            <field name="sheet_filename" invisible="1"/>
+                                            <field name="sheet_attachment_id" filename="sheet_filename"/>
+                                        </group>
+                                    </group>
+                                    <group attrs="{'invisible': [('is_bc_execution', '=', False), ('is_execution_convention', '=', False)]}">
+                                        <group>
+                                            <field name="filename_commande_signe" invisible="1"/>
+                                            <field name="attachment_commande_signe" filename="filename_commande_signe"/>
+                                            <field name="filename_engagement_signe" invisible="1"/>
+                                            <field name="attachment_engagement_signe" filename="filename_engagement_signe"/>
+                                        </group>
+                                        <group>
+                                            <field name="filename_commission" invisible="1"/>
+                                            <field name="attachment_commission" filename="filename_commission"/>
+                                        </group>
+                                    </group>
+                                </page>
+                            </notebook>
+                        </page>
+                        <page string="Suivi" attrs="{'invisible': [('state', 'in', ('pre_engagement'))]}">
+                            <group>
+                                <group>
+                                    <field name="follow_up_assured"/>
+                                </group>
+                                <group>
+                                    <field name="responsible"/>
+                                </group>
+                            </group>
+                            <group string="Ordre de commencement de service" attrs="{'invisible': ['|', ('is_bc_execution', '!=', False), ('is_execution_convention', '!=', False)]}">
+                                <group>
+                                    <field name="order_service_number"/>
+                                    <field name="order_date"/>
+                                </group>
+                                <group>
+                                    <field name="execution_days"/>
+                                    <field name="commencement_date"/>
+                                </group>
+                            </group>
+                            <group string="Arrét et reprise du service" attrs="{'invisible': ['|', ('is_bc_execution', '!=', False), ('is_execution_convention', '!=', False)]}">
+                                <field name="service_ids" nolabel="1" context="{'service_ids': service_ids}">
+                                    <tree editable="bottom">
+                                        <field name="service_type"/>
+                                        <field name="order_number"/>
+                                        <field name="order_date"/>
+                                        <field name="days"/>
+                                        <field name="effect_date"/>
+                                        <field name="description"/>
+                                        <button name="action_order" string="Imprimer Ordre" type="object" class="btn-primary"/>
+                                    </tree>
+                                </field>
+                            </group>
+                            <group string="Suivi exécution">
+                                <field name="monitoring_execution_ids" nolabel="1">
+                                    <tree editable="bottom">
+                                        <field name="jalon_id"/>
+                                        <field name="scheduled_start_date"/>
+                                        <field name="scheduled_end_date"/>
+                                        <field name="estimated_time" readonly="1" force_save="1"/>
+                                        <field name="actual_start_date"/>
+                                        <field name="actual_end_date"/>
+                                        <field name="actual_time" readonly="1" force_save="1"/>
+                                        <field name="ecart" readonly="1" force_save="1"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                            </group>
+                            <group string="Réclamations">
+                                <field name="reclamation_ids" nolabel="1">
+                                    <tree editable="bottom">
+                                        <field name="date"/>
+                                        <field name="type_reclamation"/>
+                                        <field name="name"/>
+                                        <field name="object_reclamation"/>
+                                        <field name="description"/>
+                                        <field name="department_id" attrs="{'invisible': [('type_reclamation', '!=', 'service_utisaleur')]}"/>
+                                        <field name="partner_id" attrs="{'invisible': [('type_reclamation', '!=', 'partenaire')]}"/>
+                                        <field name="filename" invisible="1"/>
+                                        <field name="attachment_id" filename="filename"/>
+                                    </tree>
+                                </field>
+                            </group>
+                            <group string="Pénalités" attrs="{'invisible': ['|', ('is_bc_execution', '!=', False), ('is_execution_convention', '!=', False)]}">
+                                <field name="penalite_ids" nolabel="1" context="{'default_market_id':id}">
+                                    <tree editable="bottom">
+                                        <field name="market_id" invisible="1"/>
+                                        <field name="date"/>
+                                        <field name="penalite_type"/>
+                                        <field name="description"/>
+                                        <field name="reclamation_id" domain="[('market_id', '=', market_id)]"/>
+                                        <field name="amount"/>
+                                        <field name="pv_filename" invisible="1"/>
+                                        <field name="pv_attachment_id" filename="pv_filename"/>
+                                    </tree>
+                                </field>
+                            </group>
+                            <group attrs="{'invisible': ['|', ('is_bc_execution', '!=', False), ('is_execution_convention', '!=', False)]}">
+                                <group>
+                                    <field name="total_penalite"/>
+                                </group>
+                                <group>
+                                    <field name="taux_penalite"/>
+                                </group>
+                            </group>
+                            <group string="Mise en demeure" attrs="{'invisible': ['|', ('is_bc_execution', '!=', False), ('is_execution_convention', '!=', False)]}">
+                                <group>
+                                    <field name="motif"/>
+                                    <field name="date_mise"/>
+                                    <field name="filename_mise" invisible="1"/>
+                                    <field name="attachment_mise_id" filename="filename_mise"/>
+                                </group>
+                                <group>
+                                    <field name="mise_reclamation_id" domain="[('market_id', '=', id)]"/>
+                                    <field name="days_mise"/>
+                                    <field name="date_auto_effect"/>
+                                    <button name="generate_miss_model" string="Générer Modéle" type="object" class="btn-primary"/>
+                                </group>
+                            </group>
+                            <group string="Résiliation">
+                                <group>
+                                    <field name="type_resillation"/>
+                                    <field name="resillation_reclamation_id" domain="[('market_id', '=', id)]"/>
+                                    <field name="date_decision_resillation"/>
+                                    <field name="date_effective_resillation" attrs="{'invisible': ['|', ('is_bc_execution', '!=', False), ('is_execution_convention', '!=', False)]}"/>
+                                    <field name="filename_resillation" invisible="1"/>
+                                    <field name="attachment_resillation_id" filename="filename_resillation"/>
+                                </group>
+                                <group>
+                                    <field name="motif_resillation"/>
+                                    <field name="is_caution_resillation" attrs="{'invisible': ['|',('is_bc_execution', '!=', False), ('is_execution_convention', '!=', False)]}"/>
+                                    <field name="days_decision_resillation" attrs="{'invisible': ['|', ('is_bc_execution', '!=', False), ('is_execution_convention', '!=', False)]}"/>
+                                    <button name="generate_resillation_model" string="Générer Modéle" type="object" class="btn-primary"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page name="paiement" string="Paiement" attrs="{'invisible': [('state', 'not in', ('paiement', 'done'))]}">
+                            <group>
+                                <group>
+                                    <field name="total_engage_amount"/>
+                                    <field name="total_transmis_amount"/>
+                                </group>
+                                <group>
+                                    <field name="total_facture_amount"/>
+                                </group>
+                            </group>
+                            <group>
+                                <field name="paiment_line_ids" nolabel="1">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="date_invoice"/>
+                                        <field name="montant"/>
+                                        <field name="date_paiement"/>
+                                        <field name="state"/>
+                                        <field name="date_reception"/>
+                                        <field name="bc_exec_check" invisible="1"/>
+                                        <field name="cv_exec_check" invisible="1"/>
+                                        <field name="rj_exec_check" invisible="1"/>
+                                        <button name="generate_decompte_paiement" string="Générer Décompte" type="object" class="btn-primary" attrs="{'invisible': ['|', '|', ('bc_exec_check', '!=', False), ('cv_exec_check', '!=', False), ('rj_exec_check', '!=', False)]}"/>
+                                        <field name="reception_filename" invisible="1"/>
+                                        <field name="reception_attachment_id" filename="reception_filename"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                        <page name="close" string="Clôturé" attrs="{'invisible': ['|', '|',('state', 'not in', ('done')), ('is_bc_execution', '!=', False), ('is_execution_convention', '!=', False)]}">
+                            <group string="Reception définitive">
+                                <group>
+                                    <field name="date_reception_provision" readonly="1" force_save="1"/>
+                                    <field name="date_reception_definitive" readonly="1" force_save="1"/>
+                                    <field name="filename_decompte_definit" invisible="1"/>
+                                    <field name="attachment_decompte_definit" filename="filename_decompte_definit"/>
+                                    <button name="print_decompte_definitif" string="Générer Décompte définitif" type="object" class="btn-primary"/>
+                                </group>
+                                <group>
+                                    <field name="days_reception_provision"/>
+                                    <field name="date_reception_definitive_reelle"/>
+                                    <field name="filename_repport_achievement" invisible="1"/>
+                                    <field name="attachment_repport_achievement" filename="filename_repport_achievement"/>
+                                    <button name="print_rapport_achievement" string="Générer Rapport d'achievement" type="object" class="btn-primary"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!--Market Execution Search -->
+    <record id="view_market_execution_search" model="ir.ui.view">
+        <field name="name">market.execution.search</field>
+        <field name="model">market.execution</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="purchase_requisition"/>
+                <field name="purchase_order"/>
+                <field name="partner_id"/>
+            </search>
+        </field>
+    </record>
+    
+
+    <!-- Action Exécution Marché -->
+    <record model="ir.actions.act_window" id="action_market_execution">
+        <field name="name">Market Execution</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">market.execution</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('is_bc_execution', '=', False), ('is_execution_convention', '=', False), ('is_regie_execution', '=', False)]</field>
+        <field name="search_view_id" ref="view_market_execution_search"/>
+    </record>
+
+    <!-- Action Exécution BC -->
+    <record model="ir.actions.act_window" id="action_bc_execution">
+        <field name="name">BC Execution</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">market.execution</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('is_bc_execution', '!=', False)]</field>
+        <field name="context">{'default_is_bc_execution': 1}</field>
+        <field name="search_view_id" ref="view_market_execution_search"/>
+    </record>
+
+    <!-- Action Execution Convention -->
+    <record model="ir.actions.act_window" id="action_convention_execution">
+        <field name="name">Convention Execution</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">market.execution</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('is_execution_convention', '!=', False)]</field>
+        <field name="context">{'default_is_execution_convention': 1}</field>
+        <field name="search_view_id" ref="view_market_execution_search"/>
+    </record>
+
+    <!-- Action Exécution Régie -->
+    <record model="ir.actions.act_window" id="action_regie_execution">
+        <field name="name">Régie Execution</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">market.execution</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('is_regie_execution', '!=', False)]</field>
+        <field name="context">{'default_is_regie_execution': 1}</field>
+        <field name="search_view_id" ref="view_market_execution_search"/>
+    </record>
+
+    <!--Market Execution Tree -->
+    <record id="view_market_execution_tree" model="ir.ui.view">
+        <field name="name">market.execution.tree</field>
+        <field name="model">market.execution</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="purchase_requisition"/>
+                <field name="purchase_order"/>
+                <field name="partner_id"/>
+                <field name="date" string="Date attribution"/>
+                <field name="state" string="Etat"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <!--BC Execution Tree -->
+    <record id="view_bc_execution_tree" model="ir.ui.view">
+        <field name="name">bc.execution.tree</field>
+        <field name="model">market.execution</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="purchase_requisition_bc" string="N˚ Bon de commande"/>
+                <field name="purchase_order_id_bc"/>
+                <field name="partner_id" string="Fournisseur" invisible="1"/>
+                <field name="date_notification_bc" string="Date de notification du BC"/>
+                <field name="state" string="Etat"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--convention Execution Tree -->
+    <record id="view_convention_execution_tree" model="ir.ui.view">
+        <field name="name">convention.execution.tree</field>
+        <field name="model">market.execution</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="contrat_convention_id" string="N° Convention"/>
+                <field name="purchase_order_id_convention" string="Concurrents Séléctionné"/>
+                <field name="date_notification_convention" string="Date de notification de la convention"/>
+                <field name="state" string="Etat"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--Régie Execution Tree -->
+    <record id="view_regie_execution_tree" model="ir.ui.view">
+        <field name="name">regie.execution.tree</field>
+        <field name="model">market.execution</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="contrat_regie_id" string="N˚ Opération"/>
+                <field name="purchase_order_id_rigie" string="Fournisseur sélectionné"/>
+                <field name="date_notification_rigie" string="Date de notification fournisseur"/>
+                <field name="state" string="Etat"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_market_execution_tree" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="wt_purchase_request_extend.view_market_execution_tree"/>
+        <field name="act_window_id" ref="action_market_execution"/>
+    </record>
+
+    <record id="action_bc_execution_tree" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="wt_purchase_request_extend.view_bc_execution_tree"/>
+        <field name="act_window_id" ref="action_bc_execution"/>
+    </record>
+
+     <record id="action_convention_execution_tree" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="wt_purchase_request_extend.view_convention_execution_tree"/>
+        <field name="act_window_id" ref="action_convention_execution"/>
+    </record>
+    
+    <record id="action_regie_execution_tree" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="wt_purchase_request_extend.view_regie_execution_tree"/>
+        <field name="act_window_id" ref="action_regie_execution"/>
+    </record>
+
+
+    <!--Exécution Marché menu-->
+    <menuitem id="menu_execution_marche" 
+        name="Market Execution"
+        parent="wt_purchase_request_extend.menu_purchase_request_operation"
+        action="action_market_execution" sequence="6"/>
+
+    <!--Régie Execution menu-->
+    <menuitem id="menu_execution_rigie" 
+        name="Execution Régie"
+        parent="menu_purchase_request_operation"
+        action="action_regie_execution" sequence="13"/>
+
+    <!--Exécution Marché menu-->
+    <menuitem id="menu_bc_execution" 
+        name="BC Execution"
+        parent="wt_purchase_request_extend.menu_purchase_request_operation"
+        action="action_bc_execution" sequence="10"/>
+    
+    <!--Exécution convention menu-->
+    <menuitem id="menu_execution_convention" 
+        name="Exécution convention"
+        parent="menu_purchase_request_operation"
+        action="action_convention_execution" sequence="11"/>
+
+    
+
+</odoo>

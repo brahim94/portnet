@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="portnet_partner_category_form_inherit" model="ir.ui.view">
+            <field name="name">portnet.partner.category.form</field>
+            <field name="model">res.partner.category</field>
+            <field name="inherit_id" ref="portnet_invoicing.portnet_partner_category_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='be_notified']" position="after">
+                    <field name="auto_activation"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="portnet_partner_subscribed_form" model="ir.ui.view">
+            <field name="name">portnet.partner.subscribed.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="portnet_invoicing.portnet_partner_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//header" position="inside">
+                    <button name="synchronise_gu" type="object" string="Synchroniser GU"  states="confirmed" class="oe_highlight" />
+                    <button name="activ_gu" type="object" string="Activer Compte GU"  attrs="{'invisible': [('active_gu','=',True)]}" class="oe_highlight" />
+                    <button name="desactiv_gu" type="object" string="Désactiver Compte GU"  attrs="{'invisible': [('active_gu','=',False)]}" class="oe_highlight" />
+                    <field name="active_gu" invisible="1"/>
+                    <field name="state" widget="statusbar"/>
+                </xpath>
+
+                <xpath expr="//sheet/notebook" position="before">
+                    <group>
+                        <group>
+
+                            <field name="cnss"
+                                   attrs="{'readonly': [('state','=','confirmed')]}"/>
+                            <field name="raison_social"
+                                   attrs="{'readonly': [('state','=','confirmed')]}"/>
+                            <field name="professional_tax"
+                                   attrs="{'readonly': [('state','=','confirmed')]}"/>
+                            <field name="paiement_mode"
+                                   attrs="{'readonly': [('state','=','confirmed')]}"/>
+                            <field name="customer_type"
+                                   attrs="{'readonly': [('state','=','confirmed')]}"/>
+                        </group>
+                        <group>
+                            <!--<field name="operator_type" />-->
+                            <field name="agrement" attrs="{'readonly': [('state','=','confirmed')]}"/>
+                            <field name="bank" attrs="{'readonly': [('state','=','confirmed')]}"/>
+                            <field name="portnet_id" readonly="True"/>
+                            <field name="response_portnet"/>
+                            <field name="auto_activation"/>
+                            <field name="site_institutionnel_id"/>
+                        </group>
+                    </group>
+
+                </xpath>
+
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="first_name"/>
+                </xpath>
+
+                <page name='sales_purchases' position="after">
+                    <page string="Données GU" attrs="{'readonly': [('state','=','confirmed')]}">
+                        <group>
+                            <field name="categ_code" invisible="1"/>
+                            <field name="file_dce" attrs="{'invisible':[('categ_code','not in',('I','E'))]}"/>
+                            <field name="code_EDI" attrs="{'invisible':[('categ_code','in',('T','I','EXP'))]}" />
+                            <field name="port" attrs="{'invisible':[('categ_code','!=','OPM')]}"/>
+                            <field name="number_containers" attrs="{'invisible':[('categ_code','!=','OPM')]}" />
+                            <field name="cin" attrs="{'invisible':[('categ_code','!=','OPM')]}"/>
+                            <field name="code_anp" attrs="{'invisible':[('categ_code','!=','CONS')]}" />
+                            <field name="code_marsa" attrs="{'invisible':[('categ_code','!=','CONS')]}" />
+                            <field name="transitaire" attrs="{'invisible':[('categ_code','!=','CONS')]}" />
+                            <field name="douanier_ids" attrs="{'invisible':[('categ_code','!=','T')]}">
+                                <tree editable="bottom">
+                                    <field name="port" />
+                                    <field name="bureau_douanier" />
+                                    <field name="autorisation_adii" />
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
+                </page>
+
+                <xpath expr="//notebook/page[@string='Contacts']/field[@name='child_ids']/form[@string='Contact']/sheet/group/field[@name='email']" position="after">
+                    <field name="is_representative" />
+                    <field name="direction_type" required="True"/>
+                    <field name="cin" required="True" />
+                    <field name="expiration_cin" required="True"/>
+                    <field name="domiciliation_cin" required="True"/>
+                </xpath>
+
+                <xpath expr="//notebook/page[@string='Contacts']/field[@name='child_ids']/form[@string='Contact']/sheet/div[@class='oe_title']" position="replace">
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name" required="True" style="width: 70%"/></h1>
+                        <label for="last_name" class="oe_edit_only"/>
+                        <h1><field name="last_name" required="True" style="width: 70%"/></h1>
+                        <field name="category_id" widget="many2many_tags" placeholder="Tags..." style="width: 70%"/>
+                    </div>
+                </xpath>
+
+                <xpath expr="//notebook/page[@string='Contacts']" position="after">
+                    <page name="users_portnet" string="Utilisateurs Guichet Unique">
+                        <field name="portnet_user_ids" attrs="{'readonly': [('state','=','confirmed')]}">
+                            <tree editable="bottom">
+                                <field name="first_name" />
+                                <field name="last_name" />
+                                <field name="cin" />
+                                <field name="expiration_cin" />
+                                <field name="domiciliation_cin" />
+                                <field name="email" />
+                                <field name="portnet_id" readonly="True"/>
+                                <field name="response_portnet" readonly="True"/>
+
+
+                            </tree>
+                        </field>
+                    </page>
+                    <page name="gu_operation_history" string="Historique des Opérations G.U">
+                        <field name="gu_operations_history" readonly="True">
+                            <tree editable="bottom">
+                                <field name="name" />
+                                <field name="time" />
+                                <field name="user_id" />
+                                <field name="state" />
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+
+        <!-- Views Menu Rapport Activation/Desactivaion Profils G.U. -->
+
+        <record id="activdesactiv_gu_history_tree" model="ir.ui.view">
+            <field name="name">activdesactiv.gu.history.tree</field>
+            <field name="model">compte.gu.operation.history</field>
+            <field name="arch" type="xml">
+                <tree string="Historique des Opérations Profils GU">
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="partner_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Opportunities by user and section Graph View -->
+        <record id="activdesactiv_gu_history_graph" model="ir.ui.view">
+            <field name="name">activdesactiv.gu.history.graph</field>
+            <field name="model">compte.gu.operation.history</field>
+            <field name="arch" type="xml">
+                <graph string="Connexion G.U Analysis" type="pivot" stacked="True">
+                    <field name="date" interval="month" type="col"/>
+                    <field name="partner_id" type="row"/>
+                    <field name="state" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+
+        <!-- Action Menu Rapport Activation/Desactivaion Profils G.U. -->
+
+        <record id="activdesactiv_gu_history_action" model="ir.actions.act_window">
+            <field name="name">Historique des Opérations Profils GU</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">compte.gu.operation.history</field>
+            <field name="view_mode">tree</field>
+            <field name="context">{'group_by':['categ_id','partner_id']}</field>
+            <field name="domain">[('date','=',context_today().strftime('%%Y-%%m-%%d'))]</field>
+        </record>
+
+        <!--<record id="activdesactiv_gu_history_action_analysis" model="ir.actions.act_window">
+            <field name="name">Connexion GU Analysis</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">compte.gu.operation.history</field>
+            <field name="view_mode">graph</field>
+        </record>-->
+
+        <!-- Rapport Activation/Desactivaion Profils G.U Search view -->
+
+        <record id="activdesactiv_gu_history_filter" model="ir.ui.view">
+            <field name="name">Activation/Desactivaion Profils Search</field>
+            <field name="model">compte.gu.operation.history</field>
+            <field name="arch" type="xml">
+                <search string="Search Opérations Profils G.U">
+                    <field name="name" string="Operations"/>
+                    <separator/>
+                    <filter string="Activations" icon="terp-personal-" domain="[('state','=', 'activation')]" help="Opérations Activations" />
+                    <filter string="DesActivations" icon="terp-personal-" domain="[('state','=', 'desactivation')]" help="Opérations Désactivations" />
+                    <field name="partner_id" filter_domain="[('partner_id','child_of',self)]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Client" icon="terp-partner" domain="[]" help="Client" context="{'group_by':'partner_id'}"/>
+                        <filter string="Etat" icon="terp-stage" domain="[]" context="{'group_by':'state'}"/>
+                        <filter string="Date" icon="terp-go-month" domain="[]" help="Opérations par Date" context="{'group_by':'date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+         <!-- Menu Rapport Activation/Desactivaion Profils G.U. -->
+
+        <menuitem id="base.connexion_gu" name="Connexion G.U."
+            groups="base.group_sale_salesman"
+            parent="base.menu_base_partner" sequence="10" />
+
+        <menuitem id="activdesactiv_gu_history_menu" name="Opérations Profils GU" parent="base.connexion_gu" action="activdesactiv_gu_history_action" groups="base.group_sale_salesman"/>
+
+        <!--<menuitem id="activdesactiv_gu_history_menu_analysis" name="Opérations Profils GU Analysis" parent="base.connexion_gu" action="activdesactiv_gu_history_action_analysis" groups="base.group_sale_salesman"/>-->
+
+    </data>
+</openerp>

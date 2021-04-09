@@ -1,0 +1,182 @@
+<odoo>
+
+    <report
+        id="action_report_engagement"
+        model="market.execution"
+        string="Fiche d'Engagement"
+        report_type="qweb-pdf"
+		name="tech_reports_extention.engagement"
+		print_report_name="'Fiche d Engagement'"/>
+
+        <template id="engagement">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.internal_layout">
+
+                    <style type = "text/css">
+         table.centro {
+                    margin-left:auto; 
+                    margin-right:auto;
+                    }
+                    
+         
+         table.empty {
+            width:350px;
+            empty-cells:show;
+         }
+         td.empty {
+            padding:15px;
+            border: 1px solid black;
+            height:200px
+         }
+         td.bord {
+            border: 1px solid black;
+            
+         }
+         th {
+            border: 1px solid black;
+            }
+        table.centre {
+                    margin-left:auto; 
+                    margin-right:auto;
+                    width:100%;
+                    }
+        .inline { 
+           display: inline; 
+        }
+        th.nobord {
+        border: none;
+         }
+         div {
+                margin-top:20px;
+                }
+                
+      </style>
+                    <table  width="30%">
+                        <tr>
+                            <tr>
+                                <td style="text-align: center">Royaume du Maroc</td>
+                            </tr>
+                            <tr>
+                                <td  style="text-align:center" >*** </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center" >ECOLE NATIONALE SUPERIEURE</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center" >DES MINES DE RABAT</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center" > ***</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center" > Service Matériels et Marchés</td>
+                            </tr>
+                           
+                        </tr>
+                    
+                    </table>
+
+                    <div style="vertical-align:center;text-align: center" class="cls_009">
+                    <strong><h4>FICHE D'ENGAGEMENT</h4></strong>
+                    </div>
+                    
+                    <table  width="50%">
+                        <tr>
+                            <tr>
+                                <th class="nobord" style="text-align: left">Exercice</th>
+                                <!-- <td  style="text-align:left" > <strong><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y')"/></strong></td> -->
+                                <td  style="text-align:left" width="30%"> <strong><span t-field="o.tech_budget_id.list_of_years"/></strong></td>
+
+                            </tr>
+                            <tr>
+                                <th class="nobord" style="text-align: left" width="30%">Service utilisateur :</th>
+                                <t t-if="o.purchase_requisition_bc.consultation_tender_commission_ids.partner_type == 'Service utilisateur' ">
+                                <td  style="text-align:left" > <strong><span t-field="o.purchase_requisition_bc.consultation_tender_commission_ids.department_id"/></strong></td>
+                                </t>
+                            </tr>
+                            <tr>
+                                <th class="nobord" style="text-align: left" width="30%">Objet de la dépense :</th>
+                                <td  style="text-align:left" ><strong><span t-field="o.consultation_name"/></strong> </td>
+                            </tr>
+                            <tr>
+                                <th  class="nobord" style="text-align: left" width="30%">Intitulé de la rubrique : </th>
+                                <td  style="text-align:left"><strong><span t-field="o.rubrique_id"/></strong></td>
+                            </tr>                           
+                        </tr>
+                    
+                    </table>
+
+                    <table class="center" style="width:99%">
+                            <thead>
+                                <tr>
+                                    <th  rowspan="2" style="text-align: center">Compte</th>
+                                    <th  rowspan="2" style="text-align: center">Crédit Budgétaire</th>
+                                    <th  rowspan="2" style="text-align: center" >Dépense à engager</th>
+                                    <th  rowspan="2" style="text-align: center" >Montant total des engagements</th>
+                                    <th  rowspan="2" style="text-align: center">Disponible</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr >
+                                    <td style="text-align: center" class = "empty"><span t-field="o.rubrique_id.code"/></td>
+                                    <td style="text-align: center" class = "empty"><span t-field="o.credit_inscrit"/></td>                                    
+                                    <td style="text-align: center" class = "empty"><span t-field="o.engagement_amount"/></td>
+                                    <td style="text-align: center" class = "empty"><span t-field="o.total_engage"/></td>
+                                    <td style="text-align: center" class = "empty"><span t-field="o.credit_disponible"/></td>
+
+                                </tr>
+                                 
+                            </tbody>
+                        <!-- <tr>
+                                    <td style="height:100px;vertical-align:bottom;border: 1px solid black;border-collapse: collapse;border-bottom: none">Total</td> 
+                        </tr> -->
+                        
+                </table>
+
+                <div class="rule">
+                            <strong>Prestataire: <span t-field="o.purchase_order_id_bc.partner_id"/></strong>
+                    </div>
+                    
+
+                <table  class="centro empty" width="50%">
+                        <tr>
+                            <tr>
+                                <th class="nobord" style="text-align: left">Visa d’engagement :</th>
+                                <td  style="text-align:left" > </td>
+
+                            </tr>
+                            <tr>
+                                <th class="nobord" style="text-align: left">Date d’engagement :</th>
+                                <td  style="text-align:left" > <span t-field="o.enagagement_date" t-options='{"format": "dd/M/Y"}'/></td>
+                            </tr>
+                            <tr>
+                                <th class="nobord" style="text-align: left">N° Engagement :</th>
+                                <td  style="text-align:left" > <span t-field="o.engagement_number"/></td>
+                            </tr>
+                            <tr>
+                                <th  class="nobord" style="text-align: left">Nature des prestations : </th>
+                                <td  style="text-align:left" ><span t-field="o.nature_id"/></td>
+                            </tr>                           
+                        </tr>
+                    
+                    </table>
+
+                    <div style="position:absolute;left:570.99px;top:800px;text-align:center">
+                            <strong><h5>LE DIRECTEUR   
+                            </h5></strong>
+                    </div>
+    
+                    <div style="position:absolute;top:870px;text-align:center">
+                            <strong>Document établit par :
+                            <br>Vérifié par :</br>   
+                            </strong>
+                    </div>
+
+
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

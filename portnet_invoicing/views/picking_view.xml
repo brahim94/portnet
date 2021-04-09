@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="portnet_view_picking_form" model="ir.ui.view">
+            <field name="name">portnet.view.picking.form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+
+                <page string="Products" position="after">
+                    <page string="Arrêt-service" attrs="{'invisible': [('picking_type_code', '!=', 'incoming')]}">
+                        <field name="project_break_ids" nolabel="1" attrs="{'readonly': [('state','in',['cancel','done'])]}">
+                            <tree string="Arrêt-service" editable="bottom">
+                                <field name="name"/>
+                                <field name="date_start"/>
+                                <field name="date_end"/>
+                            </tree>
+                        </field>
+                    </page>
+                </page>
+                <xpath expr="//field[@name='origin']" position="after">
+                    <field name="requisition_id" attrs="{'readonly':[('state','in',['cancel','done'])]}"/>
+                </xpath>
+
+            </field>
+        </record>
+
+
+        <!-- Hiding  consu-services products from stock moves tree and stock valuation tree and quants tree -->
+
+        <record id="stock.action_move_form2" model="ir.actions.act_window">
+            <field name="name">Stock Moves</field>
+            <field name="res_model">stock.move</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="stock.view_move_tree"/>
+            <field name="search_view_id" ref="stock.view_move_search"/>
+            <field name="context">{}</field>
+            <field name="domain">[('product_id.is_service','=',False)]</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a stock movement.
+              </p><p>
+                This menu gives you the full traceability of inventory
+                operations on a specific product. You can filter on the product
+                to see all the past or future movements for the product.
+              </p>
+            </field>
+        </record>
+
+        <record id="stock_account.action_history_tree" model="ir.actions.act_window">
+            <field name="name">Current Inventory Valuation</field>
+            <field name="res_model">stock.history</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="domain">[('date','&lt;=',time.strftime('%Y-%m-%d %H:%M:%S')),('product_id.is_service','=',False)]</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,graph</field>
+            <field name="context">{'search_default_group_by_product': True, 'search_default_group_by_location': True}</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="stock.quantsact">
+            <field name="name">Quants</field>
+            <field name="res_model">stock.quant</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field name="context">{'search_default_internal_loc': 1}</field>
+            <field name="domain">[('product_id.is_service','=',False)]</field>
+            <field name="help">This analysis gives you a fast overview on the current stock level of your products and their today's inventory value.</field>
+        </record>
+
+
+        <!-- Hiding  consu-services products from stock moves tree and stock valuation tree and quants-->
+
+
+    </data>
+</openerp>

@@ -1,0 +1,86 @@
+<odoo>
+
+    <report
+        id="action_report_presentation"
+        model="purchase.requisition"
+        string="Rapport Presentation"
+        report_type="qweb-pdf"
+		name="tech_reports_extention.presentation"
+		print_report_name="'Rapport Presentation'"/>
+
+        <template id="presentation">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.internal_layout">
+
+                <div style="vertical-align:center;text-align: center" class="cls_009">
+                    <strong><h4>RAPPORT DE PRESENTATION</h4></strong>
+                </div>
+
+                        
+                <table class="centre empty">
+                        <tr>
+                            <tr>
+                                <th  style="text-align: left;width:30%">1-Marché n° </th>
+                                <td class="empty" style="text-align:left" >:	………………………… </td>
+
+                            </tr>
+                            <tr>
+                                <th  style="text-align: left;width:30%">2-Attributaire du Marché</th>
+                                <td class="empty" style="text-align:left" >:	……………………………</td>
+                            </tr>
+                            <tr>
+                                <th  style="text-align: left;width:30%">3-Objet du Marché</th>
+                                <td class="empty" style="text-align:left" >:	……………………………</td>
+                            </tr>
+                            <tr>
+                                <th  style="text-align: left;width:30%">4-Mode de Passation du Marché</th>
+                                <td class="empty" style="text-align:left" >Passé par appel d’offres ouvert sur offres de prix n°…………………………, conformément à l'alinéa 2 paragraphe 1 de l'article 16 et paragraphe 1 de l'article 17 et alinéa 3 paragraphe 3 de l'article 17 du décret n°2-12-349 du 08 Joumada I 1434 (20/03/2013), relatif aux marchés publics. </td>
+                            </tr>
+                            <tr>
+                                <th  style="text-align: left;width:30%">5-Motifs ayant déterminé le choix du mode de passation</th>
+                                <td class="empty" style="text-align:left" >:	Faire appel à la concurrence</td>
+                            </tr>
+                            <tr>
+                                <th  style="text-align: left;width:30%">6-Exposé de l’économie générale du marché 
+                                <ul>
+                                <li>6-1 : Forme du marché</li>
+                                <li>6-2 : Montant de l’estimation</li>
+                                <li>6-3 : Montant du marché</li>
+                                <li>6-4 : Caractère des prix</li>
+                                <li>6-5 : Délai d’exécution</li>
+                                <li>6-6 : Imputation budgétaire</li>
+                                </ul>
+                                </th>
+                                <td class="empty" style="text-align:left" ><br></br>
+                                <br>:	Unique/alloti</br>
+                                <br>:	……………… Dhs </br>
+                                <br>:	……………… Dhs</br>
+                                <br>:	Fermes et non révisables/révisables</br>
+                                <br>:	………………………. </br>
+                                <br>:	Ligne ………………….. du Budget de Fonctionnement /Investissement</br>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th  style="text-align: left;width:30%">7-Justification du choix des critères de sélection des candidatures et de jugement des offres</th>
+                                <td class="empty" style="text-align:left" >:	Application de l’article 25 du décret n°2-12-349 du 08 Joumada I 1434 (20/03/2013), relatif aux marchés publics. </td>
+                            </tr>
+                            <tr>
+                                <th  style="text-align: left;width:30%">8-Justification du choix de l’attributaire </th>
+                                <td class="empty" style="text-align:left" >:	le moins disant/la plus avantageuse. </td>
+                            </tr>                           
+                        </tr>
+                    
+                    </table>
+
+                    <div style="position:absolute;left:570.99px;top:710px;text-align:center">
+                            <strong>Signature</strong>
+                    </div>
+
+
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

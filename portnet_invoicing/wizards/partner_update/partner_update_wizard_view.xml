@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+<openerp>
+  <data>
+
+    <record id="partner_update_wizard_view_form" model="ir.ui.view">
+      <field name="name">partner.update.wizard.view.form</field>
+      <field name="model">partner.update.wizard</field>
+      <field name="priority">1</field>
+      <field name="arch" type="xml">
+        <form string="Import File">
+          <group col="4">
+            <separator string="Select your file :" colspan="4"/>
+            <field name="aml_data" filename="aml_fname"/>
+            <field name="aml_fname" readonly="1"/>
+            <newline/>
+          </group>
+          <footer>
+            <button name="action_update" string="Mise à jour" type="object" />
+            or
+            <button string="Cancel" class="oe_link" special="cancel"/>
+          </footer>
+        </form>
+      </field>
+    </record>
+
+    <!-- Action -->
+
+    <act_window id="action_partner_update_wizard"
+                name="Mise à jour partenaires (Emails)"
+                res_model="partner.update.wizard"
+                src_model="res.partner"
+                view_mode="form"
+                target ="new"
+                key2="client_action_multi"
+                groups="account.group_account_manager"
+                />
+
+
+  </data>
+</openerp>

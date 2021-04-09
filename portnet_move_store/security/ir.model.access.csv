@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+move_store_account_manager,move store,portnet_move_store.model_move_store,account.group_account_manager,1,1,1,1
+move_store_agent,move store,portnet_move_store.model_move_store,portnet_invoicing.group_agent,1,1,1,1
+account_move_agent,account move,portnet_move_store.model_move_store,portnet_invoicing.group_agent,1,1,1,1
+move_store_purchase_manager,move store,portnet_move_store.model_move_store,purchase.group_purchase_manager,1,1,1,1
+move_store_sale_manager,move store,portnet_move_store.model_move_store,base.group_sale_manager,1,1,1,1
+

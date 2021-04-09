@@ -1,0 +1,72 @@
+<odoo>
+
+    <report
+        id="action_report_complement"
+        model="purchase.requisition"
+        string="Complement de dossier"
+        report_type="qweb-pdf"
+		name="tech_reports_extention.complement"
+		print_report_name="'Complement de dossier de presentation'"/>
+
+        <template id="complement">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.internal_layout">
+                <style>
+                div.a{
+                text-indent: 50px;
+                }
+                div.marg {
+                margin-top:50px;
+                }
+                </style>
+
+                    <div style="vertical-align:center;text-align: center" class="a marg">
+                        Le président de la commission 
+                        <br>A</br>
+                        <br>Monsieur le (qualité de la personne représentant le concurrent) de la Société :</br>
+                        <br>Nom de la société …………………….</br>
+                        <br>Adresse ………………………(1)</br>
+
+                    </div>
+                    
+                    <div style="vertical-align:center;text-align: left" class="a marg">
+                        <strong>Objet :</strong>  Appel d’Offres N° ………. du …………, relatif à …………..
+                    </div>
+                    
+                    <div style="vertical-align:center;text-align: left" class="a marg">
+                        <strong><small>Monsieur ;</small></strong>  
+                    </div>
+                    
+                    <div style="vertical-align:center;text-align: left" class="a ">
+                        <p>J’ai l’honneur de vous faire connaitre que votre offre pour l’appel d’offres ouvert sur offres de prix n° ……………</p>  
+                         <br>relatif à ……………………………………………… a été considérée l’offre la plus avantageuse par la commission d’appel d’offres réunie en date du …………</br>
+                        <p>A cet effet, et pour permettre à la commission de se prononcer sur ce dossier, je vous invite à :</p>
+                        <p><p>-	    Produire les pièces du complément du dossier administratif prévues par le §1-B de l’article …………. <br>du règlement de consultation ;</br></p>
+                        <p>-    produire les pièces nécessaires en vue de lever la (les) réserve(s) d’admission du dossier administratif à savoir :</p>
+                        <p>-	Justifier l’offre globale jugée anormalement basse par rapport à ceux de l’estimation du maître d’ouvrage.(2)</p>
+                        <p>-	Justifier les prix n°…………………………  jugés anormalement bas ainsi que les prix n° …………………………… <br>  jugés excessifs par rapport à ceux de l’estimation du maître d’ouvrage. (2)</br></p>
+                        
+                        </p>  
+
+                    </div>
+                    <div style="vertical-align:center;text-align: left" class="a ">
+                        <p>De ce fait, le complément du dossier administratif ainsi que les éléments de réponse doivent être présentés , au plus tard le …………………. à 10 H,
+                        <br> conformément aux dispositions des articles 40 et 41 du décret n°2-12-349 relatif aux marchés publics.</br></p>  
+                    </div>
+                    <div style="vertical-align:center;text-align: left" class="a ">
+                        <p>Aussi, je vous invite à vous présenter, avant la date limite susmentionnée, au Service de des Marchés et  
+                        <br>matériel de l’Ecole Nationale Supérieure des Mines de Rabat pour confirmer les rectifications des erreurs matérielles relevées sur :</br></p>  
+                    </div> 
+               
+                    <div style="vertical-align:center;text-align: center" class="a">
+                            -	L’acte d’engagement(2) 
+                        <br>-	Le bordereau des prix-détail estimatif(2)</br>
+                    </div>
+
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

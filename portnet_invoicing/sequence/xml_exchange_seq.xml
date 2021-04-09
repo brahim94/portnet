@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+
+                   
+        <record id="seq_xml_exchange" model="ir.sequence.type">
+            <field name="name">Interchange XML</field>
+            <field name="code">xml.exchange.seq</field>
+        </record>
+
+        <record id="seq_exchange" model="ir.sequence">
+            <field name="name">Interchange XML</field>
+            <field name="code">xml.exchange.seq</field>
+            <field name="prefix">9999</field>
+            <field name="padding">11</field>
+        </record>
+
+        <record id="seq_xml_filename" model="ir.sequence.type">
+            <field name="name">Filename XML</field>
+            <field name="code">xml.filename.seq</field>
+        </record>
+
+        <record id="seq_filename" model="ir.sequence">
+            <field name="name">Filename XML</field>
+            <field name="code">xml.filename.seq</field>
+            <field name="prefix"></field>
+            <field name="padding">12</field>
+        </record>
+        
+    
+    </data>
+</openerp>

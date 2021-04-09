@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_portnet_report_extend_portnet_report_extend,portnet_report_extend.portnet_report_extend,model_portnet_report_extend_portnet_report_extend,,1,0,0,0

@@ -1,0 +1,210 @@
+.tab1 td {
+    border : solid 3px #000000;
+    height: 30px;
+    vertical-align: middle;
+    text-align: center;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.tab1 td:nth-child(1) {
+    width: 400px;
+}
+
+.tab1 td:nth-child(2) {
+    width: 650px;
+}
+
+.tab11 td {
+    border : solid 3px #000000;
+    height: 30px;
+    vertical-align: middle;
+    text-align: center;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    font-weight: bold;
+    font-size: 13px;
+    width : 1050px ;
+}
+
+.tab2 {
+    border-collapse: separate;
+    border-spacing: 4px;
+}
+
+.tab2 td {
+    border : solid 3px #000000;
+    font-size: 13px;
+}
+
+.tab2 .td1,.td2,.td5  {
+    height: 30px;
+    vertical-align: middle;
+    text-align: center;
+    width: 300px;
+    font-weight: bold;
+    padding-top: 2px;
+    padding-bottom: 2px;
+
+}
+
+.tab2 .td6 {
+    vertical-align: middle;
+    text-align: center;
+    font-weight: bold;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.tab2 .td3,.td7 {
+    width:750px;
+    padding-top: 2px;
+    padding-left: 2px;
+}
+
+.tab2 .td4 {
+    border : none;
+}
+
+.tab2 .td7 {
+    vertical-align: middle;
+}
+
+.tab2 .td7 span {
+    margin-left: 40px;
+}
+
+.tab22 {
+    padding-top: 10px;
+    padding-bottom : 10px;
+}
+
+.tab22 td {
+    border:none;
+}
+
+.tab22 tr:nth-child(1) td:nth-child(1){
+    width:110px;
+}
+
+.tab3 td {
+    border : solid 3px #000000;
+    font-size: 13px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 2px;
+    height: 30px;
+    vertical-align: middle;
+    width: 100px;
+}
+
+.tab3 tr:nth-child(1) td {
+    height: 30px;
+    text-align:center;
+}
+
+.tab3 tr:nth-child(1) td:nth-child(2) {
+    width: 550px;
+}
+
+.tab33 td {
+    border : solid 3px #000000;
+    font-size: 13px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 2px;
+    height: 30px;
+    vertical-align: middle;
+    width: 100px;
+}
+
+.tab33 tr:nth-child(1) td {
+    height: 30px;
+    text-align: center;
+}
+
+.tab33 tr:nth-child(1) td:nth-child(1) {
+    width: 550px;
+}
+
+.tab3_dp td {
+    border : solid 3px #000000;
+    font-size: 13px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 2px;
+    height: 30px;
+    vertical-align: middle;
+    width: 100px;
+}
+
+.tab3_dp tr:nth-child(1) td {
+    height: 30px;
+    text-align: center;
+}
+
+.tab3_dp tr:nth-child(1) td {
+    width: 220px;
+}
+
+.tab3_dp tr:nth-child(1) td:nth-child(1) {
+    width: 400px;
+    text-align: left;
+}
+
+.tab4 {
+    margin-left: 120px;
+}
+
+.tab4 td {
+    border : none;
+    font-size: 12px;
+    height: 23px;
+}
+
+.tab4 tr:nth-child(1) td:nth-child(1) {
+    width: 150px;
+    border-bottom: solid 1px #000000;
+}
+
+.tab4 tr:nth-child(1) td:nth-child(2) {
+    width: 100px;
+    border-bottom: solid 1px #000000;
+}
+
+.tab4 tr:nth-child(1) td:nth-child(3) {
+    width: 100px;
+    border-bottom: solid 1px #000000;
+}
+
+
+.tab1_detail td {
+    border : solid 3px #000000;
+    height: 30px;
+    vertical-align: middle;
+    text-align: center;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.tab1_detail td:nth-child(1) {
+    width: 380px;
+}
+
+.tab1_detail td:nth-child(2) {
+    width: 600px;
+}
+
+.tab1_detail tr:nth-child(2) td {
+    border:none;
+    text-align: left;
+    padding-left:5px;
+}
+
+.footer{
+    font-weight: bold;
+}

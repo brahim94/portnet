@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+    <record id="etat_pca_report_search_view" model="ir.ui.view">
+            <field name="name">account.cutoff.line.report.search</field>
+            <field name="model">account.cutoff.line</field>
+            <field name="arch" type="xml">
+                <search string="Recherche">
+                    <field name="cutoff_date"/>
+                    <field name="number" string="Numéro Facture"/>
+                    <field name="partner_id" string="Partenaire"/>
+                    <field name="name" string="Produit"/>
+                    <field name="periodicity_id" string="Périodicité"/>
+                    <field name="start_date" string="Date Début"/>
+                    <field name="end_date" string="Date Fin"/>
+                    <field name="total_days" string="Nbr de jours"/>
+                    <field name="amount" string="Montant Facturé (HT)"/>
+                    <field name="cutoff_amount" string="Montant restant à reporter"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                    	<filter name="group_by_partner_id" string="Partenaire" context="{'group_by':'partner_id'}"/>
+                        <filter name="group_by_product_id" string="Produit" context="{'group_by':'name'}"/>
+                        <filter name="group_by_periodicity_id" string="Périodicité" context="{'group_by':'periodicity_id'}"/>
+                        <filter name="group_by_start_date" string="Date Début" context="{'group_by':'start_date'}"/>
+                        <filter name="group_by_end_date" string="Date Fin" context="{'group_by':'end_date'}"/>
+                        <filter name="group_by_total_days" string="Nbr de jours" context="{'group_by':'total_days'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+
+        <record id="portnet_invoicing.etat_pca_report_search_view2" model="ir.ui.view">
+            <field name="name">account.cutoff.line.report.search2</field>
+            <field name="model">account.cutoff.line</field>
+            <field name="inherit_id" ref="portnet_reports.etat_pca_report_search_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='cutoff_amount']" position="after">
+                    <field name="before_cutoff_days" string="Nbr jours comsommés"/>
+                        <field name="residual_amount" string="Montant déja comsommé"/>
+                        <field name="after_cutoff_days" string="Nbr de jours restants"/>
+                </xpath>
+
+            </field>
+    </record>
+
+    <record id="account_cutoff_base.account_cutoff_line_base_tree2" model="ir.ui.view">
+    <field name="name">account.cutoff.line.tree2</field>
+    <field name="model">account.cutoff.line</field>
+    <field name="arch" type="xml">
+        <tree string="Cut-offs" create="false" unlink="false">
+            <field name="partner_id" />
+            <field name="amount" />
+            <field name="cutoff_amount" />
+        </tree>
+    </field>
+    </record>
+
+    <record id="account_cutoff_prepaid.account_cutoff_line_prepaid_tree2" model="ir.ui.view">
+    <field name="name">account.cutoff.line.prepaid.tree</field>
+    <field name="model">account.cutoff.line</field>
+    <field name="inherit_id" ref="account_cutoff_base.account_cutoff_line_base_tree2"/>
+    <field name="arch" type="xml">
+        <field name="partner_id" position="after">
+            <field name="start_date"/>
+            <field name="end_date"/>
+            <field name="total_days"/>
+            <field name="after_cutoff_days"/>
+        </field>
+    </field>
+    </record>
+
+    <record id="portnet_invoicing.account_cutoff_line_report_tree2" model="ir.ui.view">
+            <field name="name">account.cutoff.line.report.tree2</field>
+            <field name="model">account.cutoff.line</field>
+            <field name="inherit_id" ref="account_cutoff_prepaid.account_cutoff_line_prepaid_tree2"/>
+            <field name="arch" type="xml">
+
+                <field name="amount" position="after">
+                    <field name="before_cutoff_days" />
+                    <field name="residual_amount" />
+                </field>
+
+            </field>
+        </record>
+
+    <record id="report_pca_account_cutoff_report" model="ir.ui.view">
+    <field name="name">report.pca.account.cutoff.report.tree</field>
+    <field name="model">account.cutoff.line</field>
+    <field name="inherit_id" ref="portnet_invoicing.account_cutoff_line_report_tree2"/>
+    <field name="arch" type="xml">
+
+        <field name="partner_id" position="before">
+            <field name="number"/>
+        </field>
+
+        <field name="partner_id" position="after">
+            <field name="product_id"/>
+            <field name="periodicity_id"/>
+        </field>
+    </field>
+    </record>
+
+    <record id="account_cutoff_etat_pca_action" model="ir.actions.act_window">
+        <field name="name">État des PCA (Produit constatés d'avance)</field>
+        <field name="res_model">account.cutoff.line</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree</field>
+        <field name="domain">[('parent_id.type', '=', 'prepaid_revenue')]</field>
+        <field name="view_id" ref="report_pca_account_cutoff_report"/>
+        <field name="search_view_id" ref="etat_pca_report_search_view"/>
+    </record>
+
+    <record id="account_cutoff_etat_cca_action" model="ir.actions.act_window">
+        <field name="name">État des CCA (Charge constatés d'avance)</field>
+        <field name="res_model">account.cutoff.line</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree</field>
+        <field name="domain">[('parent_id.type', '=', 'prepaid_expense')]</field>
+        <field name="view_id" ref="report_pca_account_cutoff_report"/>
+        <field name="search_view_id" ref="etat_pca_report_search_view"/>
+    </record>
+
+    <menuitem id="account_cutoff_etat_pca_menu"
+        parent="account_cutoff_base.cutoff_menu"
+        action="account_cutoff_etat_pca_action"
+        sequence="21"/>
+
+    <menuitem id="account_cutoff_etat_cca_menu"
+        parent="account_cutoff_base.cutoff_menu"
+        action="account_cutoff_etat_cca_action"
+        sequence="22"/>
+
+</data>
+</openerp>

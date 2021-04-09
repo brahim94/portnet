@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <!-- invoice xml get wizard -->
+
+        <record id="contract_change_date_wizard_view" model="ir.ui.view">
+            <field name="name">contract.change.date.wizard.view</field>
+            <field name="model">contract.change.date.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Incrémentation de la prochaine date de facturation d'une année">
+                    <footer>
+                        <button string="Lancer" class="oe_highlight" type="object" name="action_change"/>
+                        ou
+                        <button string="Annuler" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+
+        <act_window id="action_contract_change_date_wizard"
+                    name="Incrémentation de la prochaine date de facturation d'une année"
+                    res_model="contract.change.date.wizard"
+                    src_model="res.contract"
+                    view_mode="form"
+                    target ="new"
+                    key2="client_action_multi"
+                    groups="account.group_account_manager"
+                    />
+
+        
+
+    </data>
+</openerp>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Factures -->
+        <record id="view_factures_filter" model="ir.ui.view">
+            <field name="name">factures.factures.select</field>
+            <field name="model">factures.factures</field>
+            <field name="arch" type="xml">
+                <search string="Factures">
+                    <field name="name" string="Code"/>
+                    <field name="invoice_number" string="Invoice Number"/>
+                    <field name="serial_number" string="Serial Number"/>
+                    <field name="article_id" string="Article"/>
+                   
+                    
+                    <field name="date" string="Date d achat"/>
+                    <field name="date" string="Date From" filter_domain="[('date','&gt;=',self)]"/>
+                    <field name="date" string="Date To" filter_domain="[('date','&lt;=',self)]"/>
+                    <field name="amount" string="Montant"/>
+                    <separator/>
+                    <filter name="article_id" string="Article"/>
+                    <filter name="date" string="Date d achat" date="date"/>
+                    <filter name="amount_filter" string="Montant"/>
+                    <separator/>
+                    <filter name="article_id" string="Article" context="{'group_by':'article_id'}"/>
+                    <filter name="date" string="Date d achat" context="{'group_by':'date'}"/>
+                </search>
+            </field>
+        </record>
+
+         <record id="view_factures_tree" model="ir.ui.view">
+            <field name="name">factures.factures.tree</field>
+            <field name="model">factures.factures</field>
+            <field name="arch" type="xml">
+                <tree string="Factures">
+                    <field name="date"/>
+                    <field name="name"/>
+                    <field name="article_id"/>
+                     <field name="article" string="Article Code"/>
+                    <field name="invoice_number"/>
+                    <field name="amount" invisible="1"/>
+                    <field name="serial_number" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_factures_form" model="ir.ui.view">
+            <field name="name">factures.factures.form</field>
+            <field name="model">factures.factures</field>
+            <field name="arch" type="xml">
+                <form string="Factures">
+                   <sheet>
+                       <group>
+                           <group>
+                                <field name="name" force_save="1" readonly="1"/>
+                                <field name="invoice_number"/>
+                                <field name="date"/>
+                           </group>
+                           <group>
+                                <field name="sequence"/>
+                                <field name="article_id"/>
+                                 <field name="article" string="Article Code"/>
+                                <field name="qty"/>
+                                <field name="amount"/>
+                                <field name="serial_number"/>
+                           </group>
+                       </group>
+                   </sheet>
+               </form>
+           </field>
+       </record>
+
+       <record id="factures_action" model="ir.actions.act_window">
+            <field name="name">Factures</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">factures.factures</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="search_view_id" ref="view_factures_filter"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new factures.
+                </p>
+            </field>
+        </record>
+
+   </data>
+</odoo>

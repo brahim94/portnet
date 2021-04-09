@@ -1,0 +1,24 @@
+<?xml version='1.0'?>
+<methodResponse>
+    <params>
+        <param>
+            <value>
+                <struct>
+                    <member>
+                        <name>success</name>
+                        <value>
+                            <struct>
+                                <member>
+                                    <name>INVSAJ/2020/0004.pdf</name>
+                                    <value>
+                                        <string>SlZCRVJpMHhMalFLTVNBd0lHOWlhZ284UEFvdlZHbDBiR1VnS1A3L0tRb3ZRM0psWVhSdmNpQW8vdjhBZHdCckFHZ0FkQUJ0QUd3QQpkQUJ2QUhBQVpBQm1BQ0FBTUFBdUFERUFNZ0F1QURFcENpOVFjbTlrZFdObGNpQW8vdjhBVVFCMEFDQUFOQUF1QURnQUxnQTJLUW92ClEzSmxZWFJwYjI1RVlYUmxJQ2hFT2pJd01qQXhNREU1TVRBeU1qSTVXaWtLUGo0S1pXNWtiMkpxQ2pNZ01DQnZZbW9LUER3S0wxUjUKY0dVZ0wwVjRkRWRUZEdGMFpRb3ZVMEVnZEhKMVpRb3ZVMDBnTUM0d01nb3ZZMkVnTVM0d0NpOURRU0F4TGpBS0wwRkpVeUJtWVd4egpaUW92VTAxaGMyc2dMMDV2aVzVrYjJKcUNqRTVJREFnYjJKcUNqdzhJQzlVZVhCbElDOUdiMjUwQ2k5VGRXSjBlWEJsSUM5RFNVUkdiMjUwClZIbHdaVElLTDBKaGMyVkdiMjUwSUM5TWFXSmxjbUYwYVc5dVUyRnVjeTFDYjJ4a0NpOURTVVJUZVhOMFpXMUpibVp2SUR3OElDOVMKWldkcGMzUnllU0FvUVdSdlltVlbVVnTWpjS0wwbHVabThnTVNBd0lGSUtMMUp2YjNRZ01USWdNQ0JTCkNqNCtDbk4wWVhKMGVISmxaZ294TmpJM09Bb2xKVVZQUmdvPQo=</string>
+                                    </value>
+                                </member>
+                            </struct>
+                        </value>
+                    </member>
+                </struct>
+            </value>
+        </param>
+    </params>
+</methodResponse>

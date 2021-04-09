@@ -1,0 +1,53 @@
+<odoo>
+
+    <report
+        id="action_report_attributaire"
+        model="purchase.requisition"
+        string="Lettre d insertion"
+        report_type="qweb-pdf"
+		name="tech_reports_extention.attributaire"
+		print_report_name="'Lettre d Information'"/>
+
+    <template id="attributaire">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.internal_layout">
+
+            <style>
+            div.marg {
+            margin-top:80px;
+            }
+            </style>
+
+
+                <div style="vertical-align:center;text-align: center" class="a marg">
+                        Le président de la commission 
+                        <br>A</br>
+                        <br>Monsieur le (qualité de la personne représentant le concurrent) de la Société :</br>
+                        <br>Nom de la société …………………….</br>
+                        <br>Adresse ………………………(1)</br>
+
+                </div>
+                    
+                <div style="vertical-align:center;text-align: left" class="a marg">
+                    <strong>Objet :</strong>  Appel d’Offres N° ……… du …………, relatif à …………
+                </div>
+                    
+                
+                <div style="vertical-align:center;text-align: left" class="a">
+                    <p>J’ai l’honneur de vous informer que la commission chargée d’examiner les plis relatifs à l’appel d’offres</p>  
+                        <br> cité en objet, vous a déclaré attributaire sous réserve de l’approbation par l’autorité compétente.</br>
+                </div>
+                
+                <div style="vertical-align:center;text-align: left" class="a ">
+                        <p>Par conséquent, vous êtes invité à vous présenter dans les meilleurs délais au Service des marchés
+                        <br> et matériel de l’Ecole Nationale Supérieure des Mines de Rabat en vue de concrétiser le marché qui en découle.</br></p>  
+                </div>
+                     
+
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

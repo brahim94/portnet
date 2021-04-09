@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Articles -->
+         <record id="view_articles_parameter_tree" model="ir.ui.view">
+            <field name="name">articles.parameter.tree</field>
+            <field name="model">articles.parameter</field>
+            <field name="arch" type="xml">
+                <tree string="Articles">
+                    <field name="name"/>
+                    <field name="code_ean"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_articles_parameter_form" model="ir.ui.view">
+            <field name="name">articles.parameter.form</field>
+            <field name="model">articles.parameter</field>
+            <field name="arch" type="xml">
+                <form string="Articles">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="code_rayon"/>
+                                <field name="code_fam"/>
+                                <field name="code_sfam"/>
+                                <field name="code_ssfam"/>
+                            </group>
+                            <group>
+                                <field name="code_ean"/>
+                                <field name="code"/>
+                                <field name="fournisseur" context="{'default_customer': 0, 'search_default_supplier': 1, 'default_supplier': 1, 'default_is_company': True, 'show_vat': True}" domain="[('supplier','=',True)]"/>
+                                <label for="garantie" string="Garantie"/>
+                                <div>
+                                    <field name="garantie" class="oe_inline"/>
+                                    <field name="duree" class="oe_inline"/>
+                                </div>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="articles_parameter_action" model="ir.actions.act_window">
+            <field name="name">Articles</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">articles.parameter</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new articles.
+                </p>
+            </field>
+        </record>
+
+   </data>
+</odoo>

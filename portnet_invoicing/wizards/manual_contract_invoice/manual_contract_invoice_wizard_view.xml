@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+
+        <record id="manual_contract_invoice_wizard_view" model="ir.ui.view">
+            <field name="name">manual.contract.invoice.wizard.view</field>
+            <field name="model">manual.contract.invoice.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Création manuelle d'une facture contrat">
+
+                    <group col="4">
+                        <group colspan="2">
+                            <field name="date_facture" required="1"/>
+                            <field name="period" required="1" options="{'no_create':True}"/>
+                        </group>
+                        <group colspan="2">
+                            <field name="date_debut" required="1"/>
+                            <field name="date_fin" required="1"/>
+                        </group>
+                    </group>
+
+                    <footer>
+                        <button string="Créer la facture" class="oe_highlight" type="object" name="action_create"/>
+                        ou
+                        <button string="Annuler" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+
+        <act_window id="manual_contract_invoice_wizard_button"
+                    name="Créer une facture"
+                    res_model="manual.contract.invoice.wizard"
+                    src_model="res.contract"
+                    view_mode="form"
+                    target ="new"
+                    key2="client_action_multi"
+                    groups="portnet_invoicing.group_manual_contract_invoice"
+                    />
+
+
+
+    </data>
+</openerp>

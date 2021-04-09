@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <!-- invoice xml get wizard -->
+
+        <record id="operation_invoice_validation_wizard_view" model="ir.ui.view">
+            <field name="name">operation.invoice.validation.wizard.view</field>
+            <field name="model">operation.invoice.validation.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Validation facture(s) opérations">
+                    <footer>
+                        <button string="Valider" class="oe_highlight" type="object" name="action_validate"
+                                confirm="Etes-vous sûr de vouloir valider ces factures d'opérations ?"/>
+                        ou
+                        <button string="Annuler" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+
+        <act_window id="action_operation_invoice_validation_wizard"
+                    name="Validation facture(s) opérations"
+                    res_model="operation.invoice.validation.wizard"
+                    src_model="account.invoice"
+                    domain="[('op_id','!=',False),('state','=','draft')]"
+                    view_mode="form"
+                    target ="new"
+                    key2="client_action_multi"
+                    groups="account.group_account_manager"
+                    />
+
+        
+
+    </data>
+</openerp>

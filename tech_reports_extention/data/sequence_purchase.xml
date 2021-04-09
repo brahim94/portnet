@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="seq_article_num" model="ir.sequence">
+            <field name="name">Article Number</field>
+            <field name="code">purchase.article</field>
+            <field name="prefix"></field>
+            <field name="padding" eval="2"/>
+        </record>
+        <record id="seq_market_enga" model="ir.sequence">
+            <field name="name">Market Engag</field>
+            <field name="code">market.engag</field>
+            <field name="prefix"></field>
+            <field name="padding">6</field>
+            <field name="company_id" eval="False"></field>
+        </record>
+
+        <record id="seq_market_notif" model="ir.sequence">
+            <field name="name">Market Notif</field>
+            <field name="code">market.notif</field>
+            <field name="prefix"></field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"></field>
+        </record>
+
+        <!-- <record id="seq_tech_budget_function" model="ir.sequence">
+            <field name="name">Budget Sequence Function</field>
+            <field name="code">tech.budget.function</field>
+            <field name="prefix"></field>
+            <field name="padding">5</field>
+
+        </record>
+
+        <record id="seq_tech_budget_investis" model="ir.sequence">
+            <field name="name">Budget Sequence Investis</field>
+            <field name="code">tech.budget.investis</field>
+            <field name="prefix"></field>
+            <field name="padding">5</field>
+
+        </record> -->
+
+ </data>
+
+ 
+</odoo>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report 
+            id="action_report_helpdesk"
+            string="BON DE RÉPARATION"
+            model="ticket.ticket" 
+            report_type="qweb-pdf"
+            file="wt_helpdesk.report_helpdesk" 
+            name="wt_helpdesk.report_helpdesk"
+            
+        />
+        
+        <report 
+            id="action_report_helpdesk_bonretour"
+            string="BON DE RETOUR"
+            model="ticket.ticket" 
+            report_type="qweb-pdf"
+            file="wt_helpdesk.report_helpdesk_bonretour" 
+            name="wt_helpdesk.report_helpdesk_bonretour"
+            
+        />
+
+        <report 
+            id="action_report_helpdesk_bon_de_demarque"
+            string="BON DE DÉMARQUE"
+            model="ticket.ticket" 
+            report_type="qweb-pdf"
+            file="wt_helpdesk.report_helpdesk_bon_de_demarque" 
+            name="wt_helpdesk.report_helpdesk_bon_de_demarque"
+            
+        />      
+    </data>
+</odoo>

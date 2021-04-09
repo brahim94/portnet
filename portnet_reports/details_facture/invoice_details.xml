@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+     <!--report layout -->
+
+<template id="external_layout">
+    <!-- Multicompany -->
+    <t t-if="o and 'company_id' in o">
+        <t t-set="company" t-value="o.company_id"></t>
+    </t>
+    <t t-if="not o or not 'company_id' in o">
+        <t t-set="company" t-value="res_company"></t>
+    </t>
+
+    <t t-call="portnet_reports.portnet_external_layout_header2" />
+    <t t-raw="0" />
+    <t t-call="portnet_reports.portnet_layout_footer" />
+</template>
+
+
+<!--report layout header -->
+
+<template id="portnet_external_layout_header2">
+    <div class="header">
+        <div class="row">
+            <div class="col-xs-12">
+                <br/>
+                <img style="max-height: 60px;" t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo"/>
+                <br/>
+                <p></p><p></p>
+                <table class="tab1_detail">
+                            <tr>
+                                <td>‫التفاصيل‬ ‫الفاتورة‬<br/>DETAIL FACTURE</td>
+                                <td>‫فوترة‬ ‫خدمات‬ ‫بورتنت‬<br/>Facturation des services PORTNET</td>
+                            </tr>
+                            <tr>
+                                <td>N° Facture :</td>
+                                <td><span t-field="o.number" /></td>
+                            </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</template>
+
+    <!--report body -->
+
+<template id="invoice_details_document">
+    <t t-call="portnet_reports.external_layout">
+        <div class="page">
+            <div class="oe_structure"/>
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <t t-foreach="o._get_op_structure()" t-as="l">
+                                <t t-if="l['report'] == True">
+                                    <th class="text-center"><span t-esc="l['name']"/></th>
+                                </t>
+                            </t>
+                        </tr>
+                   </thead>
+                   <tbody class="sale_tbody">
+                        <t t-foreach="o._get_op_lines()" t-as="line">
+                            <tr>
+                                <t t-foreach="line" t-as="item">
+                                    <td class="text-center">
+                                       <p><t t-esc="item"/></p>
+                                    </td>
+                                </t>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            <div class="oe_structure"/>
+        </div>
+    </t>
+</template>
+
+<template id="invoice_details_template">
+    <t t-call="report.html_container">
+        <t t-foreach="doc_ids" t-as="doc_id">
+            <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'portnet_reports.invoice_details_document')"/>
+        </t>
+    </t>
+</template>
+
+
+        <!--report declaration -->
+
+<report
+            id="invoice_details_report"
+            string="Détails de la facture"
+            model="account.invoice"
+            report_type="qweb-pdf"
+            file="Détails_facture"
+            name="portnet_reports.invoice_details_template"
+            attachment="(object.state in ('open','paid')) and ('INV'+(object.number or '').replace('/','')+'_OP'+'.pdf')"
+        />
+
+
+</data>
+</openerp>

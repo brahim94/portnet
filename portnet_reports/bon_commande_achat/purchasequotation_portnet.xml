@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <template id="report_purchasequotation_portnet" inherit_id="purchase.report_purchasequotation_document">
+
+            <xpath expr="//t[@t-call='report.external_layout']" position="replace">
+                <t t-call="portnet_reports.portnet_external_layout">
+
+                    <div class="page">
+
+                        <table class="tab11">
+                            <tr>
+                                <td>
+                                    <span>طلب التسعير<br/>Demande de prix</span>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <br/><br/>
+
+                        <table class="tab2">
+                            <tr>
+                                <td class="td1">‫رقم‬ طلب التسعير<br/>N°Demande de prix<br/><span t-field="o.name"/></td>
+                                <td class="td4"></td>
+                                <td class="td3">
+
+                                    <table class="tab22">
+                                        <tr>
+                                            <td>Code Fournisseur:</td>
+                                            <td><strong><span t-field="o.partner_id.code"/></strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nom Fournisseur:</td>
+                                            <td><strong><span t-field="o.partner_id.name"/></strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Adresse Fournisseur:</td><td><strong><span t-if="o.partner_id.street"><span t-field="o.partner_id.street"/></span></strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Réference Fournisseur:</td>
+                                            <td><strong><span t-field="o.partner_ref"/></strong></td>
+                                        </tr>
+
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td5" colspan="2">عنوان الشحن<span>    Adresse de livraison</span><br/>
+                                <span t-if="o.dest_address_id">
+                                    <span t-field="o.dest_address_id"
+                                        t-field-options='{"widget": "contact", "fields": ["address", "name", "phone", "fax"], "no_marker": true}'/>
+                                </span>
+
+                                <div t-if="not o.dest_address_id and o.picking_type_id and o.picking_type_id.warehouse_id">
+                                    <span t-field="o.picking_type_id.warehouse_id.name"/>
+                                    <div t-field="o.picking_type_id.warehouse_id.partner_id"
+                                        t-field-options='{"widget": "contact", "fields": ["address", "phone", "fax"], "no_marker": true}'/>
+                                </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td4"></td>
+                                <td class="td4"></td>
+                            </tr>
+                        </table>
+
+                        <br/><br/><br/><br/>
+
+                        <table class="tab3_dp">
+                            <tr>
+                                <td class="text-left">وصف<br/>Description</td>
+                                <td>تاريخ مجدول<br/>Date prévue</td>
+                                <td>‫العدد‬<br/>Qté</td>
+                            </tr>
+                            <tr t-foreach="o.order_line" t-as="l">
+                                <td class="text-left"><span t-field="l.product_id.name"/></td>
+                                <td class="text-center"><span t-field="l.date_planned"/></td>
+                                <td class="text-center"><span t-field="l.product_qty"/></td>
+                            </tr>
+
+                        </table>
+
+                       <span>Regards,</span>
+                       <span t-field="user.signature"/>
+                    </div>
+
+                </t>
+
+
+            </xpath>
+
+        </template>
+
+
+    </data>
+</openerp>

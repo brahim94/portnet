@@ -1,0 +1,33 @@
+++++++++ Follow steps to setup Oracle ++++++++
+
+1) install libaio.so.1 by running:
+- sudo apt-get install libaio1
+
+2) download instant client appropriate for your platform from oracle website: 
+http://www.oracle.com/technetwork/topics/linuxx86-64soft-092277.html
+SDK and ODBC packages must be downloaded too.
+- oracle-instantclient19.6-basic-19.6.0.0.0-1.x86_64.rpm
+- oracle-instantclient19.6-sqlplus-19.6.0.0.0-1.x86_64.rpm
+- oracle-instantclient19.6-devel-19.6.0.0.0-1.x86_64.rpm
+
+3) convert into .deb package:
+- sudo alien -d *instantcl*.rpm
+note: you may need to install alien (sudo apt-get install alien) if not already done
+
+4) install created package:
+- sudo dpkg -i *instantcl*.deb
+
+5) create file sudo vi /etc/ld.so.conf.d/oracle.conf with content pointing to oracle default installation directory:
+- /usr/lib/oracle/19.6/client64/lib
+
+6) create environments variable:
+- export ORACLE_HOME=/usr/lib/oracle/19.6/client64
+- export LD_LIBRARY_PATH=$ORACLE_HOME/lib
+note: make changes permanent by adding declaration into ~/.bashrc
+
+7) run:
+- sudo ldconfig
+
+8) install python library:
+- python3 -m pip install cx_Oracle
+note: above syntax is for python 3.5 and above, otherwise run “pip3 install cx_Oracle”, you may also need to install pip via “sudo apt-get install python3-pip”

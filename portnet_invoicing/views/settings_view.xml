@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+    <!-- OP STORE DATABASE setting -->
+
+    <record id="op_store_db_tree_view" model="ir.ui.view">
+        <field name="name">op.store.settings.tree</field>
+        <field name="model">op.store.db.settings</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree strig="Database configuration">
+                    <field name="server"  />
+                    <field name="port" />
+                    <field name="dbname"  />
+                    <field name="user"   />
+                    <field name="is_db_store"/>
+                    <field name="period_id" />
+            </tree>
+        </field>
+    </record>
+        <record id="op_store_db_form_view" model="ir.ui.view">
+        <field name="name">op.store.settings.form</field>
+        <field name="model">op.store.db.settings</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form strig="Database configuration">
+                <header>
+                        <button name="set_confirmed" string="Valider" class="oe_highlight" type="object" states="draft"  />
+                        <button name="set_draft" string="Remettre en brouillon" class="oe_highlight" type="object" states="confirmed"  />
+                        <button name="check_connection" states='draft' string="Tester la connexion" type="object" class="oe_highlight" />
+                        <field name="state" widget="statusbar" />
+                 </header>
+                        <group col="2" colspan="4">
+                            <separator string="Base de stockage" colspan="4"/>
+                            <field name="server"  attrs="{'readonly':[('state','=','confirmed')]}"/>
+                            <field name="port" attrs="{'readonly':[('state','=','confirmed')]}"/>
+                            <field name="dbname"  attrs="{'readonly':[('state','=','confirmed')]}"/>
+                            <field name="user" attrs="{'readonly':[('state','=','confirmed')]}"  />
+                            <field name="password" password="True" invisible="0" attrs="{'readonly':[('state','=','confirmed')]}"/>
+
+                        </group>
+                        <group col="2" colspan="4">
+                            <separator string="Facturation Mensuelle" colspan="4" ></separator>
+                            <field name="is_db_store" attrs="{'readonly':[('state','=','confirmed')]}"/>
+                            <field name="period_id" attrs="{'readonly':[('state','=','confirmed')]}"/>
+                        </group>
+            </form>
+        </field>
+    </record>
+
+     <record model="ir.actions.act_window" id="action_op_store_db_tree_view">
+            <field name="name">DATABASE SETTINGS</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">op.store.db.settings</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+     </record>
+
+        <menuitem id="menu_op_store_db" name="Base de stockage" parent="base.menu_custom" sequence="0"/>
+        <menuitem id="menu_op_store_db_settings" name="Configuration" parent="menu_op_store_db" sequence="1" action="action_op_store_db_tree_view"/>
+
+
+     <!-- Folder OS path setting -->
+         <record id="folder_path_setting_tree_view" model="ir.ui.view">
+            <field name="name">folder.path.setting.tree</field>
+            <field name="model">folder.path.setting</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree strig="Dossiers des échanges">
+
+                        <field name="exchange_folder"  />
+                        <field name="state"  />
+
+
+                </tree>
+            </field>
+        </record>
+        <record id="folder_path_setting_form_view" model="ir.ui.view">
+            <field name="name">folder.path.setting.form</field>
+            <field name="model">folder.path.setting</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form strig="Configuration des dossiers des échanges">
+                     <header>
+                         <button name="action_confirm" string="Confirmer" states='draft' type="object" class="oe_highlight" />
+                         <button name="action_reset_to_draft" states='confirmed' string="Ré-Ouvrir" type="object" class="oe_highlight" />
+                         <field name="state" widget="statusbar" readonly="1" />
+                     </header>
+                    <group>
+                        <separator string="Dossier des échanges" colspan="4"/>
+                        <field name="exchange_folder" nolabel="1" colspan="4" attrs="{'readonly':[('state','=','confirmed')]}" />
+                        <separator string="Sorties" colspan="4"/>
+                        <field name="invoices_folder" attrs="{'readonly':[('state','=','confirmed')]}" />
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_folder_path_setting_tree_view">
+            <field name="name">dossiers des echanges</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">folder.path.setting</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_exchange_si" name="Echanges SI" parent="base.menu_custom" sequence="0"/>
+        <menuitem id="menu_exchange_si_folder" name="Chemin des doissers " parent="menu_exchange_si" sequence="1" action="action_folder_path_setting_tree_view"/>
+
+
+
+    </data>
+</openerp>

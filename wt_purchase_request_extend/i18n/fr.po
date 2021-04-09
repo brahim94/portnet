@@ -1,0 +1,895 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* wt_purchase_request_extend
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-05-18 13:33+0000\n"
+"PO-Revision-Date: 2020-05-18 13:33+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_request_line__is_achat
+msgid "Achat Regie souhaite?"
+msgstr ""
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields.selection,name:wt_purchase_request_extend.selection__purchase_request__state__cancelled
+msgid "Annulé"
+msgstr ""
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields.selection,name:wt_purchase_request_extend.selection__purchase_request_line__traitement__appel_d’offres
+msgid "Appel d’offres"
+msgstr ""
+
+#. module: wt_purchase_request_extend
+#: model_terms:ir.ui.view,arch_db:wt_purchase_request_extend.view_purchase_request_form_extend
+msgid "Are you sure you want to cancel this Purchase Request?"
+msgstr ""
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_request_line__attachment_id
+msgid "Attachement"
+msgstr ""
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields.selection,name:wt_purchase_request_extend.selection__purchase_request__state__draft
+msgid "Draft"
+msgstr "Brouillon"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields.selection,name:wt_purchase_request_extend.selection__purchase_request__financement_type__chb
+msgid "CHB"
+msgstr ""
+
+#. module: wt_purchase_request_extend
+#: model_terms:ir.ui.view,arch_db:wt_purchase_request_extend.view_purchase_request_form_extend
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields.selection,name:wt_purchase_request_extend.selection__purchase_requisition__state_appel_offers_order__done
+#: model:ir.model.fields.selection,name:wt_purchase_request_extend.selection__purchase_request__state__done
+msgid "Closed"
+msgstr "Clôturé"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields.selection,name:wt_purchase_request_extend.selection__purchase_request__state__to_be_approve
+msgid "Approve"
+msgstr "Approuvé"
+
+#. module: purchase_request
+#: model_terms:ir.ui.view,arch_db:purchase_request.view_purchase_request_form
+#: model_terms:ir.ui.view,arch_db:purchase_request.view_purchase_request_search
+msgid "Done"
+msgstr "Clôturé"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields.selection,name:wt_purchase_request_extend.selection__purchase_request_line__traitement__consultation_/_bc
+msgid "Consultation / BC"
+msgstr ""
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_financement__create_uid
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_previsionnel__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_financement__create_date
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_previsionnel__create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: wt_purchase_request_extend
+#: model_terms:ir.ui.view,arch_db:wt_purchase_request_extend.view_purchase_request_form_extend
+msgid "Date souhaitée"
+msgstr ""
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_financement__display_name
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_previsionnel__display_name
+msgid "Display Name"
+msgstr "Afficher Nom"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_request_line__prod_categ_id
+msgid "Family"
+msgstr "Famille"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_financement__id
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_previsionnel__id
+msgid "ID"
+msgstr ""
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_financement____last_update
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_previsionnel____last_update
+msgid "Last Modified on"
+msgstr "Dernière modification le"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_financement__write_uid
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_previsionnel__write_uid
+msgid "Last Updated by"
+msgstr "Dernière mise à jour par"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_financement__write_date
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_previsionnel__write_date
+msgid "Last Updated on"
+msgstr "Dernière mise à jour le"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_request_line__traitement
+msgid "Mode de traitement"
+msgstr ""
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_financement__name
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_previsionnel__name
+msgid "Name"
+msgstr "Nom"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields.selection,name:wt_purchase_request_extend.selection__purchase_request_line__besoin_type__non_planifié
+msgid "Non planifié"
+msgstr ""
+
+#. module: wt_purchase_request_extend
+#: code:addons/wt_purchase_request_extend/models/purchase_request.py:0
+#, python-format
+msgid "Please assign Qualificateur before process."
+msgstr ""
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_request__programme_previsionnel
+msgid "Programme prévisionnel"
+msgstr ""
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields.selection,name:wt_purchase_request_extend.selection__purchase_request_line__besoin_type__prévisionnel
+msgid "Prévisionnel"
+msgstr ""
+
+#. module: wt_purchase_request_extend
+#: model:ir.model,name:wt_purchase_request_extend.model_purchase_financement
+msgid "Purchase Financement"
+msgstr ""
+
+#. module: wt_purchase_request_extend
+#: model:ir.model,name:wt_purchase_request_extend.model_purchase_previsionnel
+msgid "Purchase Previsionnel"
+msgstr ""
+
+#. module: wt_purchase_request_extend
+#: model:ir.model,name:wt_purchase_request_extend.model_purchase_request
+msgid "Purchase Request"
+msgstr "Demande d'achat"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model,name:wt_purchase_request_extend.model_purchase_request_line
+msgid "Purchase Request Line"
+msgstr "Ligne de demande d'achat"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model,name:wt_purchase_request_extend.model_purchase_request_line_make_purchase_order
+msgid "Purchase Request Line Make Purchase Order"
+msgstr "Lignes de demande d'achat"
+
+#. module: wt_purchase_request_extend
+#: model:res.groups,name:wt_purchase_request_extend.group_purchase_request_qualifer
+msgid "Purchase Request Qualifer"
+msgstr "Qualificateur demande d’achat"
+
+#. module: wt_purchase_request_extend
+#: model:res.groups,name:wt_purchase_request_extend.group_purchase_request_responsible
+msgid "Purchase Request Responsible"
+msgstr "Responsable demande d’achat"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields.selection,name:wt_purchase_request_extend.selection__purchase_request__state__approved
+msgid "Qualified"
+msgstr "Qualifié"
+
+#. module: wt_purchase_request_extend
+#: model:ir.actions.act_window,name:wt_purchase_request_extend.action_purchase_req_line_wizard
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_request__qualifier_id
+msgid "Qualifier"
+msgstr "Qualificateur"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_request__validator_id
+msgid "Validator"
+msgstr "Validateur"
+
+#. module: wt_purchase_request_extend
+#: model_terms:ir.ui.view,arch_db:wt_purchase_request_extend.view_purchase_request_form_extend
+msgid "Qualify"
+msgstr ""
+
+#. module: wt_purchase_request_extend
+#: model_terms:ir.ui.view,arch_db:wt_purchase_request_extend.view_purchase_request_form_extend
+msgid "Quantity granted"
+msgstr "Quantité accordée"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_request_line__prod_demand_qty
+msgid "Quantity requested"
+msgstr "Quantité demandée"
+
+#. module: wt_purchase_request_extend
+#: model_terms:ir.ui.view,arch_db:wt_purchase_request_extend.view_purchase_request_form_extend
+msgid "Refuse"
+msgstr "Refuser"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields.selection,name:wt_purchase_request_extend.selection__purchase_request__state__rejected
+msgid "Refusé"
+msgstr "Refusé"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_request__assigned_to
+msgid "Responsible"
+msgstr "Responsable"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields.selection,name:wt_purchase_request_extend.selection__purchase_request_line__traitement__régie
+msgid "Régie"
+msgstr ""
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_request__state
+msgid "Status"
+msgstr "État"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_request_line__prod_child_categ_id
+msgid "Sub Family"
+msgstr "Sous Famille"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields.selection,name:wt_purchase_request_extend.selection__purchase_request__financement_type__sur_budget
+msgid "Sur Budget"
+msgstr ""
+
+#. module: wt_purchase_request_extend
+#: code:addons/wt_purchase_request_extend/models/purchase_request.py:0
+#, python-format
+msgid "There is no employee department found for responsible user."
+msgstr ""
+
+#. module: wt_purchase_request_extend
+#: code:addons/wt_purchase_request_extend/models/purchase_request.py:0
+#, python-format
+msgid "There is no employee found for responsible user."
+msgstr ""
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_request__financement_type
+msgid "Type de Financement"
+msgstr ""
+
+#. module: wt_purchase_request_extend
+#: model_terms:ir.ui.view,arch_db:wt_purchase_request_extend.view_purchase_request_form_extend
+msgid "Validate"
+msgstr "Valider"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields.selection,name:wt_purchase_request_extend.selection__purchase_request__state__to_approve
+msgid "Validated"
+msgstr "Validé"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_market_monitoring_execution__state
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_request_line__etat
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_request_line_wizard__etat
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_tender_sessions__state
+msgid "State"
+msgstr "Etat"
+
+#. module: purchase_request
+#: model:res.groups,name:purchase_request.group_purchase_request_manager
+msgid "Purchase Request Manager"
+msgstr "Manager demande d’achat"
+
+#. module: purchase_requisition
+#: model:ir.actions.act_window,name:purchase_requisition.tender_type_action
+#: model:ir.ui.menu,name:purchase_requisition.menu_purchase_requisition_type
+#: model_terms:ir.ui.view,arch_db:purchase_requisition.view_purchase_requisition_type_form
+#: model_terms:ir.ui.view,arch_db:purchase_requisition.view_purchase_requisition_type_tree
+msgid "Purchase Agreement Types"
+msgstr "Type opération d’achat"
+
+#. module: purchase_requisition
+#: model:ir.model.fields,field_description:purchase_requisition.field_purchase_requisition__type_id
+#: model:ir.model.fields,field_description:purchase_requisition.field_purchase_requisition_type__name
+#: model_terms:ir.ui.view,arch_db:purchase_requisition.view_purchase_requisition_type_form
+msgid "Agreement Type"
+msgstr "Type opération"
+
+#. module: purchase_requisition
+#: model:ir.model.fields,field_description:purchase_requisition.field_purchase_requisition_type__exclusive
+msgid "Agreement Selection Type"
+msgstr "Mode de sélection du fournisseur"
+
+#. module: purchase_requisition
+#: model:ir.model.fields,field_description:purchase_requisition.field_purchase_requisition__date_end
+msgid "Agreement Deadline"
+msgstr "Date Opération"
+
+#. module: purchase_requisition
+#: model:ir.actions.act_window,name:purchase_requisition.action_purchase_requisition
+#: model:ir.ui.menu,name:purchase_requisition.menu_purchase_requisition_pro_mgt
+#: model_terms:ir.ui.view,arch_db:purchase_requisition.view_purchase_requisition_form
+#: model_terms:ir.ui.view,arch_db:purchase_requisition.view_purchase_requisition_tree
+msgid "Purchase Agreements"
+msgstr "Opération d’achat"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_requisition__lot_number
+msgid "Lot Number"
+msgstr "Nombre de lots"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_lot_details__estimated_price
+msgid "Estimated Price"
+msgstr "Prix estimé"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_lot_details__retenu
+msgid "Holdback"
+msgstr "Retenu de garantie"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_requisition_planification__start_date
+msgid "Start Date"
+msgstr "Date début"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_requisition_planification__end_date
+msgid "End Date"
+msgstr "Date fin"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_requisition__project_scope
+msgid "Project Scope"
+msgstr "Objet de l’appel d’offres"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_requisition__condition
+msgid "Submission Condition"
+msgstr "Condition de soumission"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model,name:wt_purchase_request_extend.model_tender_membres
+msgid "Tender Membres"
+msgstr "Numéro d'appel  d'offres"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_requisition__commission_attachment_id
+msgid "Commission Decision"
+msgstr "Décision de la commission"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_requisition__price_attachment_id
+msgid "Price Schedule"
+msgstr "Bordereau des prix"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_requisition__checklist_attachment_id
+msgid "Offer Evaluation Checklist"
+msgstr "Checklist d'évaluation des offers"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_requisition__newspaper_attachment_id
+msgid "Newspaper Insertion Letter"
+msgstr "Letter d'insertion aux journaux"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_requisition__newspaper_publication_ids
+msgid "Newspaper publication"
+msgstr "Registre de publication"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_newspaper_publication__journal_id
+msgid "Journal"
+msgstr "Canal"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_newspaper_publication__reference_publication
+msgid "Reference Publication"
+msgstr "Référence publication"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_newspaper_publication__publication_date
+msgid "Publication Date"
+msgstr "Date de publication"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_newspaper_publication__notice_type
+msgid "Type Notice"
+msgstr "Type avis"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_requisition__cancel_reason
+msgid "Reason For Cancellation"
+msgstr "Motif d'annulation"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_requisition__unsuccess_reason
+msgid "Reason For Unsuccessful"
+msgstr "Motif infructueux"
+
+#. module: wt_purchase_request_extend
+#: model_terms:ir.ui.view,arch_db:wt_purchase_request_extend.view_purchase_requisition_inherited_form
+msgid "Submission"
+msgstr "Soumission"
+
+#. module: wt_purchase_request_extend
+#: model_terms:ir.ui.view,arch_db:wt_purchase_request_extend.view_purchase_requisition_inherited_form
+msgid "Site Visit"
+msgstr "Visite des lieux"
+
+#. module: wt_purchase_request_extend
+#: model_terms:ir.ui.view,arch_db:wt_purchase_request_extend.view_purchase_requisition_inherited_form
+msgid "Sample Deposit"
+msgstr "Dépôt échantillon"
+
+#. module: wt_purchase_request_extend
+#: model_terms:ir.ui.view,arch_db:wt_purchase_request_extend.view_purchase_requisition_inherited_form
+msgid "Prospectus Deposit"
+msgstr "Dépôt prospectus"
+
+#. module: wt_purchase_request_extend
+#: model_terms:ir.ui.view,arch_db:wt_purchase_request_extend.view_purchase_requisition_inherited_form
+msgid "Convocation of the"
+msgstr "Convocation de la"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_requisition__prospectus_days
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_requisition__sample_deposit_days
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_requisition__site_visit_days
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_requisition__submission_days
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_requisition__convocation_days
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_requisition_planification__day
+msgid "Deadline (Days)"
+msgstr "Délai(Jours)"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_tender_withdrawals__withdrawals_type
+msgid "Type Of Withdrawal"
+msgstr "Type de retrait"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_tender_withdrawals__withdrawal_date
+msgid "Withdrawal Date"
+msgstr "Date retrait"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_tender_withdrawals__submission_date
+msgid "Submission Date"
+msgstr "Date soumission"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_tender_withdrawals__prospectus_date
+msgid "Prospectus Date"
+msgstr "Date prospectus"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_tender_withdrawals__visit_date
+msgid "Visit Date"
+msgstr "Date visite"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_requisition__tender_type
+msgid "Type of tender"
+msgstr "Type d’appel d’offres"
+
+#. module: wt_purchase_request_extend
+#: model_terms:ir.ui.view,arch_db:wt_purchase_request_extend.view_purchase_requisition_inherited_form
+msgid "Other information"
+msgstr "Autre information"
+
+#. module: wt_purchase_request_extend
+#: model_terms:ir.ui.view,arch_db:wt_purchase_request_extend.view_purchase_requisition_inherited_form
+msgid "Elaboration"
+msgstr "Elaboration"
+
+#. module: wt_purchase_request_extend
+#: model_terms:ir.ui.view,arch_db:wt_purchase_request_extend.view_purchase_requisition_inherited_form
+msgid "Publication"
+msgstr "Publication"
+
+#. module: wt_purchase_request_extend
+#: model_terms:ir.ui.view,arch_db:wt_purchase_request_extend.view_purchase_requisition_inherited_form
+msgid "Evaluation"
+msgstr "Evaluation"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_lot_details__evaluation_id
+msgid "Evaluation Method"
+msgstr "méthode évaluation"
+
+#. module: wt_purchase_request_extend
+#: model_terms:ir.ui.view,arch_db:wt_purchase_request_extend.view_purchase_requisition_inherited_form
+msgid "Decision"
+msgstr "Décision"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_requisition__tender_number
+msgid "Tender Number"
+msgstr "Numéro d’appel d’offres"
+
+#. module: wt_purchase_request_extend
+#: model_terms:ir.ui.view,arch_db:wt_purchase_request_extend.view_market_execution_form
+#: model_terms:ir.ui.view,arch_db:wt_purchase_request_extend.view_purchase_requisition_inherited_form
+msgid "Detail"
+msgstr "Détail"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_session_attachment__attachment_id
+#: model_terms:ir.ui.view,arch_db:wt_purchase_request_extend.view_purchase_requisition_inherited_form
+msgid "Attachments"
+msgstr "Piéces jointes"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_bidder_offers__parts_ids
+msgid "Parts Supplied"
+msgstr "Pièces fournies"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model,name:wt_purchase_request_extend.model_bidder_offers
+msgid "Bidder Offers"
+msgstr "Offres soumissionnaires"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_requisition__bidder_offer_ids
+#: model_terms:ir.ui.view,arch_db:wt_purchase_request_extend.view_purchase_requisition_inherited_form
+msgid "Bidder offers"
+msgstr "Offres soumissionnaires"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_tender_sessions__bidder_ids
+msgid "Bidders"
+msgstr "Soumissionnaires"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_requisition__session_ids
+#: model_terms:ir.ui.view,arch_db:wt_purchase_request_extend.view_purchase_requisition_inherited_form
+msgid "Sessions"
+msgstr "Séances"
+
+#. module: wt_purchase_request_extend
+#: model_terms:ir.ui.view,arch_db:wt_purchase_request_extend.view_purchase_requisition_inherited_form
+msgid "Financial offers"
+msgstr "Offres financières"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_requisition_planification__details
+msgid "Details"
+msgstr "Détails"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_session_attachment__session_type
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_tender_sessions__session_type
+msgid "Type session"
+msgstr "Type séance"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_requisition__cps_attachment_id
+msgid "CPS Final"
+msgstr "CPS Finale"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_bidders_session__ecart
+msgid "Gap Pattern"
+msgstr "Motif d'écart"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_bidders_session__ranking
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_tender_decision__ranking
+msgid "Ranking"
+msgstr "Classement"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_tender_sessions__is_final
+msgid "Final ?"
+msgstr "Finale ?"
+
+#. module: wt_purchase_request_extend
+#: model_terms:ir.ui.view,arch_db:wt_purchase_request_extend.view_purchase_requisition_inherited_form
+msgid "Cancellation of the call for Tenders"
+msgstr "Annulation de l'appel d'offres"
+
+#. module: wt_purchase_request_extend
+#: model_terms:ir.ui.view,arch_db:wt_purchase_request_extend.view_purchase_requisition_inherited_form
+msgid "Unsuccessful Call For Tenders"
+msgstr "Appel d'offres infructueux"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_bidders_session__bidder_id
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_tender_decision__bidder_id
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_bidder_offers__partner_id
+msgid "Bidder"
+msgstr "Soumissionnaire"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_requisition__tender_decision_ids
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_tender_decision__decision
+#: model_terms:ir.ui.view,arch_db:wt_purchase_request_extend.view_purchase_requisition_inherited_form
+msgid "Decision Final"
+msgstr "Décision finale"
+
+#. module: wt_purchase_request_extend
+#: model_terms:ir.ui.view,arch_db:wt_purchase_request_extend.view_purchase_requisition_inherited_form
+msgid "Complements"
+msgstr "Compléments"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_tender_decision_compliments__compliments
+msgid "Complements?"
+msgstr "Compléments?"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_compliment_compliment__day
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_market_engagement__days
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_market_service__days
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_tender_decision_compliments__day
+msgid "Days"
+msgstr "Délai"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_requisition__decision_pv_attach_id
+msgid "PV Final"
+msgstr "Extrait du PV"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_tender_sessions__date
+msgid "Session Date"
+msgstr "Date de séance"
+
+#. module: wt_purchase_request_extend
+#: model_terms:ir.ui.view,arch_db:wt_purchase_request_extend.view_purchase_requisition_inherited_form
+msgid "Public ?"
+msgstr "Publique ?"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_tender_rectification__deadline_days
+msgid "Postponement Deadline"
+msgstr "Délai de report"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_tender_rectification__corrective_notice
+msgid "Corrective Notice"
+msgstr "Avis réctificatif"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_purchase_requisition__pv_site_visit
+msgid "PV Site Visit"
+msgstr "PV visite des lieux"
+
+
+#. module: wt_purchase_request_extend
+#: model:ir.actions.act_window,name:wt_purchase_request_extend.action_market_execution
+#: model:ir.model,name:wt_purchase_request_extend.model_market_execution
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_market_engagement__market_id
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_market_monitoring_execution__market_id
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_market_penalite__market_id
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_market_service__market_id
+#: model:ir.module.category,name:wt_purchase_request_extend.module_category_market_execution
+#: model:ir.ui.menu,name:wt_purchase_request_extend.menu_execution_marche
+msgid "Market Execution"
+msgstr "Exécution Marché"
+
+#. module: wt_purchase_request_extend
+#: model_terms:ir.ui.view,arch_db:wt_purchase_request_extend.view_market_execution_form
+msgid "Print Engagement"
+msgstr "Imprimer engagement"
+
+#. module: wt_purchase_request_extend
+#: model_terms:ir.ui.view,arch_db:wt_purchase_request_extend.view_market_execution_form
+msgid "Notification Order"
+msgstr "Ordre de notification"
+
+#. module: wt_purchase_request_extend
+#: model_terms:ir.ui.view,arch_db:wt_purchase_request_extend.view_market_execution_form
+msgid "Beginning Order"
+msgstr "Ordre de commencement"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields.selection,name:wt_purchase_request_extend.selection__market_execution__state__pre_engagement
+msgid "Pre Engagement"
+msgstr "Pré Engagement"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields.selection,name:wt_purchase_request_extend.selection__market_execution__state__done
+msgid "Closed"
+msgstr "Clôturé"
+
+#. module: wt_purchase_request_extend
+#: model_terms:ir.ui.view,arch_db:wt_purchase_request_extend.view_market_execution_form
+msgid "Close"
+msgstr "Clôturér"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields.selection,name:wt_purchase_request_extend.selection__market_execution__state__cancel
+msgid "Cancel"
+msgstr "Résilie"
+
+#. module: wt_purchase_request_extend
+#: model_terms:ir.ui.view,arch_db:wt_purchase_request_extend.view_market_execution_form
+msgid "Market Execution Name"
+msgstr "N° Marché"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_market_execution__purchase_requisition
+msgid "Purchase Requisition"
+msgstr "N° Appel d'offres"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_market_execution__purchase_order
+msgid "Purchase Order"
+msgstr "N° Lot"
+
+#. module: purchase_requisition
+#: model:ir.actions.act_window,name:purchase_requisition.action_purchase_requisition_list
+msgid "Request for Quotations"
+msgstr "Bordereau de prix"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_market_execution__date
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_market_execution__order_date
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_market_service__order_date
+msgid "Order Date"
+msgstr "Date attribution"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_market_engagement__quality_id
+msgid "Quality"
+msgstr "Qualité"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_market_execution__engagement_number
+msgid "Engagement Number"
+msgstr "N° d'engagement"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_market_execution__enagagement_date
+msgid "Engagement Date"
+msgstr "Date Engagement"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_market_execution__final_deposit
+msgid "Final Deposit"
+msgstr "Caution définitive"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_market_execution__engagement_amount
+msgid "Engagement Amount"
+msgstr "Montant d'engagement"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_market_execution__notification_number
+msgid "Notification Number"
+msgstr "N° Notification"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_market_execution__notification_date
+msgid "Notification Date"
+msgstr "Date de notification d'approbation"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_market_execution__documents_ids
+msgid "Documents Required"
+msgstr "Pièces a fournir"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_market_execution__contract_attachment_id
+msgid "Market Contract"
+msgstr "Contrat du marché"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_market_execution__sheet_attachment_id
+msgid "Signed engagement sheets"
+msgstr "Fiches d'engagements Signés"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_market_execution__follow_up_assured
+msgid "Follow-Up Assured"
+msgstr "suivi est assuré"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_market_execution__order_service_number
+msgid "Order Service Number"
+msgstr "N° d'ordre de service"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_tender_decision__date
+msgid "Date Attribution"
+msgstr "Date attribution"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_market_execution__execution_days
+msgid "Execution Days"
+msgstr "Délai"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_market_execution__commencement_date
+msgid "Commencement Date"
+msgstr "Date de commencement"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_market_service__order_number
+msgid "Order Number"
+msgstr "N° d'ordre"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_market_service__effect_date
+msgid "Effect Date"
+msgstr "Date d'effet"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_market_monitoring_execution__scheduled_end_date
+msgid "Scheduled End Date"
+msgstr "Date fin prévue"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_market_monitoring_execution__scheduled_start_date
+msgid "Scheduled Start Date"
+msgstr "Date début prévue"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_market_monitoring_execution__actual_end_date
+msgid "Actual End Date"
+msgstr "Date fin réelle"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_market_monitoring_execution__actual_start_date
+msgid "Actual Start Date"
+msgstr "Date début réelle"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_market_monitoring_execution__actual_time
+msgid "Actual Time"
+msgstr "Durée réelle"
+
+#. module: wt_purchase_request_extend
+#: model:ir.model.fields,field_description:wt_purchase_request_extend.field_market_monitoring_execution__estimated_time
+msgid "Estimated Duration"
+msgstr "Durée estimée"
+
+#. module: base
+#: model:ir.model.fields.selection,name:base.selection__res_partner__company_type__person
+msgid "Individual"
+msgstr "Personne physique"
+
+#. module: base
+#: model:ir.model.fields.selection,name:base.selection__res_partner__company_type__company
+msgid "Company"
+msgstr "Personne morale"
+
+#. module: purchase
+#: model:ir.model.fields.selection,name:purchase.selection__purchase_order__state__draft
+msgid "RFQ"
+msgstr "Bordereau de prix estimatif"
+
+#. module: purchase
+#: model:ir.model.fields.selection,name:purchase.selection__purchase_order__state__sent
+#: model:ir.model.fields.selection,name:purchase.selection__purchase_report__state__sent
+msgid "RFQ Sent"
+msgstr "Bordereau de prix renseigné"
+
+#. module: purchase
+#: model_terms:ir.ui.view,arch_db:purchase.purchase_order_form
+msgid "Print RFQ"
+msgstr "Imprimer bordereau de prix"

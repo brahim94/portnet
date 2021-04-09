@@ -1,0 +1,199 @@
+<odoo>
+
+    <report
+        id="action_report_purchase"
+        model="purchase.order"
+        string="Lettre de Consultation"
+        report_type="qweb-pdf"
+		name="tech_reports_extention.consultation"
+		print_report_name="'Lettre de Consultation'"/>
+
+        <template id="consultation">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.internal_layout">
+
+            <style>
+                table, th, td {
+                border: 1px solid black;
+                
+                }
+                td.center{
+                border: 3px  black;
+                border-style: double;
+                }
+                table.centro {
+            
+                margin-left:auto; 
+                margin-right:auto;
+                }
+                div.a{
+                text-indent: 50px;
+                }
+                div {
+                margin-top:20px;
+                }
+                div.n{
+                margin-top: -20px;
+                margin-left:50px;
+                }        
+                br.b{
+                text-indent: 50px;
+                }
+                th.mark, td.mark {
+                background-color: #e8e6e6;
+                color: black;
+                }
+                div.s {
+                width: 90%;
+                border: 1px solid;
+                box-shadow: 1px 3px #888888;
+                text-align:center;
+                }
+                td.empty {
+            
+            border: 1px solid black;
+            
+         }
+
+            </style>
+                    <div class="cls_009">
+                    <strong><br> Secrétariat Général </br> 
+                    <br>Division Administrative </br> 
+                    <br>Service Matériel et Marchés </br></strong>
+                    </div>
+                    
+                    <div style="vertical-align:center;text-align: center" class="cls_009">
+                    <strong><h4><u> DEMANDE DE PRIX </u></h4></strong>
+                    </div>
+                    
+                
+                        <table class="centro" width="90%">
+                            <tr>
+                                <tr>
+                                    <td class="center" style="border-bottom: none;border-right: none"><u>DESTINATAIRE  :</u><span t-field="o.partner_id"/></td>
+                                    <td class="center" style="border-bottom: none;border-left: none"><u>EXPEDITEUR  :</u><span t-field="o.company_id"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="center" style="height:30px;border-top: none;border-bottom: none;border-right: none">Téléphone  :<span t-field="o.partner_id.phone"/></td>
+                                    <td  class="center" style="height:30px;border-top: none;border-bottom: none;border-left: none">Nom  :<span t-field="o.company_id"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="center" style="border-top: none;border-right: none">Fax  :<span t-field="o.partner_id.fax"/></td>
+                                    <td class="center" style="height:90px;border-top: none;border-left: none">Tél  :<span t-field="o.company_id.phone"/><br>Fax/Tél <span t-field="o.company_id.fax"/> / <span t-field="o.company_id.phone"/></br></td>
+                                </tr>
+                            </tr>
+                            
+                        </table>
+                       <div class="n">
+                                <small><br> Date  : <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d')"/> </br>
+                                        <br> Signature  :</br>
+                                </small>
+                        </div>
+                
+                        <div style="vertical-align:center;text-align: left" class="cls_039">
+                            <h4><strong><i>O</i></strong>bjet	:	     Demande de prix concernant « <span t-field="o.requisition_id.consultation_name"/> »</h4>
+                        </div>
+                
+                        <div style="vertical-align:center;text-align: left" class="a">
+                            <p>J’ai l’honneur de vous faire connaître que l’ENSMR envisage de passer un bon de commande 
+                            <br>pour l'objet susmentionné suivant les prescriptions techniques jointes à cette lettre.</br></p>
+                        </div>
+                
+                        <div style="vertical-align:center;text-align: left" class="a">
+                            <p>Si vous êtes intéressé par cette commande, vous voudrez bien me faire parvenir,
+                            <br>avant le <span t-field="o.date_order" t-options='{"format": "dd/M/Y"}'/> à <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%H:%M')"/>, au Bureau du service des marchés et matériels de l’ENSMR, </br>
+                            <br>votre pli cacheté portant l’inscription :<strong> OFFRE DE PRIX POUR : <span t-field="o.requisition_id.consultation_name"/></strong></br></p>
+                        </div>
+                        <div style="vertical-align:center;text-align: left">
+                            <p>Le pli doit contenir les pièces suivantes :
+                            <br> -	Le devis portant les références du concurrent, dûment signé et cacheté </br>
+                            <br> -	Copie de la présente lettre dîment signée et cachetée et portant la mention « lue et acceptée »</br></p>
+                        </div>
+                
+                        <div style="vertical-align:center;text-align: left" class="a">
+                            <p>Je porte à votre connaissance que l’évaluation des offres sera effectuée sur <br>la base du montant du devis proposé.</br></p>
+                        </div>
+                    
+                        <div style="vertical-align:center;text-align: left" class="cls_069">
+                            <p>Veuillez agréer, Monsieur, mes salutations distinguées.</p>
+                        </div>
+                    
+                    <div class="page"> .
+
+                    <p style="page-break-after:always;"></p>
+                        <div style="vertical-align:center;text-align: center" class="cls_039">
+                            <h4><strong><i>Annexe à la lettre de consultation</i></strong></h4>
+                        </div>
+
+                        <div style="vertical-align:center;text-align: left" class="cls_039">
+                            <h4><strong><i>O</i></strong>bjet	:	Demande de prix pour <span t-field="o.requisition_id.consultation_name"/></h4>
+                        </div>
+
+                    <table class="center" style="width:99%">
+                            <thead>
+                                <tr>
+                                    <th class="mark" rowspan="2" style="text-align: center">Article N°</th>
+                                    <th class="mark" rowspan="2" style="text-align: center">Désignation des prestations</th>
+                                    <th class="mark" rowspan="2" style="text-align: center;width:40%" >Description</th>
+                                    <th class="mark" rowspan="2" style="text-align: center" >Unité</th>
+                                    <th class="mark" rowspan="2" style="text-align: center" >Quantité</th>
+                                    <th class="mark" rowspan="2" style="text-align: center">Prix Unitaire (HT)</th>
+                                    <th class="mark" rowspan="2" style="text-align: center">Prix Total (HT)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="o.order_line" t-as="line">
+                                <tr >
+                                    <td style="text-align: center" class="bord"><span t-field="line.sequence"/></td>
+                                    <td style="text-align: center" class="bord"><span t-field="line.product_id"/></td>                                    
+                                    <td style="text-align: center" class="bord"><span t-field="line.description"/></td>                                    
+                                    <td style="text-align: center" class="bord"><span t-field="line.product_uom"/></td>
+                                    <td style="text-align: center" class="bord"><span t-field="line.product_qty"/></td>
+                                    <td class="bord empty"></td>
+                                    <td class="bord empty"></td>
+
+                                </tr>
+                                
+                                 </t>
+                                 <tr>
+                                    <th colspan="6" style="text-align: right;border-bottom: none;padding:2px; margin:2px">TOTAL (HT) :</th>
+                                    <td class="bord mark empty" style="border: 1px solid black;text-align: center;padding:0px; margin:0px"></td>
+                                </tr>
+                                <tr>
+                                    <th colspan="6" style="text-align: right;border-bottom: none;padding:2px; margin:2px">TAUX TVA :</th>
+                                    <td class="bord mark empty" style="border: 1px solid black;text-align: center;padding:0px; margin:0px"></td>
+                                </tr>
+                                <tr>
+                                    <th colspan="6" style="text-align: right;border-bottom: none;padding:2px; margin:2px">TOTAL (TTC) :</th>
+                                    <td class="bord mark empty" style="border: 1px solid black;text-align: center;padding:0px; margin:0px"></td>
+                                </tr>
+                            </tbody>
+                        <!-- <tr>
+                                    <td style="height:100px;vertical-align:bottom;border: 1px solid black;border-collapse: collapse;border-bottom: none">Total</td> 
+                        </tr> -->
+                        
+                </table>
+
+                    <div class="rule">
+                            <strong>Arrêté le présent devis à la somme de   (en lettres): </strong>
+                            <!-- <span t-esc="o.get_amount_in_words()"/> -->
+                    </div>
+                               
+                    <div style="position:absolute;left:570.99px;top:1710px;text-align:center">
+                            <strong>Signature</strong>
+                    </div>
+                    
+                    <div class="s" style="position:absolute;left:38px;top:1880px">
+                           <strong> Pour toute information veuillez nous contacter par téléphone</strong>
+                    </div>
+                    
+                    </div>
+
+                    
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

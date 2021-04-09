@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <!-- requestcustomer request wizard -->
+
+        <record id="customer_request_wizard_view" model="ir.ui.view">
+            <field name="name">customer.request.wizard.view</field>
+            <field name="model">customer.request.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Confirmation de la demande">
+                        <group col="4">
+                            <group colspan="2">
+                                <field name="ifu" attrs="{'required': [('force','=',False)],'invisible': [('force','=',True)]}"/>
+                                <field name="force"/>
+                                <field name="reason_id" attrs="{'required': [('force','=',True)],'invisible': [('force','=',False)]}"/>
+                            </group>
+                        </group>
+                    <footer>
+                        <button string="Confirmer" class="oe_highlight" type="object" name="action_confirm"/>
+                        ou
+                        <button string="Annuler" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        
+
+    </data>
+</openerp>

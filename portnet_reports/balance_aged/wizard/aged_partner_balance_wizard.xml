@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+
+    <record id="account_aged_trial_balance_webkit_inherit" model="ir.ui.view">
+      <field name="name">Aged Partner Balance Report Inherit</field>
+      <field name="model">account.aged.trial.balance.webkit</field>
+      <field name="inherit_id" ref="account_financial_report_webkit.account_aged_trial_balance_webkit"/>
+      <field name="arch" type="xml">
+        <data>
+
+          <field name="result_selection" position="after">
+                <field name="treasury_option" colspan="4"/>
+          </field>
+
+        </data>
+      </field>
+    </record>
+
+  </data>
+</openerp>

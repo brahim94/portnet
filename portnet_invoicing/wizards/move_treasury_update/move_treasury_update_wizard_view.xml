@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <!-- move treasury update wizard -->
+
+        <record id="move_treasury_update_wizard_view" model="ir.ui.view">
+            <field name="name">move.treasury.update.wizard.view</field>
+            <field name="model">move.treasury.update.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Mise à jour des dates d'échéances">
+                    <footer>
+                        <button string="Lancer" class="oe_highlight" type="object" name="action_update"/>
+                        ou
+                        <button string="Annuler" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+
+        <act_window id="action_move_treasury_update_wizard"
+                    name="Miseà jour des dates d'échéances"
+                    res_model="move.treasury.update.wizard"
+                    src_model="account.move"
+                    view_mode="form"
+                    target ="new"
+                    key2="client_action_multi"
+                    groups="account.group_account_manager"
+                    />
+
+        
+
+    </data>
+</openerp>

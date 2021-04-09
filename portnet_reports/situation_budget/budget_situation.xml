@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+        <record id="view_situation_budget_wizard" model="ir.ui.view">
+            <field name="name">Sitation Budget Report</field>
+            <field name="model">situation.budget.wizard</field>
+            <field name="arch" type="xml">
+              <form string="Imprimer Rapport de budget">
+                  <group>
+                      <field name="date_budget_start" required="1"/>
+                      <field name="date_budget_end" required="1"/>
+                  </group>
+                  <footer>
+                      <button name="print_budget" string="Imprimer" type="object" class="oe_highlight"/>
+                      or
+                      <button string="Cancel" class="oe_link" special="cancel"/>
+                  </footer>
+             </form>
+            </field>
+        </record>
+
+        <act_window name="Rapport situation budgetaire"
+            res_model="situation.budget.wizard"
+            src_model="crossovered.budget"
+            key2="client_action_multi"
+            multi="False"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            id="action_situation_budget_wizard"/>
+
+        <!--record model="ir.ui.view" id="view_tree_budget_situation_report">
+                <field name="name">budget.situation.report.tree</field>
+                <field name="model">budget.situation.report</field>
+                <field name="type">tree</field>
+                <field name="arch" type="xml">
+                    <tree string="Situation budget">
+                        <field name="col1" />
+                        <field name="col2" />
+                    </tree>
+                </field>
+            </record>
+
+    <record id="action_view_budget_situation_report" model="ir.actions.act_window" >
+         <field name="name">Situation budget</field>
+         <field name="type">ir.actions.act_window</field>
+         <field name="res_model">budget.situation.report</field>
+         <field name="view_type">form</field>
+         <field name="view_mode">tree</field>
+         <field name="view_id" ref="view_tree_budget_situation_report"/>
+     </record>
+
+    <menuitem id="menu_budget_situation_report" name="Situation budget" action="action_view_budget_situation_report" sequence="7" parent="account.menu_finance_reports" /-->
+
+   </data>
+</openerp>

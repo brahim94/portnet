@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="report_helpdesk_document">
+	    <t t-call="web.external_layout">
+	        <t t-set="doc" t-value="doc.with_context(lang=doc.client_id.lang)" />
+	         <div class="page">
+	              <div class="oe_structure"/>
+	              <h3 colspan="2"> <center>BON DE RÉPARATION : <span t-field="doc.name"/></center></h3>
+	              <table class="table table-bordered"  style="border: 2px solid blue;height:100%;width:100%;margin:0;padding:0;">
+	                <tr style="border: 2px solid blue;height:100%;width:100%;margin:0;padding:0;">
+	                    <td width="700" >
+	                        <table  class="table table-bordered"  style="border: 2px solid blue;height:100%;width:100%;margin:0;padding:0;">
+			             	<tr style="margin:0;padding:0;">
+				             <td width="1000">
+				             <strong><span>Date        :</span> </strong><span t-field="doc.date"/><br/>
+				             <strong><span>Nom Client  :</span></strong><span t-field="doc.client_nom"/><br/>
+				             <strong><span>N° de téléphone   :</span></strong><span t-field="doc.client_phone"/><br/>
+				             <strong><span>Adresse Client  :</span></strong><span t-field="doc.client_street"/> - <span t-field="doc.client_city"/><br/>
+				             <strong><span>Contrat N°  :</span></strong><span t-field="doc.invoice_id.invoice_number"/><br/>
+				             <strong><span>Nom Article  :</span></strong><span t-field="doc.article_id"/><br/>
+				             <strong><span>Date d'Achat:</span></strong><span t-field="doc.date_achat"/> <br/>
+				             <strong><span>Garantie    :</span></strong><span t-field="doc.garantie_date"/> <span t-field="doc.duree"/> <span t-field="doc.garantie"/><br/>
+				             <strong><span>Référence  :</span></strong><span t-field="doc.article_code"/> <br/>
+				             <strong><span>N° de Série :</span> </strong><span t-field="doc.n_serie"/><br/>
+				             <strong><span>Panne Déclarée Par le Client:</span></strong>
+				             <span t-field="doc.panne_type_id"/>
+				              <br/>
+		                           <strong> <span>Observations: </span></strong>
+		                           <span t-field="doc.remarque"/>
+		                           <br/><br/><br/>
+						</td>
+					</tr>
+				  </table>
+	                    </td>
+	                    <td width="300">
+	                       <table  class="table table-bordered"  style="border: 2px solid blue;height:100%;width:100%;margin:0;padding:0;">
+			                <tr style="margin:0;padding:0;">
+			                   <td> <strong><center>Visa Client</center> </strong></td>
+							</tr>
+							<tr  style="margin:0;padding:0;">
+			                   <td> <strong><center>Visa chef contrôleur</center></strong></td>
+							</tr>
+							<tr  style="margin:0;padding:0;">
+			                    <td> <strong><center>Visa S.A.V.</center></strong></td>
+							</tr>
+				  			</table>
+	                    </td>
+	                
+	                </tr>
+	              
+	              </table>
+	              
+	              <table class="table table-bordered"  style="border: 2px solid blue;height:100%;width:100%;margin:0;padding:0;">
+	              
+	              
+	               <tr style="border: 2px solid blue;height:100%;width:100%;margin:0;padding:0;">
+	               
+	                <td width="400" >
+	                   <table  class="table table-bordered"  style="border: 2px solid blue;height:100%;width:100%;margin:0;padding:0;">
+			               <tr style="margin:0;padding:0;">
+			               
+			                  
+				        
+				        
+				   <td width="1000">
+				      <strong><center>S.A.V Réception Marchandise</center> </strong><br/><br/>
+				   
+			             <strong><span>Date        :</span> </strong>
+			             <span t-field="doc.date"/>
+			             <br/><br/>
+			             <strong><span>Fournisseur :</span></strong>
+			             <span t-field="doc.fournisseur"/>
+			             <br/><br/>
+			             <strong><span>Prestataire :</span></strong>
+			             <span t-field="doc.prestataire"/>
+			             <br/><br/>
+			             <strong><span>Transporteur :</span></strong>
+			             <!-- <span t-field="doc.fournisseur"/> -->
+			             <br/><br/>
+			            
+			             <strong><span>Observations    :</span></strong>
+			             <!-- <span t-field="doc.garantie"/> -->
+			             <br/><br/><br/>
+	                           
+	                           </td>
+				    </tr>   
+			 </table>
+	                    
+	               </td>
+	               
+	               
+	               <td width="300">
+	                   <table  class="table table-bordered"  style="border: 2px solid blue;height:100%;width:100%;margin:0;padding:0;">
+			               <tr style="margin:0;padding:0;">
+			               
+			                  <td> <strong><center>Sortie Marchandise</center> </strong></td>
+			            
+					</tr>
+					
+					<tr  style="margin:0;padding:0;">
+			               
+			                   <td> <strong><center>Visa RM</center></strong></td>
+			            
+					</tr>
+					
+					<tr  style="margin:0;padding:0;">
+			               
+			                    <td> <strong><center>Visa Chef contrôleur </center></strong></td>
+			             
+				        </tr>
+				        <tr  style="margin:0;padding:0;">
+			               
+			                    <td> <strong><center>Visa S.A.V.</center></strong></td>
+			             
+				        </tr>
+				        <tr  style="margin:0;padding:0;">
+			               
+			                    <td> <strong><center>Visa Prestataire</center></strong></td>
+			             
+				        </tr>
+				      
+			 </table>
+	                    
+	               
+	               </td>
+	               
+	               <td width="300">
+	                   <table  class="table table-bordered"  style="border: 2px solid blue;height:100%;width:100%;margin:0;padding:0;">
+			               <tr style="margin:0;padding:0;">
+			               
+			                  <td> <strong><center>Retour Marchandise</center> </strong></td>
+			            
+					</tr>
+					
+					<tr  style="margin:0;padding:0;">
+			               
+			                   <td> <strong><center>Visa RM</center></strong></td>
+			            
+					</tr>
+					
+					<tr  style="margin:0;padding:0;">
+			               
+			                    <td> <strong><center>Visa Chef contrôleur </center></strong></td>
+			             
+				        </tr>
+				        <tr  style="margin:0;padding:0;">
+			               
+			                    <td> <strong><center>Visa S.A.V.</center></strong></td>
+			             
+				        </tr>
+				        <tr  style="margin:0;padding:0;">
+			               
+			                    <td> <strong><center>Visa Prestataire</center></strong></td>
+			             
+				        </tr>
+				      
+			 </table>
+	                    
+	               
+	               </td>
+	               </tr>
+	              
+	              
+	              </table>
+	              
+	              
+	              
+	              <table class="table table-bordered"  style="border: 2px solid blue;height:100%;width:100%;margin:0;padding:0;">
+	              
+	               
+	                <tr style="border: 2px solid blue;height:100%;width:100%;margin:0;padding:0;">
+	                
+	                    <td width="700" >
+	                    
+	                        <table  class="table table-bordered"  style="border: 2px solid blue;height:100%;width:100%;margin:0;padding:0;">
+			              <tr style="margin:0;padding:0;">
+			              
+			               <td width="1000">
+			               
+			                    <strong><center>Reçu Client</center></strong><br/><br/>
+			               
+			               
+			               
+			                </td>
+			              </tr>
+			              
+			              
+			               
+			             <tr style="margin:0;padding:0;">
+			             
+			             <td width="1000">
+			             
+			                <strong> <span>Dates: </span></strong>
+			                <span t-field="doc.date"/>
+			                <br/>
+	                             
+	                                <strong> <span>Observations: </span></strong>
+	                                <!-- <span t-field="doc.fournisseur"/> -->
+	                                <br/><br/>
+	                
+	                                <strong> <span>Reçu Conforme et en bon Etat: </span></strong>
+	                                <!-- <span t-field="doc.fournisseur"/> -->
+	                                <br/><br/><br/>
+				 </td>
+					
+					</tr>
+				      
+				  </table>
+					    
+	                    
+	                    </td>
+	                    
+	                    
+	                    <td width="300">
+	                    
+	                       <table  class="table table-bordered"  style="border: 2px solid blue;height:100%;width:100%;margin:0;padding:0;">
+			                <tr style="margin:0;padding:0;">
+			               
+			                   <td> <strong><center>Visa Client</center> </strong></td>
+			            
+					</tr>
+					
+					<tr  style="margin:0;padding:0;">
+			               
+			                   <td> <strong><center>Visa chef contrôleur</center></strong></td>
+			            
+					</tr>
+					
+					<tr  style="margin:0;padding:0;">
+			               
+			                    <td> <strong><center>Visa S.A.V.</center></strong></td>
+			             
+					</tr>
+				      
+				  </table>
+	                    
+	                    
+	                    </td>
+	                </tr>
+	              </table>
+	        </div>
+	    </t>
+	</template>
+
+	<template id="report_helpdesk">
+	    <t t-call="web.html_container">
+	        <t t-foreach="docs" t-as="doc">
+	            <t t-call="wt_helpdesk.report_helpdesk_document" t-lang="doc.client_id.lang"/>
+	        </t>
+	    </t>
+	</template>
+
+</odoo>

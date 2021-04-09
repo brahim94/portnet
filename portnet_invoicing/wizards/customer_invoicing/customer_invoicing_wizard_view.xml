@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <!-- customer invoicing wizard -->
+
+        <record id="customer_invoicing_wizard_view" model="ir.ui.view">
+            <field name="name">customer.invoicing.wizard.view</field>
+            <field name="model">customer.invoicing.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Confirmation de la demande">
+                        <div>
+                             <p class="oe_grey">
+                                   Cet assistant vous permet de générer une facture des opérations effectuées pour le client choisi au cours de la période selectionnée.
+                                   Ces opérations ne seront plus à facturer par le planificateur mensuel à la fin de la période choisie.
+                             </p>
+
+                        </div>
+                        <group col="4">
+
+                                <field name="partner_id" required="True" on_change="onchange_partner(partner_id)"/>
+                                <field name="period_id" required="True"/>
+                                <field name="date_invoice" readonly="1" />
+                                <field name="operation_id" required="True" />
+
+                        </group>
+                    <footer>
+                        <button string="Confirmer" class="oe_highlight" type="object" name="action_confirm"/>
+                        <button string="Annuler" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+         <record model="ir.actions.act_window" id="action_customer_invoicing_wizard_view">
+                <field name="name">Facturation à la demande</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">customer.invoicing.wizard</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">form</field>
+                <field name="target">new</field>
+         </record>
+
+         <menuitem id="menu_customer_invoicing_wizard" name="Facturation à la demande"
+                      action="action_customer_invoicing_wizard_view" parent="account.menu_finance_receivables"
+                    groups="base.group_sale_manager,account.group_account_manager" />
+
+
+    </data>
+</openerp>

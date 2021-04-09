@@ -1,0 +1,148 @@
+<odoo>
+
+    <report
+        id="action_report_appel_offre_ar"
+        model="newspaper.publication"
+        string="Avis Appel Offre"
+        report_type="qweb-pdf"
+		name="tech_reports_extention.ar"
+		print_report_name="'Avis Appel Offre'"/>
+
+        <template id="ar">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.internal_layout">
+
+             <style>
+                
+                table, th, td {
+                border: 1px solid black;
+                
+                }
+                
+                table.centre {
+                    margin-left:auto; 
+                    margin-right:auto;
+                    width:100%;
+                }
+                table.empty {
+                    width:350px;
+                    empty-cells:show;
+                }
+                td.empty {
+                    padding:15px;
+                    border: 1px solid black;            
+                }
+                div.a{
+                text-indent: 50px;
+                }
+                div {
+                margin-top:50px;
+                }
+                div.n{
+                margin-top: -20px;
+                margin-left:50px;
+                }        
+                br.b{
+                text-indent: 50px;
+                }
+                th.mark, td.mark {
+                background-color: #e8e6e6;
+                color: black;
+                }
+                div.s {
+                width: 90%;
+                border: 1px solid;
+                box-shadow: 1px 3px #888888;
+                text-align:center;
+                }
+                td.nobord {
+                border: none;
+                } 
+                th.nobord {
+                border: none;
+                }
+                table.nobord{
+                border: none;
+                }
+                td.empty {
+            
+            border: 1px solid black;
+            
+         }
+         </style>
+                
+            <div style="vertical-align:center;text-align: center" class="cls_039">
+                <h4><strong><u> إعـــــــلان عـن طـلــــب عـــــروض مـفتـــــوح جلـــســــــة عـمــــــومـــيــــــة رقم
+                </u></strong></h4>
+                  <h4><strong><u>   <span t-field="o.requisition_id.tender_number"/></u></strong></h4>
+            </div>
+
+<!-- 
+                    <table  class="centro empty" width="50%">
+                            <tr>
+                                <th class="nobord" style="text-align: left">Visa d’engagement :</th>
+                                <td  style="text-align:left" > </td>
+                            </tr>
+                    
+                    </table> -->
+
+                        <div style="vertical-align:center;text-align: right" class="a">
+
+                        <table class="centre nobord" width="30%">
+                        
+                            <tr>
+                               <td style="text-align: right" class="nobord"> <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%HH:%MM')"/></td><td style="text-align: left" class="nobord"> على الساعة </td>
+                                <td style="text-align: right" class="nobord">  <span t-field="o.requisition_id.submission_date"/></td><td style="text-align: left" class="nobord"> في يوم</td>
+                            </tr>
+                    
+                        </table>
+
+
+                    <!-- <div style="float:left"><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%HH:%MM')"/></div><div style="float:left">على الساعة</div><div style="float:left"> في يوم <span t-field="o.requisition_id.submission_date"/></div> -->
+                        <br>   سيتــم فـي قــاعــة الاجـتمـاعــات للمـدرسـة الوطنيـة العليــا للمعادن بالرباط، شـارع الحـاج أحمـد الشـرقـاوي، أكــدال، الربـاط </br> 
+                        <br> في حصة واحدة  « <span t-field="o.requisition_id.project_scope"/> » فتـح الأظـرفـة المتعلقـة بطلـب العـروض مفتوح بعروض أثمــان لأجل</br>
+                    </div>
+                     
+              
+                        <div style="vertical-align:center;text-align: right" class="a">
+                            يمكـن سحـب مـلـف طلـب العـروض من مكتـب مصلحة الصفقـات و المعدات للمـدرسـة الوطنيـة العليــا للمعادن بالرباط
+                        <br>   شـارع الحـاج أحمـد الشـرقـاوي، أكــدال، الربـاط ، كما يمكن تحميله من البوابة الإلكترونية الخاصة بالصفقات </br> 
+                        <br>.www.marchespublics.gov.ma : العمومية       </br>
+                        </div>
+
+                        <div style="vertical-align:center;text-align: right" class="a">                            
+                                      حـدد الضمان المـؤقت فـي مبلغ  (<span t-field="o.requisition_id.montant_ttc_marche"/>) <span t-field="o.requisition_id.text_amount"/>     درهم
+                            <br>.  كلفة تقدير الأعمال محددة من طرف صاحب المشروع في مبلغ   (<span t-field="o.requisition_id.montant_ttc_marche"/>) <span t-field="o.requisition_id.text_amount"/>  درهم مع احتساب الرسوم</br>
+                        <br>يجب أن يكون كل من محتوى و تقديم و إيداع ملفات المتنافسين مطابقا لمقتضيات المواد 27 و  29 و 31 من المرسوم رقـم 2-12- 349 المتعلق بالصفقات العمومية</br>
+                       </div>
+                       <div style="vertical-align:center;text-align: right" class="a">
+                            <br> : و يمكـن للمتنـافسيـن </br>        
+                        
+                            <br>	إمـا إيــداع أظرفتهم، مقـابــل وصــل بمكتـب مصلحة الصفقــات و المعدات بالمـدرسـة بالعنوان المذكور أعلاه -</br>
+                            <br>	إمـا إرسـالها عـن طـريـق البـريـد المضمـون بإفادة بالاستلام إلى المكتب المذكور -</br>
+                            <br> 	إمــا تسليمهـا مبـاشـرة لـرئيـس مكتـب طلب العـروض عـنـد بـدايـة الجلسـة و قبـل فتـح لأظـرفـة -</br>
+                        
+                        </div>
+
+                        
+                        <div style="vertical-align:center;text-align: right" class="a">
+                            طبقا للمادة 34 من المرسوم المذكور، و المادة رقم ..........من نظام الاستشارة، فإن العينات/البيانات/الوثائق 
+                     <br>الوصفية/الوثائق التقنية التي يستوجبهـا ملف طلب العروض يجب إيداعهـا ب.....................................  للمؤسسة على </br> 
+                        <br>  أبعد تقدير يوم ...............................2016 خلال ساعات العمل</br>
+                        </div>
+                    
+                    <div style="vertical-align:center;text-align: right" class="a">
+إن الوثـائق المثبتة الواجب الإدلاء بهـا هـي تلـك المنصوص عليها فـي المادة 25 مـن المـرسـوم المشار إليه أعـلاه، و  
+                     <br> المادة رقم ............... من نظام الاستشارة. </br> 
+                        </div>
+
+                    
+
+                
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

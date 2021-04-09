@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+
+                   
+        <record id="seq_res_contract" model="ir.sequence.type">
+            <field name="name">Contrat</field>
+            <field name="code">res.contract.seq</field>
+        </record>
+
+        <record id="seq_contract" model="ir.sequence">
+            <field name="name">Contrat</field>
+            <field name="code">res.contract.seq</field>
+            <field name="prefix">CTR</field>
+            <field name="padding">8</field>
+        </record>
+        
+    
+    </data>
+</openerp>

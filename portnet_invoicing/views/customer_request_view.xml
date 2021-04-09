@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+       <record model="ir.ui.view" id="customer_request_form_view">
+                <field name="name">customer.request.form.view</field>
+                <field name="model">customer.request</field>
+                <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <form string="Demandes de création client" version="8.0" >
+                    	<header>
+                            <button name="action_confirm" string="Confirmer" class="oe_highlight" type="object" states="draft"  />
+	                        <field name="state" widget="statusbar" />
+                    	</header>
+                    	<sheet>
+                            <group col="4">
+                                <group colspan="2">
+                                    <field name="code" readonly="1"/>
+                                    <field name="rc" readonly="1"/>
+                                    <field name="centre_rc" readonly="1"/>
+                                </group>
+                                <group colspan="2">
+                                    <field name="ifu" readonly="1"/>
+                                    <field name="code_categ" readonly="1"/>
+                                </group>
+                            </group>
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+            
+           <record model="ir.ui.view" id="customer_request_tree_view">
+                <field name="name">customer.request.tree.view</field>
+                <field name="model">customer.request</field>
+                <field name="type">tree</field>
+                <field name="arch" type="xml">
+                    <tree string="Demandes de création client" colors="blue:state == 'draft';green:state == 'confirmed'" create="false">
+                        <button name="link_to_customer" string="Fiche client" icon="terp-personal" type="object" states="confirmed" groups="account.group_account_manager,purchase.group_purchase_manager,base.group_sale_manager,portnet_invoicing.group_agent" />
+                        <button name="action_confirm" string="Confirmer" icon="gtk-apply" type="object" states="draft" groups="account.group_account_manager,purchase.group_purchase_manager,base.group_sale_manager,portnet_invoicing.group_agent"/>
+                        <field name="create_date" readonly="1" string="Date de création"/>
+                        <field name="code" required="1" />
+                        <field name="name"/>
+                        <field name="rc"/>
+                        <field name="centre_rc"/>
+                        <field name="ifu"/>
+                        <field name="code_categ" required="1"/>
+                        <field name="state" readonly="1"/>
+                        <field name="confirmation_date" readonly="1"/>
+                        <field name="subscribed"/>
+                        <button name="action_cancel" string="Annuler" icon="gtk-cancel" type="object" states="draft" groups="account.group_account_manager"/>
+                        <button name="action_draft" string="Brouillon" icon="gtk-go-back" type="object" states="canceled" groups="account.group_account_manager"/>
+                    </tree>
+                </field>
+            </record>
+
+
+            <record model="ir.actions.act_window" id="action_customer_request_tree_view">
+                <field name="name">Demandes de création client</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">customer.request</field>
+                <field name="context" eval="{'search_default_draft_requests':0}"/>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree</field>
+		<field name="view_id" ref="customer_request_tree_view"/>
+            </record>
+
+            <menuitem name="Sales"
+            id="base.menu_base_partner"
+            groups="base.group_sale_salesman,base.group_sale_manager,portnet_invoicing.group_agent,account.group_account_manager"/>
+            <menuitem id="base.menu_sales" parent="base.menu_base_partner" name="Sales" sequence="1" groups="base.group_sale_salesman,base.group_sale_manager,portnet_invoicing.group_agent,account.group_account_manager"/>
+            <menuitem id="menu_customer_request" name="Demandes de création client" parent="base.menu_sales" sequence="1" action="action_customer_request_tree_view" groups="base.group_sale_salesman,base.group_sale_manager,portnet_invoicing.group_agent,account.group_account_manager" />
+
+            <!-- Altered view for customer request export (hidden buttons )-->
+            <record model="ir.ui.view" id="customer_request_review_tree_view">
+                <field name="name">customer.request.review.tree.view</field>
+                <field name="model">customer.request</field>
+                <field name="type">tree</field>
+                <field name="arch" type="xml">
+                    <tree string="Demandes de création client" colors="blue:state == 'draft';green:state == 'confirmed'" create="false" delete="false">
+                        <field name="create_date" readonly="1" string="Date de création"/>
+                        <field name="code" required="1" />
+                        <field name="name"/>
+                        <field name="rc"/>
+                        <field name="centre_rc"/>
+                        <field name="ifu"/>
+                        <field name="code_categ" required="1"/>
+                        <field name="state" readonly="1"/>
+                        <field name="confirmation_date" readonly="1"/>
+                        <field name="subscribed"/>
+                    </tree>
+                </field>
+            </record>
+
+            <record model="ir.actions.act_window" id="action_customer_request_review_tree_view">
+                <field name="name">Demandes de création client</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">customer.request</field>
+                <field name="context" eval="{'search_default_draft_requests':0}"/>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree</field>
+                <field name="view_id" ref="customer_request_review_tree_view"/>
+            </record>
+
+            <menuitem id="menu_customer_request_review" name="Créations client" parent="base.menu_sales" sequence="1"
+                  action="action_customer_request_review_tree_view" groups="base.group_sale_manager,account.group_account_manager" />
+            <!-- Altered view for customer request export (hidden buttons )-->
+
+
+         <!-- Début Vue search -->
+            <record id="customer_request_search_view" model="ir.ui.view">
+                <field name="name">customer.request.search.view</field>
+                <field name="model">customer.request</field>
+                <field name="arch" type="xml">
+                    <search>
+
+                        <field name="code"/>
+                        <field name="rc"/>
+                        <field name="ifu"/>
+                        <field name="code_categ"/>
+
+                        <filter string="Confirmées" name="confirmed_requests" domain="[('state','=','confirmed')]"/>
+                        <filter string="Brouillon" name="draft_requests" domain="[('state','=','draft')]"/>
+
+                        <group string="Grouper par">
+                            <filter name="code_categ" string="Catégorie" context="{'group_by':'code_categ'}"  />
+                            <filter name="state" string="Etat" context="{'group_by':'state'}"  />
+                        </group>
+
+                    </search>
+                </field>
+            </record>
+            <!-- Fin Vue search -->
+
+
+
+
+    </data>
+</openerp>

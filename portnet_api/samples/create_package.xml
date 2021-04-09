@@ -1,0 +1,108 @@
+<methodCall>
+    <methodName>execute</methodName>
+        <params>
+            <param>
+                <value><string>v8_adnane_portnet</string></value>
+            </param>
+            <param>
+                <value><int>1</int></value>
+            </param>
+            <param>
+                <value>
+                    <string>admin</string>
+                </value>
+            </param>
+            <param>
+                <value>
+                    <string>res.contract</string>
+                </value>
+            </param>
+            <param>
+                <value>
+                    <string>create_package</string>
+                </value>
+            </param>
+            <param>
+                <value>
+                    <struct>
+                        <member>
+                            <name>name</name>
+                            <value><string>PRE-BNK-1111000</string></value>
+                            <name>partner_categ_id</name>
+                            <value><string>BANQUES</string></value>
+                            <name>active_package</name>
+                            <value><string>Actif</string></value>
+                            <name>criteria_factures</name>
+                            <value><string>Escale</string></value>
+                            <name>parameter_decompte</name>
+                            <value><string>Envoi du manifeste</string></value>
+                            <name>type_paiment</name>
+                            <value><string>prepaiement</string></value>
+                            <name>transaction_no</name>
+                            <value><string>transaction_limit</string></value>
+                            <name>transaction_no_limit</name>
+                            <value><int>20</int></value>
+                            <name>amount</name>
+                            <value><double>3500.20</double></value>
+                            <name>periodicity_id</name>
+                            <value><string>Trimestriel</string></value>
+                            <name>debut_validate</name>
+                            <value><string>date_reglement</string></value>
+                            <name>validate_package</name>
+                            <value><string>fin_dannee</string></value>
+                            <name>tacite</name>
+                            <value><boolean>0</boolean></value>
+                            <name>type_service</name>
+                            <value><string>tranches</string></value>
+                            <name>service_fee</name>
+                            <value><double>1500</double></value>
+                            <name>type_service_line_ids</name>
+                            <value>
+                                <array>
+                                    <data>
+                                        <!-- Start array -->
+                                        <value>
+                                            <array>
+                                                <data>
+                                                    <!-- slice_from-->
+                                                    <value><string>1</string></value>        
+                                                </data>
+                                                <data>
+                                                    <!-- slice_to-->
+                                                    <value><string>20</string></value>  
+                                                </data>
+                                                <data>
+                                                    <!-- fee-->
+                                                    <value><string>100</string></value>
+                                                </data>
+                                            </array>
+                                        </value>
+                                        <value>
+                                            <array>
+                                                <data>
+                                                    <!-- slice_from-->
+                                                    <value><string>11</string></value>
+                                                </data>
+                                                <data>
+                                                    <!-- slice_to-->
+                                                    <value><string>50</string></value>         
+                                                </data>
+                                                <data>
+                                                    <!-- fee-->
+                                                    <value><string>800</string></value>         
+                                                </data>
+                                            </array>
+                                        </value>
+                                    </data>
+                                </array>
+                            </value>
+                            <name>description_package</name>
+                            <value><string>package de xxxx</string></value>
+                            <name>date_create</name>
+                            <value><dateTime.iso8601>2020-10-17</dateTime.iso8601></value>
+                        </member>
+                    </struct>
+                </value>
+            </param>
+        </params>
+</methodCall>

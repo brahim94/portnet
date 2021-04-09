@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <!-- subscriptioncustomer subscription wizard -->
+
+        <record id="customer_subscription_wizard_view" model="ir.ui.view">
+            <field name="name">customer.subscription.wizard.view</field>
+            <field name="model">customer.subscription.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Validation">
+                        <group col="4">
+                            <group colspan="2">
+                                <field name="etl" invisible="1" />
+                                <field name="date" attrs="{'invisible': [('etl','=',True)],'required': [('etl','=',False)]}" />
+                                <field name="nb_customers" readonly="1" attrs="{'invisible': [('etl','=',False)]}"/>
+                            </group>
+                        </group>
+                    <footer>
+                        <button string="Valider" class="oe_highlight" type="object" name="action_subscribe"/>
+                        ou
+                        <button string="Annuler" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_customer_subscription_wizard"
+                    name="Générer facture(s) d'abonnement"
+                    res_model="customer.subscription.wizard"
+                    src_model="res.partner"
+                    view_mode="form"
+                    target ="new"
+                    context="{'action_etl':True}"
+                    key2="client_action_multi"
+                    />
+
+        
+
+    </data>
+</openerp>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2018-2019 ForgeFlow, S.L.
+     License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl-3.0) -->
+<odoo>
+
+    <record model="ir.module.category" id="module_category_market_execution">
+        <field name="name">Market Execution</field>
+        <field name="parent_id" ref="base.module_category_purchase_management"/>
+        <field name="sequence">10</field>
+    </record>
+
+    <record id="group_market_execution_achat" model="res.groups">
+        <field name="name">Responsable achat</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="category_id" ref="module_category_market_execution"/>
+    </record>
+
+    <record id="group_market_execution_controleur" model="res.groups">
+        <field name="name">Controleur de budget</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="category_id" ref="module_category_market_execution"/>
+    </record>
+
+</odoo>

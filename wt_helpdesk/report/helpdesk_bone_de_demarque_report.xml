@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="report_helpdesk_bon_de_demarque_document">
+      <t t-call="web.external_layout">
+          <t t-set="doc" t-value="doc.with_context(lang=doc.client_id.lang)" />
+          
+          
+           <div class="page">
+                <div class="oe_structure"/>
+                
+                <h3 colspan="2"> <center>BON DE DÉMARQUE : <span t-field="doc.name"/></center></h3>
+                
+                
+                <table class="table table-bordered"  style="border: 2px solid blue;height:100%;width:100%;margin:0;padding:0;">
+                
+                
+                <tr style="border: 2px solid blue;height:100%;width:100%;margin:0;padding:0;">
+                 
+                    <td>
+                      <strong><span>N° Réclamation:</span> </strong>
+                      <span t-field="doc.name"/>
+                      <br/>
+                    </td>
+                    
+                    <td>
+                      <strong><span>MOTIF:</span> </strong>
+                      <span t-field="doc.motif_id"/>
+                      <br/>
+                    </td>
+                 
+                 </tr>
+                 
+                 <tr style="border: 2px solid blue;height:100%;width:100%;margin:0;padding:0;">
+                 
+                    <td>
+                      <strong><span>RAYON:</span> </strong>
+                      <!-- <span t-field="doc.name"/> -->
+                      <br/>
+                    </td>
+                    
+                    <td>
+                      <strong><span>CHEF DE RAYON:</span> </strong>
+                      <!-- <span t-field="doc.name"/> -->
+                      <br/>
+                    </td>
+                
+                 </tr>
+                 
+                 <tr style="border: 2px solid blue;height:100%;width:100%;margin:0;padding:0;">
+                 
+                    <td colspan='2'>
+                      <strong><span>OBSERVATION:</span> </strong>
+                      <span t-field="doc.remarque"/>
+                      <br/>
+                    </td>
+                    
+                </tr>
+                </table>
+                <br/><br/><br/><br/>
+                
+                 <table class="table table-bordered"  style="border: 2px solid blue;height:100%;width:100%;margin:0;padding:0;">
+                
+                 <tr style="border: 2px solid blue;height:100%;width:100%;margin:0;padding:0;">
+                 
+                    <td> <strong><span>Code</span> </strong></td>
+                    <td> <strong><span>Désignation</span> </strong></td>
+                    <td> <strong><span>Quantité</span> </strong></td>
+                
+                  </tr>
+                  
+                  <tr style="border: 2px solid blue;height:100%;width:100%;margin:0;padding:0;">
+                 
+                    <td><span t-field="doc.article_code"/></td>
+                    <td><span t-field="doc.article_id"/></td>
+                    <td><span>1</span></td>
+                
+                  </tr>
+                   <tr style="border: 2px solid blue;height:100%;width:100%;margin:0;padding:0;">
+                 
+                    <td> </td>
+                    <td>  </td>
+                    <td> </td>
+                
+                  </tr>
+                
+               
+                </table>
+                
+                <br/><br/><br/><br/><br/>
+                
+                
+                <table  class="table table-bordered"  style="border: 2px solid blue;height:100%;width:100%;margin:0;padding:0;">
+       <tr>             
+                   
+              <td> <strong><center>Visa de contrôleur</center> </strong><br/><br/></td>
+                  
+               <td> <strong><center>Visa Chef de Rayon</center></strong><br/><br/></td>
+                <td> <strong><center>Visa Responsable Démarque</center></strong><br/><br/></td>
+                      </tr> 
+                      <tr>             
+                   
+              <td class="text-center"> <strong>Date</strong>
+              <span t-field="doc.date"/>
+            </td>
+                  
+                <td class="text-center"> <strong>Date</strong>
+                <span t-field="doc.date"/>
+                </td>
+                <td class="text-center"> <strong>Date</strong>
+                <span t-field="doc.date"/>
+                </td>
+                      </tr> 
+               </table>
+          </div>
+      </t>
+  </template>
+  <template id="report_helpdesk_bon_de_demarque">
+      <t t-call="web.html_container">
+          <t t-foreach="docs" t-as="doc">
+              <t t-call="wt_helpdesk.report_helpdesk_bon_de_demarque_document" t-lang="doc.client_id.lang"/>
+          </t>
+      </t>
+  </template>
+
+</odoo>

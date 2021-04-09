@@ -1,0 +1,135 @@
+<odoo>
+
+    <report
+        id="action_report_engagmnt"
+        model="market.execution"
+        string="Lettre d Engagement"
+        report_type="qweb-pdf"
+		name="tech_reports_extention.enga"
+		print_report_name="'Lettre d Engagement'"/>
+
+        <template id="enga">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.internal_layout">
+                <style type = "text/css">
+         table.centro {
+                    margin-left:auto; 
+                    margin-right:auto;
+                    }
+                    
+         
+         table.empty {
+            width:350px;
+            empty-cells:show;
+         }
+         td.empty {
+            padding:15px;
+            border: 1px solid black;
+          
+         }
+         td.bord {
+            border: 1px solid black;
+            
+         }
+         th {
+            border: 1px solid black;
+            }
+        table.centre {
+                    margin-left:auto; 
+                    margin-right:auto;
+                    width:100%;
+                    }
+        .inline { 
+           display: inline; 
+        }
+        th.nobord {
+        border: none;
+         }
+        
+        div.m {
+        margin-top:30px;
+        }
+        table.marg {
+                margin-top:100px;
+                }
+                
+      </style>
+                <div style="vertical-align:center;text-align: center" class="m">
+                </div>
+
+                <div style="vertical-align:center;text-align: center" class="m">
+                    <strong><h4>FICHE D’ENGAGEMENT EXERCICE : <span t-field="o.tech_budget_id.list_of_years"/></h4></strong>
+                </div>
+
+                <table class="centre empty marg">
+                        <tr>
+                            <tr>
+                                <th  style="text-align: center;width:30%">N° de marché</th>
+                                <td  class="bord" style="text-align:center" ><span t-field="o.name"/> </td>
+
+                            </tr>
+                            <tr>
+                                <th  style="text-align: center;width:30%">Objet du marché</th>
+                                <td  class="bord" style="text-align:center" ><span t-field="o.purchase_requisition.project_scope"/></td>
+                            </tr>
+                            <t t-if="o.purchase_requisition.lot_type  == 'lot_multiple' ">
+                                <tr>
+                                    <th  style="text-align: center;width:30%">N° de lot</th>
+                                    <td class="bord" style="text-align:center"><span t-field="o.purchase_order.lot_number"/></td>
+                                </tr>
+                            </t>
+                            <tr>
+                                <th  style="text-align: center;width:30%">Titulaire du marché</th>
+                                <td  class="bord" style="text-align:center" ><span t-field="o.partner_id"/></td>
+                            </tr>
+                            <tr>
+                                <th  style="text-align: center;width:30%">Montant TTC du marché</th>
+                                <!-- <td  class="bord" style="text-align:center"><span t-field="o.purchase_requisition.montant_ttc_marche"/></td> -->
+                                <td  class="bord" style="text-align:center"><span t-field="o.engagement_amount"/></td>
+                            </tr>
+                                                       
+                        </tr>
+                    
+                    </table>
+
+                    <table class="centre empty marg">
+                    <thead>
+                            <tr>
+                                <th style="text-align: center" >Crédit Ouvert En Dirhams</th>
+                                <th style="text-align: center" >Rubrique Budgétaire</th>
+                                <th style="text-align: center">Engagements Antérieurs</th>
+                                <th style="text-align: center;width:20%">Disponible</th>
+                                <th style="text-align: center">Montant du marché à Engager</th>
+                                <th style="text-align: center">Nouveau Disponible</th>
+
+                            </tr>
+                    </thead>
+                    <tbody>
+                        <!-- <t t-foreach="o.purchase_ids" t-as="line"> -->
+                            <tr>
+                                <td class="bord"  style="text-align: center"><span t-field="o.credit_inscrit"/></td>
+                                <td class="bord"  style="text-align: center"><span t-field="o.rubrique_id"/></td>
+                                <td class="bord"  style="text-align: center"><span t-field="o.total_engage"/></td>
+                                <td  class="bord" style="text-align: center"><span t-field="o.credit_disponible"/></td>
+                                <td  class="bord" style="text-align: center"><span t-field="o.engagement_amount"/></td>
+                                <td  class="bord" style="text-align: center"><span t-esc="o.credit_disponible - o.engagement_amount"/></td>
+
+                            </tr>
+                        <!-- </t> -->
+                        
+                    </tbody>
+                </table>
+
+                <div style="vertical-align:center;text-align: right" class="m">
+                    <strong>Signature du Directeur de l’ENSMR  </strong>
+                </div>
+
+
+
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

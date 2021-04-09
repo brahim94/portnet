@@ -1,0 +1,59 @@
+<odoo>
+
+    <report
+        id="action_report_non_retenu"
+        model="purchase.requisition"
+        string="Lettre Non Retenu"
+        report_type="qweb-pdf"
+		name="tech_reports_extention.attributaire"
+		print_report_name="'Lettre d Information (non retenu)'"/>
+
+    <template id="attributaire">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.internal_layout">
+
+            <style>
+            div.marg {
+            margin-top:80px;
+            }
+            div.a{
+            text-indent: 50px;
+            }
+            </style>
+
+
+                <div style="vertical-align:center;text-align: center" class="a marg">
+                        Le président de la commission 
+                        <br>A</br>
+                        <br>Monsieur le (qualité de la personne représentant le concurrent) de la Société :</br>
+                        <br>Nom de la société …………………….</br>
+                        <br>Adresse ………………………(1)</br>
+                </div>
+                    
+                <div style="vertical-align:center;text-align: left" class="a marg">
+                    <strong>Objet :</strong>  Appel d’Offres N° ……… du …………, relatif à …………
+                </div>
+                    
+                
+                <div style="vertical-align:center;text-align: left" class="marg a">
+                    <p>J’ai l’honneur de vous informer que la commission chargée d’examiner les plis relatifs à l’appel d’offres cité en objet,  
+                        <br>  n’a pas retenu votre proposition pour le motif suivant :</br></p>
+                </div>
+                
+                <div style="vertical-align:center;text-align: left" class="a">
+                        <p>•	 ………………………………………………</p>
+                </div>
+
+                <div style="vertical-align:center;text-align: left" class="a">
+                        <p>Par conséquent, vous êtes invité à retirer votre dossier auprès du Service des marchés et matériel de l’Ecole 
+                        <br>Nationale Supérieure des Mines de Rabat.</br></p>
+                </div>
+                     
+
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+
+    	<record id="view_tree_quarterly_indicators_monitoring_budget_report" model="ir.ui.view">
+            <field name="name">quarterly.indicators.monitoring.budget.report.tree</field>
+            <field name="model">quarterly.indicators.monitoring.budget.report</field>
+            <field name="arch" type="xml">
+                <tree create="false" string="Indicateurs trimestriels de suivi du budget" editable="top">
+                    <field name="name" readonly="1" />
+                    <field name="rubrique" readonly="1" />
+                    <field name="initial_credit" readonly="1" />
+                    <field name="engagement" readonly="1" />
+                    <field name="taux" readonly="1" />
+                    <field name="comment" />
+                    <field name="line_id" invisible="1" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="quarterly_indicators_monitoring_budget_report_search_view" model="ir.ui.view">
+            <field name="name">quarterly.indicators.monitoring.budget.report.search.view</field>
+            <field name="model">quarterly.indicators.monitoring.budget.report</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="rubrique"/>
+
+                    <group string="Grouper par">
+                        <filter name="group_by_rubrique" string="Rubrique" context="{'group_by':'rubrique'}"  />
+                    </group>
+
+                </search>
+            </field>
+        </record>
+
+   </data>
+</openerp>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="folder_path_setting_form_view2" model="ir.ui.view">
+            <field name="name">folder.path.setting.form2</field>
+            <field name="model">folder.path.setting</field>
+            <field name="inherit_id" ref="portnet_invoicing.folder_path_setting_form_view"/>
+            <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='invoices_folder']" position="after">
+                <field name="odoo_payments_folder" attrs="{'readonly':[('state','=','confirmed')]}" />
+                <separator string="Entrées" colspan="4"/>
+                <field name="portnet_payments_folder" attrs="{'readonly':[('state','=','confirmed')]}" />
+                <field name="cheque_state_folder" attrs="{'readonly':[('state','=','confirmed')]}" />
+                <field name="etebac3_folder" attrs="{'readonly':[('state','=','confirmed')]}" />
+            </xpath>
+
+
+            </field>
+        </record>
+
+
+    </data>
+</openerp>

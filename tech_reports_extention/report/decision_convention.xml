@@ -1,0 +1,113 @@
+<odoo>
+
+    <report
+        id="action_report_decision"
+        model="purchase.requisition"
+        string="Decision de convention"
+        report_type="qweb-pdf"
+		name="tech_reports_extention.decision"
+		print_report_name="'Decision de convention'"/>
+
+        <template id="decision">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.internal_layout">
+
+          <div>              
+            <div style="vertical-align:center;text-align: center" class="cls_009">
+                <strong><h4><u> DECISION </u></h4></strong>
+                <br>DU DIRECTEUR DE L’ECOLE NATIONALE</br>
+                <br>SUPERIEURE DES MINES DE RABAT</br>
+                <br></br>
+                <br>***********</br>
+                <br></br>
+                <br>LE DIRECTEUR DE L’ECOLE NATIONALE</br>
+                <br>SUPERIEURE DES MINES DE RABAT</br>
+                <br></br>
+                <br>***********</br>
+
+            </div>
+            </div>
+
+            <div style="vertical-align:center;text-align: left" class="a">
+                <ul>
+                <li>Vu le dahir n° 1-14-08 du 20 Rabii II 1435 (20 Février 2014) portant promulgation de la loi n°89-12 relative à l'Ecole
+                    <br>Nationale Supérieure des Mines de Rabat (l'ENSMR), publiée au Bulletin Officiel N° 6238 du 11 Joumada I  1435 (13 Mars 2014) ;</br>
+                </li>
+                <li>Vu le décret n° ……………………………………………. portant nomination de ……………………………………. Directeur de l'Ecole
+                    <br> Nationale Supérieure des Mines de Rabat ;</br>
+                </li>
+                <li>Vu l'arrêté n°  2-2675 du 25 Mai 2005 portant organisation financière et comptable de l'Ecole
+                    <br> Nationale Supérieure des Mines de Rabat; (Ex ENIM). ;</br>
+                </li>
+                <li>Vu le décret N° 2.12.349 Du 8 joumada I 1434 (20/03/2013) relatif aux marchés publics notamment, le paragraphe 2 de l’article 35.
+                    <br></br>
+                </li>
+             </ul>  
+            </div>
+    
+                     
+            <div style="vertical-align:center;text-align: center" class="cls_009">
+                <strong><h4><u> Decide </u></h4></strong>
+            </div>   
+
+            <div style="vertical-align:center;text-align: left" class="cls_009">
+                <strong><h4><u> ARTICLE UNIQUE :  </u></h4></strong>
+            </div>   
+            
+                                
+            <div style="vertical-align:center;text-align: left" class="a">
+                Les membres représentant le maître d’ouvrages au sein de la commission d’Appel d’Offres Ouvert                 <br> des Mines de Rabat sise Avenue Hadj Ahmed Cherkaoui Agdal-Rabat à l’ouverture des plis relatifs </br>
+                <br>sur Offres de prix N° ………………….. relatif à ‘‘…………………………………………………..’’; sont désignés comme suit:</br>
+            </div>
+<!-- 
+            <div style="vertical-align:center;text-align: left" class="a">
+                <strong><h4><u> PRESIDENT :  </u></h4></strong>
+            </div> -->
+
+                <table class="centre empty">
+                        <tr>
+                            <tr>
+                                <th  rowspan='2' style="text-align: left;width:40%"><strong><h4><u>PRESIDENT :</u></h4></strong></th>
+
+                            </tr>
+                            <tr>
+                                <td class="empty" style="text-align:left" >Mr : ………………………, représentant le directeur de l’ENSMR</td>
+                            </tr>
+                                                       
+                        </tr>
+                    
+                    </table>
+
+
+                <table class="centre empty">
+                        <tr>
+                            <tr>
+                                <th  rowspan='5' style="text-align: left;width:40%"><strong><h4><u>Membres</u></h4></strong></th>
+
+                            </tr>
+                            <tr>
+                                <td class="empty" style="text-align:left" >Mr :	………………………., représentant du maître d’ouvrage ; </td>
+                            </tr>
+
+                            <tr>
+                                <td class="empty" style="text-align:left" >Mr :	……………………., représentant du maître d’ouvrage ;</td>
+                            </tr>
+                            <tr>
+                                <td class="empty" style="text-align:left" > Mr :	………………..….., représentant le service des achats ;</td>
+                            </tr>
+                            <tr>
+                                <td class="empty" style="text-align:left" > Mr :	……………………, représentant le service financier.</td>
+                            </tr>
+                                                       
+                        </tr>
+                    
+                    </table>
+
+
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

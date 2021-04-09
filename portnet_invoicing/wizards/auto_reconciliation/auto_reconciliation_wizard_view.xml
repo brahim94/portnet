@@ -1,0 +1,124 @@
+<?xml version="1.0" ?>
+<openerp>
+  <data>
+
+    <record id="auto_reconciliation_wizard_view_form" model="ir.ui.view">
+      <field name="name">auto.reconciliation.wizard.view.form</field>
+      <field name="model">auto.reconciliation.wizard</field>
+      <field name="arch" type="xml">
+        <form string="Lettrage automatique">
+            <separator string="Letter les écritures dont le solde est à 0 AU :" colspan="4"/>
+            <group col="4">
+
+               <field name="type" />
+               <field name="account_id" attrs="{'required':[('type','!=','from_csv')],'invisible':[('type','=','from_csv')]}"
+                      domain="[('reconcile','=',1)]"/>
+              <field name="filter"  attrs="{'required':[('type','!=','from_csv')],'invisible':[('type','=','from_csv')]}" />
+            </group>
+            <group>
+                    <field name="reconcile"  attrs="{'invisible':[('type','!=','from_csv')]}" />
+                    <field name="aml_data" filename="aml_fname"
+                           attrs="{'required':[('reconcile','=',False)],'invisible':[('type','!=','from_csv')]}"/>
+                <newline/>
+                <field name="aml_fname"
+                            attrs="{'required':[('reconcile','=','False')],'invisible':[('type','!=','from_csv')]}" readonly="1"/>
+            </group>
+            <group>
+                <field name="date_from" attrs="{'invisible':[('filter','!=','date')],'required':[('filter','=','date')]}"/>
+                <field name="date_to"   attrs="{'invisible':[('filter','!=','date')],'required':[('filter','=','date')]}"/>
+            </group>
+            <group>
+                  <field name="period_ids" attrs="{'invisible':[('filter','!=','period')],'required':[('filter','=','period')]}" colspan="4"/>
+              </group>
+
+
+
+            <newline/>
+
+          <footer>
+            <button name="action_auto_reconcile" string="Lettrer" type="object" class="oe_highlight" confirm="Etes-vous sûr ?" />
+            or
+            <button string="Cancel" class="oe_link" special="cancel"/>
+          </footer>
+        </form>
+      </field>
+    </record>
+
+      <record id="auto_reconciliation_wizard_action" model="ir.actions.act_window">
+          <field name="name">Lettrage par date</field>
+          <field name="type">ir.actions.act_window</field>
+          <field name="res_model">auto.reconciliation.wizard</field>
+          <field name="view_mode">form</field>
+          <field name="target">new</field>
+      </record>
+
+      <menuitem id="autoreconcile_menu" name="Lettrage automatique (Solde 0)"  groups="account.group_account_manager" parent="account.periodical_processing_reconciliation"
+                action="auto_reconciliation_wizard_action" sequence="4"/>
+
+       <record id="auto_reconciliation_view_form" model="ir.ui.view">
+      <field name="name">reconciled.csv.aml.view.form</field>
+      <field name="model">reconciled.csv.aml</field>
+      <field name="arch" type="xml">
+       <form string="Lettrage automatique">
+            <group>
+                <field name="reconcile_ref" />
+                 <field name="to_rec" readonly="1" />
+
+            </group>
+            <group>
+                 <field name="aml_ids" mode="tree" nolablel="1">
+                     <tree string="tree">
+                            <field name="aml_id"/>
+                            <field name="aml_account"/>
+                            <field name="aml_journal"/>
+                            <field name="aml_debit"/>
+                            <field name="aml_credit"/>
+                         <field name="aml_reconcile_id"/>
+                     </tree>
+                 </field>
+            </group>
+        </form>
+      </field>
+    </record>
+
+
+  <record id="auto_reconciliation_view_tree" model="ir.ui.view">
+      <field name="name">reconciled.csv.aml.view.tree</field>
+      <field name="model">reconciled.csv.aml</field>
+      <field name="arch" type="xml">
+       <tree string="Lettrage automatique">
+               <field name="reconcile_ref" />
+               <field name="to_rec" />
+
+
+               <field name="aml_ids" />
+        </tree>
+      </field>
+</record>
+      <record id="auto_reconciliation_view_search" model="ir.ui.view">
+      <field name="name">reconciled.csv.aml.view.search</field>
+      <field name="model">reconciled.csv.aml</field>
+      <field name="arch" type="xml">
+           <search string="Lettrage automatique">
+                    <field name="reconcile_ref" />
+
+
+
+            </search>
+      </field>
+</record>
+
+      <record id="auto_reconciliation_view_action" model="ir.actions.act_window">
+          <field name="name">Lettrage chargé</field>
+          <field name="type">ir.actions.act_window</field>
+          <field name="res_model">reconciled.csv.aml</field>
+          <field name="view_mode">tree,form</field>
+
+      </record>
+
+      <menuitem id="reconcile_loaded_menu" name="Lettrage Chagé"  groups="account.group_account_manager" parent="account.periodical_processing_reconciliation"
+                action="auto_reconciliation_view_action" sequence="0"/>
+
+
+  </data>
+</openerp>

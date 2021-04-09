@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="group_demo_helpdesk" model="res.groups">
+        <field name="name">Group demo helpdesk</field>
+        
+    </record>
+
+   
+
+</odoo>

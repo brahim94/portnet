@@ -1,0 +1,34 @@
+<methodCall>
+    <methodName>execute</methodName>
+    <params>
+        <param>
+            <value><string>v8_adnane_portnet</string></value>
+        </param>
+        <param>
+               <value><int>1</int></value>
+        </param>
+        <param>
+               <value><string>admin</string></value>
+        </param>
+           <param>
+               <value><string>res.transaction</string></value>
+        </param>
+        <param>
+            <value><string>cancel_transaction</string></value>
+        </param>
+        <param>
+            <value>
+                <struct>
+                    <member>
+                        <name>transaction_id</name>
+                        <value><string>T000123</string></value>
+                        <name>motif</name>
+                        <value><string>Fausse operation</string></value>
+                        <name>date_cancel</name>
+                        <value><dateTime.iso8601>2020-12-31T10:00:00</dateTime.iso8601></value>
+                   </member>
+               </struct>
+            </value>
+        </param>
+    </params>
+</methodCall>

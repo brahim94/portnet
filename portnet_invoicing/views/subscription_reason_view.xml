@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <record id="subscription_reason_tree" model="ir.ui.view">
+            <field name="name">subscription.reason.tree</field>
+            <field name="model">subscription.fiscal.id.reason</field>
+            <field name="arch" type="xml">
+                <tree string="Sociétés mères">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="subscription_reason_form" model="ir.ui.view">
+            <field name="name">subscription.reason.form</field>
+            <field name="model">subscription.fiscal.id.reason</field>
+            <field name="arch" type="xml">
+                <form string="Motifs absence IFU">
+                    <sheet>
+                        <group col="4" colspan="4">
+                            <group colspan="2">
+                                <field name="name"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="subscription_reason_action" model="ir.actions.act_window">
+            <field name="name">Motifs absence IFU</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">subscription.fiscal.id.reason</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="subscription_reason_menu" name="Motifs absence IFU" parent="base.menu_base_config" action="subscription_reason_action" groups="base.group_sale_manager,account.group_account_manager"/>
+
+
+
+    </data>
+</openerp>

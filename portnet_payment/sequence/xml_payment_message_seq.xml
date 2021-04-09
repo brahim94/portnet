@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+
+        <record id="seq_type_xml_payment_message" model="ir.sequence.type">
+            <field name="name">MESSAGE XML Paiement</field>
+            <field name="code">xml.payment.message.seq</field>
+        </record>
+
+        <record id="seq_xml_payment_message" model="ir.sequence">
+            <field name="name">MESSAGE XML Paiement</field>
+            <field name="code">xml.payment.message.seq</field>
+            <field name="prefix"></field>
+            <field name="padding">8</field>
+        </record>
+        
+    
+    </data>
+</openerp>

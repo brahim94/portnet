@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+    	<record model="ir.ui.view" id="config_table_xls_form_view">
+                <field name="name">config.table.xls.form</field>
+                <field name="model">config.table.xls</field>
+                <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <form string="Liste des Configurations Rapports Excel" version="8.0" >
+                    	<sheet> 
+	                    	<group>
+                                <field name="name"/>
+                                <field name="code"/>
+                            </group>
+                            <group>
+                                <field name="title_report"/>
+                                <field name="title_feuille_report"/>
+                                <field name="name_report_out"/>
+                            </group>
+                            <group>
+                                <field name="row_start"/>
+                                <field name="column_start"/>
+                                <field name="couleur_tableau_header"/>
+                            </group>
+                         </sheet>
+                    </form>
+                </field>
+            </record>
+            
+           <record model="ir.ui.view" id="config_table_xls_tree_view">
+                <field name="name">config.table.xls.tree</field>
+                <field name="model">config.table.xls</field>
+                <field name="type">tree</field>
+                <field name="arch" type="xml">
+                    <tree string="Liste Des sites">
+                        <field name="name" />
+                        <field name="code"/>
+                        <field name="title_report"/>
+                        <field name="name_report_out"/>
+                    </tree>
+                </field>
+            </record>
+            
+            <record model="ir.actions.act_window" id="config_table_xls_action">
+                <field name="name">Configuration des Tableaux Excel</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">config.table.xls</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+            </record>
+            
+            <menuitem id="menu_config_table_xls" action="config_table_xls_action" name="Configuration tableau excel" parent="account.menu_finance_reports" sequence="30"/>
+
+	</data>
+</openerp>

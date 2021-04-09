@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <!-- invoice xml get wizard -->
+
+        <record id="invoice_xml_get_wizard_view" model="ir.ui.view">
+            <field name="name">invoice.xml.get.wizard.view</field>
+            <field name="model">invoice.xml.get.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Génération des fichiers XML">
+                    <group col="4">
+                        <group colspan="2">
+                            <field name="nb_invoices" readonly="1"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Lancer" class="oe_highlight" type="object" name="action_get" confirm="Voulez-vous vraiment générer un fichier XML pour cette facture ? Veuillez d'abord vérifier si le fichier n'a pas été précédemment généré."/>
+                        ou
+                        <button string="Annuler" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+
+        <act_window id="action_invoice_xml_get_wizard"
+                    name="Générer le(s) fichier(s) XML"
+                    res_model="invoice.xml.get.wizard"
+                    src_model="account.invoice"
+                    view_mode="form"
+                    target ="new"
+                    key2="client_action_multi"
+                    groups="account.group_account_manager,base.group_sale_manager"
+                    />
+
+        
+
+    </data>
+</openerp>

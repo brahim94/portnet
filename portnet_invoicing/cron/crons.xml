@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+        <record forcecreate="True" id="ir_cron_scheduler_tacite_reconduction" model="ir.cron">
+            <field name="name">Create invoices for renewable contracts</field>
+            <field eval="True" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall"/>
+            <field eval="'res.contract'" name="model"/>
+            <field eval="'_cron_tacite_reconduction'" name="function"/>
+        </record>
+
+         <record forcecreate="True" id="ir_cron_scheduler_anticipated_dates" model="ir.cron">
+            <field name="name">calculate anticipated dates for renewable contracts</field>
+            <field eval="False" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">0</field>
+            <field eval="False" name="doall"/>
+            <field eval="'res.contract'" name="model"/>
+            <field eval="'_cron_anticipated_dates_calculation'" name="function"/>
+        </record>
+
+         <record forcecreate="True" id="ir_cron_monthly_invoicing" model="ir.cron">
+            <field name="name">Create monthly invoices</field>
+            <field eval="True" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">months</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall"/>
+            <field eval="'account.invoice'" name="model"/>
+            <field eval="'_generate_all_invoices'" name="function"/>
+        </record>
+
+        <record forcecreate="True" id="ir_cron_create_partner_groups" model="ir.cron">
+            <field name="name">Create/Update partner groups</field>
+            <field eval="True" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall"/>
+            <field eval="'res.partner.group'" name="model"/>
+            <field eval="'_action_create_groups'" name="function"/>
+        </record>
+
+        <record forcecreate="True" id="ir_cron_email_remaining_invoices" model="ir.cron">
+            <field name="name">Send remaining invoices by email</field>
+            <field eval="True" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">4</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall"/>
+            <field eval="'account.invoice'" name="model"/>
+            <field eval="'_cron_email_remaining_invoices'" name="function"/>
+        </record>
+
+        <record forcecreate="True" id="ir_cron_email_month_after_due_date" model="ir.cron">
+            <field name="name">Send reminder for payment of invoices by email at j+30</field>
+            <field eval="False" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall"/>
+            <field eval="'account.invoice'" name="model"/>
+            <field eval="'_cron_email_month_after_due_date'" name="function"/>
+        </record>
+
+        <record forcecreate="True" id="ir_cron_email_month_at_due_date" model="ir.cron">
+            <field name="name">Send reminder for payment of invoices by email at j</field>
+            <field eval="False" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall"/>
+            <field eval="'account.invoice'" name="model"/>
+            <field eval="'_cron_email_month_at_due_date'" name="function"/>
+        </record>
+
+        <record forcecreate="True" id="ir_cron_email_month_before_due_date" model="ir.cron">
+            <field name="name">Send reminder for payment of invoices by email at j-30</field>
+            <field eval="False" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall"/>
+            <field eval="'account.invoice'" name="model"/>
+            <field eval="'_cron_email_month_before_due_date'" name="function"/>
+        </record>
+
+        <record forcecreate="True" id="ir_cron_email_two_months_before_contract_next_invoice_date" model="ir.cron">
+            <field name="name">Send reminder for payments of invoices by email at next invoice date-60</field>
+            <field eval="True" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall"/>
+            <field eval="'account.invoice'" name="model"/>
+            <field eval="'_cron_email_two_months_before_contract_next_invoice_date'" name="function"/>
+        </record>
+
+        <record forcecreate="True" id="ir_cron_close_at_contract_next_invoice_date" model="ir.cron">
+            <field name="name">Send reminder by email and close unpaid contract at next invoice date</field>
+            <field eval="False" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall"/>
+            <field eval="'account.invoice'" name="model"/>
+            <field eval="'_cron_close_at_contract_next_invoice_date'" name="function"/>
+        </record>
+
+        <record forcecreate="True" id="ir__cron_email_two_months_before_contract_next_invoice_date_paid" model="ir.cron">
+            <field name="name">Send reminder by email two months before contract anniversary date for paid invoices</field>
+            <field eval="False" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall"/>
+            <field eval="'res.contract'" name="model"/>
+            <field eval="'_cron_email_two_months_before_contract_next_invoice_date_paid'" name="function"/>
+        </record>
+
+        <!--Notification Clients of Payement Before Next Invoice Date of Contract-->
+
+        <record forcecreate="True" id="_cron_email_two_months_before_contract_next_invoice_date" model="ir.cron">
+            <field name="name">Send reminder by email two months before contract anniversary date</field>
+            <field eval="True" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall"/>
+            <field eval="'res.contract'" name="model"/>
+            <field eval="'_cron_email_two_months_before_contract_next_invoice_date'" name="function"/>
+        </record>
+
+        <record forcecreate="True" id="ir__cron_email_one_month_before_contract_next_invoice_date" model="ir.cron">
+            <field name="name">Send reminder by email ONE month before contract anniversary date</field>
+            <field eval="True" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall"/>
+            <field eval="'res.contract'" name="model"/>
+            <field eval="'_cron_email_one_month_before_contract_next_invoice_date'" name="function"/>
+        </record>
+
+        <record forcecreate="True" id="ir__cron_email_at_contract_next_invoice_date" model="ir.cron">
+            <field name="name">Send reminder by email at contract anniversary date</field>
+            <field eval="True" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall"/>
+            <field eval="'res.contract'" name="model"/>
+            <field eval="'_cron_email_at_contract_next_invoice_date'" name="function"/>
+        </record>
+
+
+        <record forcecreate="True" id="ir__cron_email_four_months_after_contract_next_invoice_date" model="ir.cron">
+            <field name="name">Send reminder by email 4 Months after contract anniversary date</field>
+            <field eval="True" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall"/>
+            <field eval="'res.contract'" name="model"/>
+            <field eval="'_cron_email_four_months_after_contract_next_invoice_date'" name="function"/>
+        </record>
+
+        <record forcecreate="True" id="ir__cron_email_six_months_after_contract_next_invoice_date" model="ir.cron">
+            <field name="name">Send reminder by email 6 Months after contract anniversary date</field>
+            <field eval="True" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall"/>
+            <field eval="'res.contract'" name="model"/>
+            <field eval="'_cron_email_six_months_after_contract_next_invoice_date'" name="function"/>
+        </record>
+
+        <!--End Notification Clients -->
+  </data>
+</openerp>

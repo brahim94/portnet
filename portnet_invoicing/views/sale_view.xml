@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_order_form_inherit2" model="ir.ui.view">
+            <field name="name">sale.order.form.sale.stock2</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale_stock.view_order_form_inherit"/>
+            <field name="arch" type="xml">
+
+                <field name="product_id" position="replace">
+                    <field name="product_id"
+                       domain="[('is_subscription','=',False)]"
+                       context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':False, 'company_id': parent.company_id}"
+                       groups="base.group_user"
+                       on_change="product_id_change_with_wh(parent.pricelist_id,product_id,product_uom_qty,False,product_uos_qty,False,name,parent.partner_id, False, True, parent.date_order, product_packaging, parent.fiscal_position, False, parent.warehouse_id, context)"/>
+                </field>
+
+            </field>
+        </record>
+
+
+    </data>
+</openerp>

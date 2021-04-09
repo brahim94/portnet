@@ -1,0 +1,832 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+     <openerp>
+        <data>
+
+            <record model="positional.file" id="positional_file_01">
+                <field name="name">Enregistrement Solde début ou Ancien solde</field>
+                <field name="code">01</field>
+                <field name="size">120</field>
+            </record>
+            <record model="positional.file" id="positional_file_04">
+                <field name="name">Enregistrement Mouvements</field>
+                <field name="code">04</field>
+                <field name="size">120</field>
+            </record>
+             <record model="positional.file" id="positional_file_07">
+                <field name="name">Enregistrement Solde fin ou Nouveau solde</field>
+                <field name="code">07</field>
+                 <field name="size">120</field>
+            </record>
+
+             <!--Enregistrement  « Solde début » ou « Ancien solde »   -->
+
+            <record model="positional.file.line" id="positional_file_row1">
+                <field name="column">Code enregistrement</field>
+                <field name="data_type">Text</field>
+                <field name="position">1</field>
+                <field name="length">2</field>
+                <field name="note">"01"</field>
+                <field name="required" eval="1"/>
+                <field name="file_id" ref="positional_file_01"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row2">
+                <field name="column">Code banque</field>
+                <field name="data_type">Text</field>
+                <field name="position">3</field>
+                <field name="length">5</field>
+                <field name="note">"00"+3chiffres de la norme Maroc</field>
+                <field name="required" eval="0"/>
+                <field name="file_id" ref="positional_file_01"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row3">
+                <field name="column">Zone réservée</field>
+                <field name="data_type">Text</field>
+                <field name="position">8</field>
+                <field name="length">4</field>
+                <field name="note">4 blancs</field>
+                <field name="required" eval="0"/>
+                <field name="file_id" ref="positional_file_01"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row4">
+                <field name="column">Code agence</field>
+                <field name="data_type">Text</field>
+                <field name="position">12</field>
+                <field name="length">5</field>
+                <field name="note">Première partie du N°-compte qu'il y a sur le rib</field>
+                <field name="required" eval="1"/>
+                <field name="file_id" ref="positional_file_01"/>
+            </record>
+               <record model="positional.file.line" id="positional_file_row5">
+                <field name="column">Code Devise iso</field>
+                <field name="data_type">Text</field>
+                <field name="position">17</field>
+                <field name="length">3</field>
+                <field name="note">3 caractères aplhabétiques</field>
+                <field name="required" eval="0"/>
+                <field name="file_id" ref="positional_file_01"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row6">
+                <field name="column">Nombre de chiffres</field>
+                <field name="data_type">Numérique</field>
+                <field name="position">20</field>
+                <field name="length">1</field>
+                <field name="note">Si code devise est renseigné, c’est </field>
+                <field name="required" eval="1"/>
+                <field name="file_id" ref="positional_file_01"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row7">
+                <field name="column">Zone réservée</field>
+                <field name="data_type">Text</field>
+                <field name="position">21</field>
+                <field name="length">1</field>
+                <field name="note"></field>
+                <field name="required" eval="0"/>
+                <field name="file_id" ref="positional_file_01"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row8">
+                <field name="column">N°-Compte</field>
+                <field name="data_type">Text</field>
+                <field name="position">22</field>
+                <field name="length">11</field>
+                <field name="note">Si la longueur est inférieure à 11 caractères, il est cadré à droite. A gauche il sera complété par des zéros</field>
+                <field name="required" eval="1"/>
+                <field name="file_id" ref="positional_file_01"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row9">
+                <field name="column">Zone réservée</field>
+                <field name="data_type">Text</field>
+                <field name="position">33</field>
+                <field name="length">2</field>
+                <field name="note">1 blanc</field>
+                <field name="required" eval="0"/>
+                <field name="file_id" ref="positional_file_01"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row10">
+                <field name="column">Date de l'ancien solde</field>
+                <field name="data_type">Numérique</field>
+                <field name="position">35</field>
+                <field name="length">6</field>
+                <field name="note">AAMMJJ</field>
+                <field name="required" eval="1"/>
+                <field name="related">date</field>
+                <field name="file_id" ref="positional_file_01"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row11">
+                <field name="column">Zone réservée</field>
+                <field name="data_type">Text</field>
+                <field name="position">41</field>
+                <field name="length">50</field>
+                <field name="note"></field>
+                <field name="required" eval="0"/>
+                <field name="file_id" ref="positional_file_01"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row12">
+                <field name="column">Montant de l’Ancien solde</field>
+                <field name="data_type">Text</field>
+                <field name="position">91</field>
+                <field name="length">14</field>
+                <field name="note">Montant cadré à doite et complété à gauche par des éros. Le montant étant signé, la position de droite contient à la fois le chiffre de l’unité la plus basse de la devise et le signe.</field>
+                <field name="required" eval="1"/>
+                <field name="related">amount</field>
+                <field name="file_id" ref="positional_file_01"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row13">
+                <field name="column">Code abonné</field>
+                <field name="data_type">Text</field>
+                <field name="position">105</field>
+                <field name="length">6</field>
+                <field name="note"></field>
+                <field name="required" eval="1"/>
+                <field name="file_id" ref="positional_file_01"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row14">
+                <field name="column">Zone réservée</field>
+                <field name="data_type">Text</field>
+                <field name="position">111</field>
+                <field name="length">10</field>
+                <field name="note">10 blancs</field>
+                <field name="required" eval="0"/>
+                <field name="file_id" ref="positional_file_01"/>
+            </record>
+
+
+
+            <!--Enregistrement « Mouvements » -->
+
+            <record model="positional.file.line" id="positional_file_row15">
+                <field name="column">Code enregistrement</field>
+                <field name="data_type">Text</field>
+                <field name="position">1</field>
+                <field name="length">2</field>
+                <field name="note">"04"</field>
+                <field name="required" eval="1"/>
+                <field name="file_id" ref="positional_file_04"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row16">
+                <field name="column">Code banque</field>
+                <field name="data_type">Text</field>
+                <field name="position">3</field>
+                <field name="length">5</field>
+                <field name="note">"00"+3chiffres de la norme Maroc</field>
+                <field name="related">bank</field>
+                <field name="required" eval="0"/>
+                <field name="file_id" ref="positional_file_04"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row17">
+                <field name="column">Code opération banque</field>
+                <field name="data_type">Text</field>
+                <field name="position">8</field>
+                <field name="length">4</field>
+                <field name="note">Cadré à droite et complété à gauche par des zéros</field>
+                <field name="required" eval="0"/>
+                <field name="file_id" ref="positional_file_04"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row18">
+                <field name="column">Code agence</field>
+                <field name="data_type">Text</field>
+                <field name="position">12</field>
+                <field name="length">5</field>
+                <field name="note"></field>
+                <field name="required" eval="1"/>
+                <field name="file_id" ref="positional_file_04"/>
+            </record>
+               <record model="positional.file.line" id="positional_file_row19">
+                <field name="column">Code Devise iso</field>
+                <field name="data_type">Text</field>
+                <field name="position">17</field>
+                <field name="length">3</field>
+                <field name="note">3 caractères aplhabétiques</field>
+                <field name="required" eval="0"/>
+                <field name="file_id" ref="positional_file_04"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row20">
+                <field name="column">nb de chiffres</field>
+                <field name="data_type">Numérique</field>
+                <field name="position">20</field>
+                <field name="length">1</field>
+                <field name="note">Si code devise est renseigné, c’est le nombre de chiffres après la virgule dans la zone Montant</field>
+                <field name="required" eval="1"/>
+                <field name="file_id" ref="positional_file_04"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row21">
+                <field name="column">Zone réservée</field>
+                <field name="data_type">Text</field>
+                <field name="position">21</field>
+                <field name="length">1</field>
+                <field name="note">1 blanc</field>
+                <field name="required" eval="0"/>
+                <field name="file_id" ref="positional_file_04"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row22">
+                <field name="column">N°-Compte</field>
+                <field name="data_type">Text</field>
+                <field name="position">22</field>
+                <field name="length">11</field>
+                <field name="note">Si la longueur est inférieure à 11 caractères, il est cadré à droite. A gauche il est complété par des zéros.</field>
+                <field name="required" eval="1"/>
+                <field name="file_id" ref="positional_file_04"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row23">
+                <field name="column">Code opération interbancaire</field>
+                <field name="data_type">Text</field>
+                <field name="position">33</field>
+                <field name="length">2</field>
+                <field name="note"></field>
+                <field name="related">type</field>
+                <field name="required" eval="0"/>
+                <field name="file_id" ref="positional_file_04"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row24">
+                <field name="column">Date opération</field>
+                <field name="data_type">Text</field>
+                <field name="position">35</field>
+                <field name="length">6</field>
+                <field name="note">AAMMJJ</field>
+                <field name="required" eval="1"/>
+                <field name="file_id" ref="positional_file_04"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row25">
+                <field name="column">Zone réservée</field>
+                <field name="data_type">Text</field>
+                <field name="position">41</field>
+                <field name="length">2</field>
+                <field name="note"></field>
+                <field name="required" eval="0"/>
+                <field name="file_id" ref="positional_file_04"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row26">
+                <field name="column">Date valeur</field>
+                <field name="data_type">Text</field>
+                <field name="position">43</field>
+                <field name="length">6</field>
+                <field name="note">AAMMJJ</field>
+                <field name="required" eval="1"/>
+                 <field name="related">date</field>
+                <field name="file_id" ref="positional_file_04"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row27">
+                <field name="column">Libellé</field>
+                <field name="data_type">Text</field>
+                <field name="position">49</field>
+                <field name="length">31</field>
+                <field name="note">31 caractères alphanumériques</field>
+                <field name="required" eval="0"/>
+                 <field name="related">label</field>
+                <field name="file_id" ref="positional_file_04"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row28">
+                <field name="column">Référence de  l’opération</field>
+                <field name="data_type">Text</field>
+                <field name="position">80</field>
+                <field name="length">9</field>
+                <field name="note"></field>
+                <field name="required" eval="0"/>
+                 <field name="related">ref</field>
+                <field name="file_id" ref="positional_file_04"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row29">
+                <field name="column">Zone réservée</field>
+                <field name="data_type">Text</field>
+                <field name="position">89</field>
+                <field name="length">2</field>
+                <field name="note"></field>
+                <field name="required" eval="0"/>
+                <field name="file_id" ref="positional_file_04"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row30">
+                <field name="column">Montant du mouvement</field>
+                <field name="data_type">Text</field>
+                <field name="position">91</field>
+                <field name="length">14</field>
+                <field name="note">Montant cadré à droite et complété à gauche par des zéros. Le montant étant signé, la position de droite contient à la fois le chiffre de l’unité la plus basse de la devise et le signe.</field>
+                <field name="required" eval="1"/>
+                 <field name="related">amount</field>
+                <field name="file_id" ref="positional_file_04"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row31">
+                <field name="column">Code abonné</field>
+                <field name="data_type">Text</field>
+                <field name="position">105</field>
+                <field name="length">6</field>
+                <field name="note"></field>
+                <field name="required" eval="1"/>
+                <field name="file_id" ref="positional_file_04"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row32">
+                <field name="column">Zone réservée</field>
+                <field name="data_type">Text</field>
+                <field name="position">111</field>
+                <field name="length">10</field>
+                <field name="note"></field>
+                <field name="required" eval="0"/>
+                <field name="file_id" ref="positional_file_04"/>
+            </record>
+
+
+
+            <!--Entregistrement « Solde fin » ou « Nouveau solde » -->
+
+            <record model="positional.file.line" id="positional_file_row33">
+                <field name="column">Code enregistrement</field>
+                <field name="data_type">Text</field>
+                <field name="position">1</field>
+                <field name="length">2</field>
+                <field name="note">"07"</field>
+                <field name="required" eval="1"/>
+                <field name="file_id" ref="positional_file_07"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row34">
+                <field name="column">Code banque</field>
+                <field name="data_type">Text</field>
+                <field name="position">3</field>
+                <field name="length">5</field>
+                <field name="note">"00"+3chiffres de la norme Maroc</field>
+                <field name="required" eval="0"/>
+                <field name="file_id" ref="positional_file_07"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row35">
+                <field name="column">Zone réservée</field>
+                <field name="data_type">Text</field>
+                <field name="position">8</field>
+                <field name="length">4</field>
+                <field name="note">4 blancs</field>
+                <field name="required" eval="0"/>
+                <field name="file_id" ref="positional_file_07"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row36">
+                <field name="column">Code agence</field>
+                <field name="data_type">Text</field>
+                <field name="position">12</field>
+                <field name="length">5</field>
+                <field name="note">Première partie du N°-compte qu’il ya sur le RIB </field>
+                <field name="required" eval="1"/>
+                <field name="file_id" ref="positional_file_07"/>
+            </record>
+               <record model="positional.file.line" id="positional_file_row37">
+                <field name="column">Code Devise iso</field>
+                <field name="data_type">Text</field>
+                <field name="position">17</field>
+                <field name="length">3</field>
+                <field name="note">3 caractères aplhabétiques</field>
+                <field name="required" eval="0"/>
+                <field name="file_id" ref="positional_file_07"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row38">
+                <field name="column">Nombre de chiffres</field>
+                <field name="data_type">Numérique</field>
+                <field name="position">20</field>
+                <field name="length">1</field>
+                <field name="note">Si code devise est renseigné, c’est </field>
+                <field name="required" eval="1"/>
+                <field name="file_id" ref="positional_file_07"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row39">
+                <field name="column">Zone réservée</field>
+                <field name="data_type">Text</field>
+                <field name="position">21</field>
+                <field name="length">1</field>
+                <field name="note"></field>
+                <field name="required" eval="0"/>
+                <field name="file_id" ref="positional_file_07"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row40">
+                <field name="column">N°-Compte</field>
+                <field name="data_type">Text</field>
+                <field name="position">22</field>
+                <field name="length">11</field>
+                <field name="note">Si la longueur est inférieure à 11 caractères, il est cadré à droite.  A gauche, il sera complété par des zéros</field>
+                <field name="required" eval="1"/>
+                <field name="file_id" ref="positional_file_07"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row41">
+                <field name="column">Zone réservée</field>
+                <field name="data_type">Text</field>
+                <field name="position">33</field>
+                <field name="length">2</field>
+                <field name="note">Blanc</field>
+                <field name="required" eval="0"/>
+                <field name="file_id" ref="positional_file_07"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row42">
+                <field name="column">Date du nouveau solde</field>
+                <field name="data_type">Numérique</field>
+                <field name="position">35</field>
+                <field name="length">6</field>
+                <field name="note">AAMMJJ</field>
+                <field name="required" eval="1"/>
+                <field name="related">date</field>
+                <field name="file_id" ref="positional_file_07"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row43">
+                <field name="column">Zone réservée</field>
+                <field name="data_type">Text</field>
+                <field name="position">41</field>
+                <field name="length">50</field>
+                <field name="note"></field>
+                <field name="required" eval="0"/>
+                <field name="file_id" ref="positional_file_07"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row44">
+                <field name="column">Montant de l’Ancien solde</field>
+                <field name="data_type">Text</field>
+                <field name="position">91</field>
+                <field name="length">14</field>
+                <field name="note">Montant cadré à doite et complété à gauche par des zéros. Le montant étant signé, la position de droite contient à la fois le chiffre de l’unité la plus basse de la devise et le signe.</field>
+                <field name="required" eval="1"/>
+                 <field name="related">amount</field>
+                <field name="file_id" ref="positional_file_07"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row45">
+                <field name="column">Code abonné</field>
+                <field name="data_type">Text</field>
+                <field name="position">105</field>
+                <field name="length">6</field>
+                <field name="note"></field>
+                <field name="required" eval="1"/>
+                <field name="file_id" ref="positional_file_07"/>
+            </record>
+            <record model="positional.file.line" id="positional_file_row46">
+                <field name="column">Zone réservée</field>
+                <field name="data_type">Text</field>
+                <field name="position">111</field>
+                <field name="length">10</field>
+                <field name="note">10 blancs</field>
+                <field name="required" eval="0"/>
+                <field name="file_id" ref="positional_file_07"/>
+            </record>
+
+
+            <!--Table correspondances dernier caractére ETEBAC 01-->
+
+            <record model="etebac.amount.coding" id="pf1_coding_plus_0">
+                <field name="code">{</field>
+                <field name="value">0</field>
+                <field name="sign">+</field>
+                <field name="positional_id" ref="positional_file_01"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf1_coding_plus_1">
+                <field name="code">A</field>
+                <field name="value">1</field>
+                <field name="sign">+</field>
+                <field name="positional_id" ref="positional_file_01"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf1_coding_plus_2">
+                <field name="code">B</field>
+                <field name="value">2</field>
+                <field name="sign">+</field>
+                <field name="positional_id" ref="positional_file_01"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf1_coding_plus_3">
+                <field name="code">C</field>
+                <field name="value">3</field>
+                <field name="sign">+</field>
+                <field name="positional_id" ref="positional_file_01"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf1_coding_plus_4">
+                <field name="code">D</field>
+                <field name="value">4</field>
+                <field name="sign">+</field>
+                <field name="positional_id" ref="positional_file_01"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf1_coding_plus_5">
+                <field name="code">E</field>
+                <field name="value">5</field>
+                <field name="sign">+</field>
+                <field name="positional_id" ref="positional_file_01"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf1_coding_plus_6">
+                <field name="code">F</field>
+                <field name="value">6</field>
+                <field name="sign">+</field>
+                <field name="positional_id" ref="positional_file_01"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf1_coding_plus_7">
+                <field name="code">G</field>
+                <field name="value">7</field>
+                <field name="sign">+</field>
+                <field name="positional_id" ref="positional_file_01"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf1_coding_plus_8">
+                <field name="code">H</field>
+                <field name="value">8</field>
+                <field name="sign">+</field>
+                <field name="positional_id" ref="positional_file_01"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf1_coding_plus_9">
+                <field name="code">I</field>
+                <field name="value">9</field>
+                <field name="sign">+</field>
+                <field name="positional_id" ref="positional_file_01"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf1_coding_moins_0">
+                <field name="code">}</field>
+                <field name="value">0</field>
+                <field name="sign">-</field>
+                <field name="positional_id" ref="positional_file_01"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf1_coding_moins_1">
+                <field name="code">J</field>
+                <field name="value">1</field>
+                <field name="sign">-</field>
+                <field name="positional_id" ref="positional_file_01"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf1_coding_moins_2">
+                <field name="code">K</field>
+                <field name="value">2</field>
+                <field name="sign">-</field>
+                <field name="positional_id" ref="positional_file_01"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf1_coding_moins_3">
+                <field name="code">L</field>
+                <field name="value">3</field>
+                <field name="sign">-</field>
+                <field name="positional_id" ref="positional_file_01"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf1_coding_moins_4">
+                <field name="code">M</field>
+                <field name="value">4</field>
+                <field name="sign">-</field>
+                <field name="positional_id" ref="positional_file_01"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf1_coding_moins_5">
+                <field name="code">N</field>
+                <field name="value">5</field>
+                <field name="sign">-</field>
+                <field name="positional_id" ref="positional_file_01"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf1_coding_moins_6">
+                <field name="code">O</field>
+                <field name="value">6</field>
+                <field name="sign">-</field>
+                <field name="positional_id" ref="positional_file_01"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf1_coding_moins_7">
+                <field name="code">P</field>
+                <field name="value">7</field>
+                <field name="sign">-</field>
+                <field name="positional_id" ref="positional_file_01"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf1_coding_moins_8">
+                <field name="code">Q</field>
+                <field name="value">8</field>
+                <field name="sign">-</field>
+                <field name="positional_id" ref="positional_file_01"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf1_coding_moins_9">
+                <field name="code">R</field>
+                <field name="value">9</field>
+                <field name="sign">-</field>
+                <field name="positional_id" ref="positional_file_01"/>
+             </record>
+
+            <!--Table correspondances dernier caractére ETEBAC 04-->
+
+            <record model="etebac.amount.coding" id="pf4_coding_plus_0">
+                <field name="code">{</field>
+                <field name="value">0</field>
+                <field name="sign">+</field>
+                <field name="positional_id" ref="positional_file_04"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf4_coding_plus_1">
+                <field name="code">A</field>
+                <field name="value">1</field>
+                <field name="sign">+</field>
+                <field name="positional_id" ref="positional_file_04"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf4_coding_plus_2">
+                <field name="code">B</field>
+                <field name="value">2</field>
+                <field name="sign">+</field>
+                <field name="positional_id" ref="positional_file_04"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf4_coding_plus_3">
+                <field name="code">C</field>
+                <field name="value">3</field>
+                <field name="sign">+</field>
+                <field name="positional_id" ref="positional_file_04"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf4_coding_plus_4">
+                <field name="code">D</field>
+                <field name="value">4</field>
+                <field name="sign">+</field>
+                <field name="positional_id" ref="positional_file_04"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf4_coding_plus_5">
+                <field name="code">E</field>
+                <field name="value">5</field>
+                <field name="sign">+</field>
+                <field name="positional_id" ref="positional_file_04"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf4_coding_plus_6">
+                <field name="code">F</field>
+                <field name="value">6</field>
+                <field name="sign">+</field>
+                <field name="positional_id" ref="positional_file_04"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf4_coding_plus_7">
+                <field name="code">G</field>
+                <field name="value">7</field>
+                <field name="sign">+</field>
+                <field name="positional_id" ref="positional_file_04"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf4_coding_plus_8">
+                <field name="code">H</field>
+                <field name="value">8</field>
+                <field name="sign">+</field>
+                <field name="positional_id" ref="positional_file_04"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf4_coding_plus_9">
+                <field name="code">I</field>
+                <field name="value">9</field>
+                <field name="sign">+</field>
+                <field name="positional_id" ref="positional_file_04"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf4_coding_moins_0">
+                <field name="code">}</field>
+                <field name="value">0</field>
+                <field name="sign">-</field>
+                <field name="positional_id" ref="positional_file_04"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf4_coding_moins_1">
+                <field name="code">J</field>
+                <field name="value">1</field>
+                <field name="sign">-</field>
+                <field name="positional_id" ref="positional_file_04"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf4_coding_moins_2">
+                <field name="code">K</field>
+                <field name="value">2</field>
+                <field name="sign">-</field>
+                <field name="positional_id" ref="positional_file_04"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf4_coding_moins_3">
+                <field name="code">L</field>
+                <field name="value">3</field>
+                <field name="sign">-</field>
+                <field name="positional_id" ref="positional_file_04"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf4_coding_moins_4">
+                <field name="code">M</field>
+                <field name="value">4</field>
+                <field name="sign">-</field>
+                <field name="positional_id" ref="positional_file_04"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf4_coding_moins_5">
+                <field name="code">N</field>
+                <field name="value">5</field>
+                <field name="sign">-</field>
+                <field name="positional_id" ref="positional_file_04"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf4_coding_moins_6">
+                <field name="code">O</field>
+                <field name="value">6</field>
+                <field name="sign">-</field>
+                <field name="positional_id" ref="positional_file_04"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf4_coding_moins_7">
+                <field name="code">P</field>
+                <field name="value">7</field>
+                <field name="sign">-</field>
+                <field name="positional_id" ref="positional_file_04"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf4_coding_moins_8">
+                <field name="code">Q</field>
+                <field name="value">8</field>
+                <field name="sign">-</field>
+                <field name="positional_id" ref="positional_file_04"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf4_coding_moins_9">
+                <field name="code">R</field>
+                <field name="value">9</field>
+                <field name="sign">-</field>
+                <field name="positional_id" ref="positional_file_04"/>
+             </record>
+
+             <!--Table correspondances dernier caractére ETEBAC 07-->
+
+            <record model="etebac.amount.coding" id="pf7_coding_plus_0">
+                <field name="code">{</field>
+                <field name="value">0</field>
+                <field name="sign">+</field>
+                <field name="positional_id" ref="positional_file_07"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf7_coding_plus_1">
+                <field name="code">A</field>
+                <field name="value">1</field>
+                <field name="sign">+</field>
+                <field name="positional_id" ref="positional_file_07"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf7_coding_plus_2">
+                <field name="code">B</field>
+                <field name="value">2</field>
+                <field name="sign">+</field>
+                <field name="positional_id" ref="positional_file_07"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf7_coding_plus_3">
+                <field name="code">C</field>
+                <field name="value">3</field>
+                <field name="sign">+</field>
+                <field name="positional_id" ref="positional_file_07"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf7_coding_plus_4">
+                <field name="code">D</field>
+                <field name="value">4</field>
+                <field name="sign">+</field>
+                <field name="positional_id" ref="positional_file_07"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf7_coding_plus_5">
+                <field name="code">E</field>
+                <field name="value">5</field>
+                <field name="sign">+</field>
+                <field name="positional_id" ref="positional_file_07"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf7_coding_plus_6">
+                <field name="code">F</field>
+                <field name="value">6</field>
+                <field name="sign">+</field>
+                <field name="positional_id" ref="positional_file_07"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf7_coding_plus_7">
+                <field name="code">G</field>
+                <field name="value">7</field>
+                <field name="sign">+</field>
+                <field name="positional_id" ref="positional_file_07"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf7_coding_plus_8">
+                <field name="code">H</field>
+                <field name="value">8</field>
+                <field name="sign">+</field>
+                <field name="positional_id" ref="positional_file_07"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf7_coding_plus_9">
+                <field name="code">I</field>
+                <field name="value">9</field>
+                <field name="sign">+</field>
+                <field name="positional_id" ref="positional_file_07"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf7_coding_moins_0">
+                <field name="code">}</field>
+                <field name="value">0</field>
+                <field name="sign">-</field>
+                <field name="positional_id" ref="positional_file_07"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf7_coding_moins_1">
+                <field name="code">J</field>
+                <field name="value">1</field>
+                <field name="sign">-</field>
+                <field name="positional_id" ref="positional_file_07"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf7_coding_moins_2">
+                <field name="code">K</field>
+                <field name="value">2</field>
+                <field name="sign">-</field>
+                <field name="positional_id" ref="positional_file_07"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf7_coding_moins_3">
+                <field name="code">L</field>
+                <field name="value">3</field>
+                <field name="sign">-</field>
+                <field name="positional_id" ref="positional_file_07"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf7_coding_moins_4">
+                <field name="code">M</field>
+                <field name="value">4</field>
+                <field name="sign">-</field>
+                <field name="positional_id" ref="positional_file_07"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf7_coding_moins_5">
+                <field name="code">N</field>
+                <field name="value">5</field>
+                <field name="sign">-</field>
+                <field name="positional_id" ref="positional_file_07"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf7_coding_moins_6">
+                <field name="code">O</field>
+                <field name="value">6</field>
+                <field name="sign">-</field>
+                <field name="positional_id" ref="positional_file_07"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf7_coding_moins_7">
+                <field name="code">P</field>
+                <field name="value">7</field>
+                <field name="sign">-</field>
+                <field name="positional_id" ref="positional_file_07"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf7_coding_moins_8">
+                <field name="code">Q</field>
+                <field name="value">8</field>
+                <field name="sign">-</field>
+                <field name="positional_id" ref="positional_file_07"/>
+             </record>
+            <record model="etebac.amount.coding" id="pf7_coding_moins_9">
+                <field name="code">R</field>
+                <field name="value">9</field>
+                <field name="sign">-</field>
+                <field name="positional_id" ref="positional_file_07"/>
+             </record>
+
+
+
+        </data>
+    </openerp>

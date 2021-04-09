@@ -1,0 +1,71 @@
+<methodCall>
+    <methodName>execute</methodName>
+    <params>
+        <param>
+            <value><string>v8_adnane_portnet</string></value>
+        </param>
+        <param>
+               <value><int>1</int></value>
+        </param>
+        <param>
+               <value><string>admin</string></value>
+        </param>
+           <param>
+               <value><string>res.contract</string></value>
+        </param>
+        <param>
+            <value><string>create_subscription</string></value>
+        </param>
+        
+        <param>
+            <value>
+                <struct>
+                    <member>
+                        <name>name</name>
+                        <value><string>Subscription 00011</string></value>
+                        <name>template_id</name>
+                        <value><string>bbbbb</string></value>
+                        <name>state</name>
+                        <value><string>A</string></value><!-- pending -->
+                        <name>date_start</name>
+                        <value><dateTime.iso8601>2020-10-01</dateTime.iso8601></value>
+                        <name>date</name>
+                        <value><dateTime.iso8601>2020-12-31</dateTime.iso8601></value>
+                        <name>add_balance</name>
+                        <value><int>100</int></value>
+                        <name>partner_categ_id</name>
+                        <value><string>TC1</string></value>
+                        <name>partner_id</name>
+                        <value><string>maktest</string></value>
+                        <name>date_create</name>
+                        <value><dateTime.iso8601>2020-10-17</dateTime.iso8601></value>
+                    </member>
+                </struct>
+            </value>
+        </param>
+
+    </params>
+</methodCall>
+
+<!-- Export Subscription from Odoo -->
+
+<souscription xmlns="http://www.portnet.ma/nouvelleTarification">
+    <!-- name -->
+    <identifiant>S000545</identifiant>
+    <!-- template_id.name -->
+    <codePackage>POS-AGM-111125</codePackage>
+    <!-- date_start -->
+    <debutValidite>2020-05-30T09:00:00</debutValidite>
+    <!-- date -->
+    <finValidite>2020-06-30T09:00:00</finValidite>
+    <!-- Additional / Add Balance -->
+    <soldeSupplementaire>400</soldeSupplementaire>
+    <!-- Fixed value->  -->
+    <statut>ACTIVE</statut>
+    <!-- partner_categ_id.code -->
+    <typeOperateur>IMPEXP</typeOperateur>
+    <!-- partner_id.code -->
+    <codeOperateur>3861</codeOperateur>
+    <!-- Date Creation -->
+    <dateCreation>2020-05-30T09:00:00</dateCreation>
+</souscription >

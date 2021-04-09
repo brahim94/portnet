@@ -1,0 +1,24 @@
+<methodCall>
+    <methodName>execute</methodName>
+    <params>
+        <param>
+            <value><string>v8_adnane_portnet</string></value>
+        </param>
+        <param>
+               <value><int>1</int></value>
+        </param>
+        <param>
+               <value><string>admin</string></value>
+        </param>
+        <param>
+            <value><string>account.invoice</string></value>
+        </param>
+        <param>
+            <value><string>get_invoice_document</string></value>
+        </param>
+        <param>
+                    <!-- invoice_ref -->
+            <value><string>SAJ/2020/0002</string></value>        
+        </param>
+    </params>
+</methodCall>

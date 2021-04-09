@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+     <record id="view_tender_number_purchase_order_filter" model="ir.ui.view">
+        <field name="name">purchase.order.search.form</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.view_purchase_order_filter"/>
+        <field name="arch" type="xml">
+            <field name="product_id" position="after">
+                <field name="partner_ref" filter_domain="[('partner_ref', 'ilike', self)]"/>
+               <!--  <filter string="Partner Refrence" name="partner_ref" filter_domain="[('partner_ref', 'ilike', self)]"/> -->
+            </field>
+        </field>
+    </record>
+    <record id="view_purchase_order_form_inherit" model="ir.ui.view">
+        <field name="name">purchase.order.form.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']//tree//field[@name='price_subtotal']" position="after">
+                <field name="purchase_request_line_ids" widget="many2many_tags" string="Lignes demandes d’achat" force_save="1" readonly="1"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']//form//notebook" position="inside">
+                <page name="purchase_request_lines" string="Lignes demandes d’achat">
+                    <field name="purchase_request_line_ids" string="Lignes demandes d’achat" force_save="1" readonly="1"/>
+                </page>
+            </xpath>
+            <xpath expr="//field[@name='order_line']//tree//field[@name='sequence']" position="attributes">
+                <attribute name="widget"></attribute>
+                <attribute name="readonly">1</attribute>
+                <attribute name="force_save">1</attribute>
+            </xpath>
+            <field name="date_order" position="after">
+                <field name="is_bc_purchase_requisition" invisible="1"/>
+            </field>
+            <xpath expr="//field[@name='order_line']//tree//field[@name='sequence']" position="after">
+                <field name="is_bc_purchase_requisition" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']//form//field[@name='product_id']" position="after">
+                <field name="is_bc_purchase_requisition" invisible="1"/>
+            </xpath>
+            <field name="state" position="after">
+                <field name="state_bc_order" widget="statusbar" statusbar_visible="draft,sent,purchase" readonly="1" attrs="{'invisible': [('is_bc_purchase_requisition', '=', False)]}"/>
+            </field>
+            <field name="state" position="attributes">
+                <attribute name="attrs">{'invisible': [('is_bc_purchase_requisition', '!=', False)]}</attribute>
+            </field>
+            <field name="order_line" position="attributes">
+                <attribute name="context">{'default_is_bc_purchase_requisition': is_bc_purchase_requisition}</attribute>
+            </field>
+            <xpath expr="//field[@name='date_order']" position="replace">
+                <div>
+                    <label for="date_order" string="Date Bordereau" attrs="{'invisible': [('is_bc_purchase_requisition', '!=', False)]}"/>
+                    <label for="date_order" string="Date limite" attrs="{'invisible': [('is_bc_purchase_requisition', '=', False)]}"/>
+                </div>
+                <field name="date_order" nolabel="1"/>
+            </xpath>
+            <!-- <xpath expr="//field[@name='date_order']" position="before">
+                <label for="date_order" string="Date Bordereau" attrs="{'invisible': [('is_bc_purchase_requisition', '!=', False)]}"/>
+                <label for="date_order" string="Date Commande" attrs="{'invisible': [('is_bc_purchase_requisition', '=', False)]}"/>
+            </xpath> -->
+        </field>
+    </record>
+
+    <record id="view_purchase_request_form_extend_plus" model="ir.ui.view">
+        <field name="name">purchase.request.form.inherit.plus</field>
+        <field name="model">purchase.request</field>
+        <field name="inherit_id" ref="wt_purchase_request_extend.view_purchase_request_form_extend"/>
+        <field name="arch" type="xml">
+            <field name="is_achat" position="attributes">
+                <attribute name="attrs">{'readonly':[('parent.state', 'in', ['rejected'])]}</attribute>
+            </field>
+            <field name="prod_categ_id" position="attributes">
+                <attribute name="attrs">{'readonly':[('parent.state', 'in', ['rejected'])]}</attribute>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="partner_view_ex_PLUS">
+            <field name="name">partner.view.buttons</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='vat']" position="after">
+                    <field name="rc_ex"/>
+                    <field name="ville_rc_ex"/>
+                    <field name="ice_ex"/>
+                </xpath>
+            </field>
+        </record>
+
+    <record id="purchase_order_form_ex_PLUS" model="ir.ui.view">
+        <field name="name">purchase.order.form.ex.plus</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='requisition_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <!-- <xpath expr="//field[@name='date_order']" position="attributes">
+                <attribute name="string">Date Bordereau</attribute>
+            </xpath> -->
+            <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="attributes">
+                <attribute name="string">Prix Proposé</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/form//field[@name='price_unit']" position="attributes">
+                <attribute name="string">Prix Proposé</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="after">
+                <field name="estimated_prc" />
+                <field name="ecart" attrs="{'invisible': [('is_bc_purchase_requisition', '!=', False)]}"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/form//field[@name='price_unit']" position="after">
+                <field name="estimated_prc" />
+                <field name="ecart" attrs="{'invisible': [('is_bc_purchase_requisition', '!=', False)]}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="purchase_order_view_search_inherit_vendor_ref_plus" model='ir.ui.view'>
+      <field name="name">purchase.order.inherit.search.plus.selec</field>
+      <field name="model">purchase.order</field>
+      <field name="inherit_id" ref="purchase.purchase_order_view_search"/>
+      <field name="arch" type="xml">
+        <field name="partner_id" position="after">
+          <field name="partner_ref"/>
+        </field>
+        <group position="inside">
+          <filter string="Vendor Reference" name="group_partner_ref" domain="[]" context="{'group_by': 'partner_ref'}"/>
+        </group>
+      </field>
+    </record> 
+
+    <record id="purchase_requisition.action_purchase_requisition_list" model="ir.actions.act_window">
+       <field name="name">Bordereau de prix</field>
+       <field name="context">{
+            "default_requisition_id":active_id,
+            "default_user_id": False,
+            "search_default_group_partner_ref": 1
+            }
+        </field>
+    </record>
+    
+    <record id="purchase_order_tree_ex_PLUS" model="ir.ui.view">
+        <field name="name">purchase.order.tree.ex.plus</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='date_approve']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='date_planned']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='user_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='origin']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='company_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='amount_total']" position="attributes">
+                <attribute name="string">Prix Offert</attribute>
+            </xpath>
+            <xpath expr="//field[@name='amount_total']" position="before">
+                <field name="estimated_prc"/>
+            </xpath>
+            <xpath expr="//field[@name='amount_total']" position="after">
+                <field name="ecart"/>
+            </xpath>
+        </field>
+    </record>
+    
+    
+</odoo>

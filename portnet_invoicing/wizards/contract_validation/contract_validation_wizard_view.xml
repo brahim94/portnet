@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <!-- requestcustomer request wizard -->
+
+        <record id="contract_validation_wizard_view" model="ir.ui.view">
+            <field name="name">contract.validation.wizard.view</field>
+            <field name="model">contract.validation.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Validation">
+                        <group col="4">
+                            <group colspan="2">
+                                <field name="choice" required="1" />
+                                <field name="date" attrs="{'invisible': [('choice','=','no_create')],'required':[('choice','=','create')]}"/>
+                                <field name="next_seq"/>
+                            </group>
+                        </group>
+                    <footer>
+                        <button string="Confirmer" class="oe_highlight" type="object" name="action_confirm"/>
+                        ou
+                        <button string="Annuler" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        
+
+    </data>
+</openerp>

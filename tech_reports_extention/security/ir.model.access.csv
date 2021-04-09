@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_tech_reports_extention_tech_reports_extention,tech_reports_extention.tech_reports_extention,model_tech_reports_extention_tech_reports_extention,base.group_user,1,1,1,1

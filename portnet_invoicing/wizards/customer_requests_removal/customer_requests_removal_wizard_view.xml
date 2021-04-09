@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+<openerp>
+  <data>
+
+    <record id="customer_requests_removal_wizard_view_form" model="ir.ui.view">
+      <field name="name">customer.requests.removal.wizard.view.form</field>
+      <field name="model">customer.requests.removal.wizard</field>
+      <field name="priority">1</field>
+      <field name="arch" type="xml">
+        <form string="Import File">
+          <group col="4">
+            <separator string="Select your file :" colspan="4"/>
+            <field name="aml_data" filename="aml_fname"/>
+            <field name="aml_fname" readonly="1"/>
+            <newline/>
+          </group>
+          <footer>
+            <button name="action_remove" string="Delete" type="object" />
+            or
+            <button string="Cancel" class="oe_link" special="cancel"/>
+          </footer>
+        </form>
+      </field>
+    </record>
+
+    <!-- Action -->
+
+    <act_window id="action_customer_requests_removal_wizard"
+                name="Supprimer des demandes de création client"
+                res_model="customer.requests.removal.wizard"
+                src_model="customer.request"
+                view_mode="form"
+                target ="new"
+                key2="client_action_multi"
+                groups="account.group_account_manager"
+                />
+
+
+  </data>
+</openerp>

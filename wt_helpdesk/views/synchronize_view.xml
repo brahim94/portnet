@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Sychronisation -->
+         <record id="view_sychronize_tree" model="ir.ui.view">
+            <field name="name">sychronize.sychronize.tree</field>
+            <field name="model">sychronize.sychronize</field>
+            <field name="arch" type="xml">
+                <tree string="Sychronisation">
+                    <field name="name"/>
+                    <field name="url"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_sychronize_form" model="ir.ui.view">
+            <field name="name">sychronize.sychronize.form</field>
+            <field name="model">sychronize.sychronize</field>
+            <field name="arch" type="xml">
+                <form string="Sychronisation">
+                    <header>
+                        <button name="verify_connection" class="oe_highlight" string="Verifier Connexion" type="object" states="draft"/>
+                        <button name="reset_connection" class="oe_highlight" string="Reset Connexion" type="object" states="verified"/>
+                        <button name="sync_suppliers" class="oe_highlight" string="Sync Fournisseurs" type="object" attrs="{'invisible': ['|','|',('state','!=','verified'),('connection','!=','oracle'),('options','!=','suppliers')]}" context="{'manual': True}"/>
+                        <button name="sync_articles" class="oe_highlight" string="Sync Articles" type="object" attrs="{'invisible': ['|','|',('state','!=','verified'),('connection','!=','oracle'),('options','!=','articles')]}"/>
+                        <button name="sync_invoices" class="oe_highlight" string="Sync Factures" type="object" attrs="{'invisible': ['|','|',('state','!=','verified'),('connection','!=','pg'),('options','!=','invoices')]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,verified"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" attrs="{'readonly': [('state','=','verified')]}"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="url" attrs="{'readonly': [('state','=','verified')]}"/>
+                                <field name="database" attrs="{'readonly': [('state','=','verified')]}" required="1"/>
+                            </group>
+                            <group>
+                                <field name="port" attrs="{'readonly': [('state','=','verified')]}"/>
+                                <field name="options" widget="radio" attrs="{'readonly': [('state','=','verified')]}"/>
+                                <field name="schedule" attrs="{'readonly': [('state','=','verified')]}"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="username" attrs="{'readonly': [('state','=','verified')]}"/>
+                                <field name="password" password="True" attrs="{'readonly': [('state','=','verified')]}"/>
+                            </group>
+                            <group>
+                                <field name="connection" attrs="{'readonly': [('state','=','verified')]}"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="query"/>
+                        </group>
+
+                         <group>
+                            <field name="debug"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+       <record id="sychronize_action" model="ir.actions.act_window">
+            <field name="name">Sychronisation</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sychronize.sychronize</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new sychronisation record.
+                </p>
+            </field>
+        </record>
+
+   </data>
+</odoo>

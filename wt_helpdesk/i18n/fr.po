@@ -1,0 +1,623 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* wt_helpdesk
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-03-14 08:01+0000\n"
+"PO-Revision-Date: 2020-03-14 08:01+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: wt_helpdesk
+#: model:ir.model.fields,field_description:wt_helpdesk.field_action_client_parameter__name
+#: model:ir.model.fields,field_description:wt_helpdesk.field_action_fournisseur_parameter__name
+#: model:ir.model.fields,field_description:wt_helpdesk.field_notifications_notifications__action_client_id
+#: model_terms:ir.ui.view,arch_db:wt_helpdesk.view_action_client_parameter_form
+#: model_terms:ir.ui.view,arch_db:wt_helpdesk.view_action_client_parameter_tree
+#: selection:notifications.notifications,base_type:0
+msgid "Action Client"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model.fields,field_description:wt_helpdesk.field_processus_processus__actions_client_ids
+msgid "Action Client Line"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model_terms:ir.ui.view,arch_db:wt_helpdesk.view_action_fournisseur_parameter_form
+#: model_terms:ir.ui.view,arch_db:wt_helpdesk.view_action_fournisseur_parameter_tree
+#: selection:notifications.notifications,base_type:0
+msgid "Action Fournisseur"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model.fields,field_description:wt_helpdesk.field_processus_processus__actions_fournisseur_ids
+msgid "Action Fournisseur Line"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.actions.act_window,name:wt_helpdesk.action_client_parameter_action
+#: model:ir.model,name:wt_helpdesk.model_action_client_parameter
+#: model:ir.ui.menu,name:wt_helpdesk.action_client_parameter_menu
+#: model_terms:ir.ui.view,arch_db:wt_helpdesk.view_processus_form
+msgid "Actions Client"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.actions.act_window,name:wt_helpdesk.action_fournisseur_parameter_action
+#: model:ir.ui.menu,name:wt_helpdesk.action_fournisseur_parameter_menu
+#: model_terms:ir.ui.view,arch_db:wt_helpdesk.view_processus_form
+msgid "Actions Fournisseur"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model,name:wt_helpdesk.model_action_fournisseur_parameter
+msgid "Actions fournisseur"
+msgstr ""
+
+#. module: wt_helpdesk
+#: selection:conditions.conditions,unite:0
+msgid "Annee"
+msgstr ""
+
+#. module: wt_helpdesk
+#: selection:articles.parameter,garantie:0
+#: selection:notifications.notifications,unite:0
+msgid "Annees"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model.fields,field_description:wt_helpdesk.field_articles_parameter__name
+msgid "Article"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.actions.act_window,name:wt_helpdesk.articles_parameter_action
+#: model:ir.model,name:wt_helpdesk.model_articles_parameter
+#: model:ir.ui.menu,name:wt_helpdesk.articles_parameter_menu
+#: model_terms:ir.ui.view,arch_db:wt_helpdesk.view_articles_parameter_form
+#: model_terms:ir.ui.view,arch_db:wt_helpdesk.view_articles_parameter_tree
+msgid "Articles"
+msgstr ""
+
+#. module: wt_helpdesk
+#: selection:notifications.notifications,notification_type:0
+msgid "Automatique"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model.fields,field_description:wt_helpdesk.field_notifications_notifications__base_type
+msgid "Base"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.actions.act_window,name:wt_helpdesk.action_partner_customer_form_wt
+#: model:ir.ui.menu,name:wt_helpdesk.client_customer_menu
+msgid "Clients"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model.fields,field_description:wt_helpdesk.field_action_client_parameter__code
+#: model:ir.model.fields,field_description:wt_helpdesk.field_action_fournisseur_parameter__code
+#: model:ir.model.fields,field_description:wt_helpdesk.field_decision_parameter__code
+#: model:ir.model.fields,field_description:wt_helpdesk.field_motif_parameter__code
+#: model:ir.model.fields,field_description:wt_helpdesk.field_pannes_type_parameter__code
+#: model:ir.model.fields,field_description:wt_helpdesk.field_processus_processus__code
+#: model:ir.model.fields,field_description:wt_helpdesk.field_ticket_type_parameter__code
+msgid "Code"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model_terms:ir.ui.view,arch_db:wt_helpdesk.view_processus_form
+msgid "Conditions"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model.fields,field_description:wt_helpdesk.field_processus_processus__conditions_ids
+msgid "Conditions Line"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model,name:wt_helpdesk.model_conditions_conditions
+msgid "Conditions Lines"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.ui.menu,name:wt_helpdesk.helpdesk_configuration_menu_root
+msgid "Configuration"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model_terms:ir.actions.act_window,help:wt_helpdesk.action_client_parameter_action
+msgid "Create a new action client."
+msgstr ""
+
+#. module: wt_helpdesk
+#: model_terms:ir.actions.act_window,help:wt_helpdesk.action_fournisseur_parameter_action
+msgid "Create a new action fournisseur."
+msgstr ""
+
+#. module: wt_helpdesk
+#: model_terms:ir.actions.act_window,help:wt_helpdesk.articles_parameter_action
+msgid "Create a new articles."
+msgstr ""
+
+#. module: wt_helpdesk
+#: model_terms:ir.actions.act_window,help:wt_helpdesk.action_partner_customer_form_wt
+msgid "Create a new client in your address book"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model_terms:ir.actions.act_window,help:wt_helpdesk.decision_parameter_action
+msgid "Create a new decision."
+msgstr ""
+
+#. module: wt_helpdesk
+#: model_terms:ir.actions.act_window,help:wt_helpdesk.action_partner_supplier_form_wt
+msgid "Create a new fournisseurs in your address book"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model_terms:ir.actions.act_window,help:wt_helpdesk.motif_parameter_action
+msgid "Create a new motif."
+msgstr ""
+
+#. module: wt_helpdesk
+#: model_terms:ir.actions.act_window,help:wt_helpdesk.pannes_type_parameter_action
+msgid "Create a new pannes."
+msgstr ""
+
+#. module: wt_helpdesk
+#: model_terms:ir.actions.act_window,help:wt_helpdesk.processus_action
+msgid "Create a new processus."
+msgstr ""
+
+#. module: wt_helpdesk
+#: model_terms:ir.actions.act_window,help:wt_helpdesk.ticket_type_parameter_action
+msgid "Create a new ticket type"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model.fields,field_description:wt_helpdesk.field_action_client_parameter__create_uid
+#: model:ir.model.fields,field_description:wt_helpdesk.field_action_fournisseur_parameter__create_uid
+#: model:ir.model.fields,field_description:wt_helpdesk.field_articles_parameter__create_uid
+#: model:ir.model.fields,field_description:wt_helpdesk.field_conditions_conditions__create_uid
+#: model:ir.model.fields,field_description:wt_helpdesk.field_decision_parameter__create_uid
+#: model:ir.model.fields,field_description:wt_helpdesk.field_motif_parameter__create_uid
+#: model:ir.model.fields,field_description:wt_helpdesk.field_notifications_notifications__create_uid
+#: model:ir.model.fields,field_description:wt_helpdesk.field_pannes_type_parameter__create_uid
+#: model:ir.model.fields,field_description:wt_helpdesk.field_processus_processus__create_uid
+#: model:ir.model.fields,field_description:wt_helpdesk.field_reference_reference__create_uid
+#: model:ir.model.fields,field_description:wt_helpdesk.field_statements_statements__create_uid
+#: model:ir.model.fields,field_description:wt_helpdesk.field_ticket_type_parameter__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model.fields,field_description:wt_helpdesk.field_action_client_parameter__create_date
+#: model:ir.model.fields,field_description:wt_helpdesk.field_action_fournisseur_parameter__create_date
+#: model:ir.model.fields,field_description:wt_helpdesk.field_articles_parameter__create_date
+#: model:ir.model.fields,field_description:wt_helpdesk.field_conditions_conditions__create_date
+#: model:ir.model.fields,field_description:wt_helpdesk.field_decision_parameter__create_date
+#: model:ir.model.fields,field_description:wt_helpdesk.field_motif_parameter__create_date
+#: model:ir.model.fields,field_description:wt_helpdesk.field_notifications_notifications__create_date
+#: model:ir.model.fields,field_description:wt_helpdesk.field_pannes_type_parameter__create_date
+#: model:ir.model.fields,field_description:wt_helpdesk.field_processus_processus__create_date
+#: model:ir.model.fields,field_description:wt_helpdesk.field_reference_reference__create_date
+#: model:ir.model.fields,field_description:wt_helpdesk.field_statements_statements__create_date
+#: model:ir.model.fields,field_description:wt_helpdesk.field_ticket_type_parameter__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model,name:wt_helpdesk.model_decision_parameter
+#: model:ir.model.fields,field_description:wt_helpdesk.field_notifications_notifications__decision_id
+#: model_terms:ir.ui.view,arch_db:wt_helpdesk.view_decision_parameter_form
+#: model_terms:ir.ui.view,arch_db:wt_helpdesk.view_decision_parameter_tree
+msgid "Decision"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.actions.act_window,name:wt_helpdesk.decision_parameter_action
+#: model:ir.ui.menu,name:wt_helpdesk.decision_parameter_menu
+msgid "Decisions"
+msgstr ""
+
+#. module: wt_helpdesk
+#: selection:conditions.conditions,type_condition:0
+msgid "Delai"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model.fields,field_description:wt_helpdesk.field_notifications_notifications__name
+msgid "Description"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model.fields,field_description:wt_helpdesk.field_notifications_notifications__destinataire_id
+msgid "Destinataire"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model.fields,field_description:wt_helpdesk.field_action_client_parameter__display_name
+#: model:ir.model.fields,field_description:wt_helpdesk.field_action_fournisseur_parameter__display_name
+#: model:ir.model.fields,field_description:wt_helpdesk.field_articles_parameter__display_name
+#: model:ir.model.fields,field_description:wt_helpdesk.field_conditions_conditions__display_name
+#: model:ir.model.fields,field_description:wt_helpdesk.field_decision_parameter__display_name
+#: model:ir.model.fields,field_description:wt_helpdesk.field_motif_parameter__display_name
+#: model:ir.model.fields,field_description:wt_helpdesk.field_notifications_notifications__display_name
+#: model:ir.model.fields,field_description:wt_helpdesk.field_pannes_type_parameter__display_name
+#: model:ir.model.fields,field_description:wt_helpdesk.field_processus_processus__display_name
+#: model:ir.model.fields,field_description:wt_helpdesk.field_reference_reference__display_name
+#: model:ir.model.fields,field_description:wt_helpdesk.field_statements_statements__display_name
+#: model:ir.model.fields,field_description:wt_helpdesk.field_ticket_type_parameter__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model.fields,field_description:wt_helpdesk.field_articles_parameter__duree
+msgid "Duree"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model_terms:ir.ui.view,arch_db:wt_helpdesk.view_processus_form
+#: selection:notifications.notifications,base_type:0
+msgid "Décisions"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model.fields,field_description:wt_helpdesk.field_processus_processus__decisions_ids
+msgid "Décisions Line"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model_terms:ir.ui.view,arch_db:wt_helpdesk.view_processus_form
+msgid "Edition"
+msgstr ""
+
+#. module: wt_helpdesk
+#: selection:notifications.notifications,notification_mode:0
+msgid "Email"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model.fields,field_description:wt_helpdesk.field_notifications_notifications__email_to
+msgid "Email To"
+msgstr ""
+
+#. module: wt_helpdesk
+#: selection:articles.parameter,code_fam:0
+#: model:ir.model.fields,field_description:wt_helpdesk.field_articles_parameter__code_fam
+msgid "Famille"
+msgstr ""
+
+#. module: wt_helpdesk
+#: selection:articles.parameter,fournisseur:0
+#: model:ir.model.fields,field_description:wt_helpdesk.field_articles_parameter__fournisseur
+#: model:ir.model.fields,field_description:wt_helpdesk.field_notifications_notifications__fournisseur_id
+msgid "Fournisseur"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.actions.act_window,name:wt_helpdesk.action_partner_supplier_form_wt
+#: model:ir.ui.menu,name:wt_helpdesk.fournisseurs_supplier_menu
+msgid "Fournisseurs"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model.fields,field_description:wt_helpdesk.field_articles_parameter__garantie
+msgid "Garantie"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.ui.menu,name:wt_helpdesk.helpdesk_main_menu_root
+#: model:ir.ui.menu,name:wt_helpdesk.helpdesk_menu_root
+msgid "Helpdesk"
+msgstr ""
+
+#. module: wt_helpdesk
+#: selection:conditions.conditions,unite:0
+msgid "Heure"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model.fields,field_description:wt_helpdesk.field_action_client_parameter__id
+#: model:ir.model.fields,field_description:wt_helpdesk.field_action_fournisseur_parameter__id
+#: model:ir.model.fields,field_description:wt_helpdesk.field_articles_parameter__id
+#: model:ir.model.fields,field_description:wt_helpdesk.field_conditions_conditions__id
+#: model:ir.model.fields,field_description:wt_helpdesk.field_decision_parameter__id
+#: model:ir.model.fields,field_description:wt_helpdesk.field_motif_parameter__id
+#: model:ir.model.fields,field_description:wt_helpdesk.field_notifications_notifications__id
+#: model:ir.model.fields,field_description:wt_helpdesk.field_pannes_type_parameter__id
+#: model:ir.model.fields,field_description:wt_helpdesk.field_processus_processus__id
+#: model:ir.model.fields,field_description:wt_helpdesk.field_reference_reference__id
+#: model:ir.model.fields,field_description:wt_helpdesk.field_statements_statements__id
+#: model:ir.model.fields,field_description:wt_helpdesk.field_ticket_type_parameter__id
+msgid "ID"
+msgstr ""
+
+#. module: wt_helpdesk
+#: selection:conditions.conditions,unite:0
+msgid "Jour"
+msgstr ""
+
+#. module: wt_helpdesk
+#: selection:articles.parameter,garantie:0
+#: selection:notifications.notifications,unite:0
+msgid "Jours"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model.fields,field_description:wt_helpdesk.field_action_client_parameter____last_update
+#: model:ir.model.fields,field_description:wt_helpdesk.field_action_fournisseur_parameter____last_update
+#: model:ir.model.fields,field_description:wt_helpdesk.field_articles_parameter____last_update
+#: model:ir.model.fields,field_description:wt_helpdesk.field_conditions_conditions____last_update
+#: model:ir.model.fields,field_description:wt_helpdesk.field_decision_parameter____last_update
+#: model:ir.model.fields,field_description:wt_helpdesk.field_motif_parameter____last_update
+#: model:ir.model.fields,field_description:wt_helpdesk.field_notifications_notifications____last_update
+#: model:ir.model.fields,field_description:wt_helpdesk.field_pannes_type_parameter____last_update
+#: model:ir.model.fields,field_description:wt_helpdesk.field_processus_processus____last_update
+#: model:ir.model.fields,field_description:wt_helpdesk.field_reference_reference____last_update
+#: model:ir.model.fields,field_description:wt_helpdesk.field_statements_statements____last_update
+#: model:ir.model.fields,field_description:wt_helpdesk.field_ticket_type_parameter____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model.fields,field_description:wt_helpdesk.field_action_client_parameter__write_uid
+#: model:ir.model.fields,field_description:wt_helpdesk.field_action_fournisseur_parameter__write_uid
+#: model:ir.model.fields,field_description:wt_helpdesk.field_articles_parameter__write_uid
+#: model:ir.model.fields,field_description:wt_helpdesk.field_conditions_conditions__write_uid
+#: model:ir.model.fields,field_description:wt_helpdesk.field_decision_parameter__write_uid
+#: model:ir.model.fields,field_description:wt_helpdesk.field_motif_parameter__write_uid
+#: model:ir.model.fields,field_description:wt_helpdesk.field_notifications_notifications__write_uid
+#: model:ir.model.fields,field_description:wt_helpdesk.field_pannes_type_parameter__write_uid
+#: model:ir.model.fields,field_description:wt_helpdesk.field_processus_processus__write_uid
+#: model:ir.model.fields,field_description:wt_helpdesk.field_reference_reference__write_uid
+#: model:ir.model.fields,field_description:wt_helpdesk.field_statements_statements__write_uid
+#: model:ir.model.fields,field_description:wt_helpdesk.field_ticket_type_parameter__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model.fields,field_description:wt_helpdesk.field_action_client_parameter__write_date
+#: model:ir.model.fields,field_description:wt_helpdesk.field_action_fournisseur_parameter__write_date
+#: model:ir.model.fields,field_description:wt_helpdesk.field_articles_parameter__write_date
+#: model:ir.model.fields,field_description:wt_helpdesk.field_conditions_conditions__write_date
+#: model:ir.model.fields,field_description:wt_helpdesk.field_decision_parameter__write_date
+#: model:ir.model.fields,field_description:wt_helpdesk.field_motif_parameter__write_date
+#: model:ir.model.fields,field_description:wt_helpdesk.field_notifications_notifications__write_date
+#: model:ir.model.fields,field_description:wt_helpdesk.field_pannes_type_parameter__write_date
+#: model:ir.model.fields,field_description:wt_helpdesk.field_processus_processus__write_date
+#: model:ir.model.fields,field_description:wt_helpdesk.field_reference_reference__write_date
+#: model:ir.model.fields,field_description:wt_helpdesk.field_statements_statements__write_date
+#: model:ir.model.fields,field_description:wt_helpdesk.field_ticket_type_parameter__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: wt_helpdesk
+#: selection:articles.parameter,code_int:0
+#: model:ir.model.fields,field_description:wt_helpdesk.field_articles_parameter__code_int
+msgid "Libelle"
+msgstr ""
+
+#. module: wt_helpdesk
+#: selection:notifications.notifications,notification_type:0
+msgid "Manuel"
+msgstr ""
+
+#. module: wt_helpdesk
+#: selection:articles.parameter,garantie:0
+#: selection:conditions.conditions,unite:0
+#: selection:notifications.notifications,unite:0
+msgid "Mois"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model,name:wt_helpdesk.model_motif_parameter
+#: model:ir.model.fields,field_description:wt_helpdesk.field_motif_parameter__name
+#: model:ir.model.fields,field_description:wt_helpdesk.field_processus_processus__motif_id
+#: model_terms:ir.ui.view,arch_db:wt_helpdesk.view_motif_parameter_form
+#: model_terms:ir.ui.view,arch_db:wt_helpdesk.view_motif_parameter_tree
+msgid "Motif"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.actions.act_window,name:wt_helpdesk.motif_parameter_action
+#: model:ir.ui.menu,name:wt_helpdesk.motif_parameter_menu
+msgid "Motifs"
+msgstr ""
+
+#. module: wt_helpdesk
+#: selection:conditions.conditions,type_condition:0
+msgid "Nombre de reparations"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model_terms:ir.ui.view,arch_db:wt_helpdesk.view_processus_form
+msgid "Notification"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model.fields,field_description:wt_helpdesk.field_processus_processus__notification_ids
+msgid "Notification Line"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model,name:wt_helpdesk.model_notifications_notifications
+msgid "Notification Lines"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model.fields,field_description:wt_helpdesk.field_notifications_notifications__notification_mode
+msgid "Notification Mode"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model.fields,field_description:wt_helpdesk.field_notifications_notifications__notification_type
+msgid "Notification Type"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model.fields,field_description:wt_helpdesk.field_conditions_conditions__operator
+msgid "Operator"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.actions.act_window,name:wt_helpdesk.pannes_type_parameter_action
+#: model_terms:ir.ui.view,arch_db:wt_helpdesk.view_pannes_type_parameter_form
+#: model_terms:ir.ui.view,arch_db:wt_helpdesk.view_pannes_type_parameter_tree
+msgid "Pannes"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.ui.menu,name:wt_helpdesk.helpdesk_parameters_menu_root
+msgid "Parameters"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.actions.act_window,name:wt_helpdesk.processus_action
+#: model:ir.model,name:wt_helpdesk.model_processus_processus
+#: model:ir.model.fields,field_description:wt_helpdesk.field_conditions_conditions__processus_id
+#: model:ir.model.fields,field_description:wt_helpdesk.field_notifications_notifications__processus_id
+#: model:ir.model.fields,field_description:wt_helpdesk.field_processus_processus__name
+#: model:ir.ui.menu,name:wt_helpdesk.processus_menu
+#: model_terms:ir.ui.view,arch_db:wt_helpdesk.view_processus_form
+#: model_terms:ir.ui.view,arch_db:wt_helpdesk.view_processus_tree
+msgid "Processus"
+msgstr ""
+
+#. module: wt_helpdesk
+#: selection:articles.parameter,code_rayon:0
+#: model:ir.model.fields,field_description:wt_helpdesk.field_articles_parameter__code_rayon
+msgid "Rayon"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model,name:wt_helpdesk.model_reference_reference
+#: model:ir.model.fields,field_description:wt_helpdesk.field_reference_reference__name
+msgid "Reference"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model.fields,field_description:wt_helpdesk.field_conditions_conditions__reference_1
+msgid "Reference1"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model.fields,field_description:wt_helpdesk.field_conditions_conditions__reference_2
+msgid "Reference2"
+msgstr ""
+
+#. module: wt_helpdesk
+#: selection:notifications.notifications,notification_mode:0
+msgid "SMS"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model.fields,field_description:wt_helpdesk.field_notifications_notifications__sms_to
+msgid "SMS To"
+msgstr ""
+
+#. module: wt_helpdesk
+#: selection:conditions.conditions,unite:0
+msgid "Semaine"
+msgstr ""
+
+#. module: wt_helpdesk
+#: selection:articles.parameter,garantie:0
+#: selection:notifications.notifications,unite:0
+msgid "Semaines"
+msgstr ""
+
+#. module: wt_helpdesk
+#: selection:articles.parameter,code_sfam:0
+#: model:ir.model.fields,field_description:wt_helpdesk.field_articles_parameter__code_sfam
+msgid "Sous Famille"
+msgstr ""
+
+#. module: wt_helpdesk
+#: selection:articles.parameter,code_ssfam:0
+#: model:ir.model.fields,field_description:wt_helpdesk.field_articles_parameter__code_ssfam
+msgid "Sous Sous Famille"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model.fields,field_description:wt_helpdesk.field_statements_statements__name
+msgid "Statement"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model,name:wt_helpdesk.model_statements_statements
+#: model:ir.model.fields,field_description:wt_helpdesk.field_processus_processus__statement_ids
+msgid "Statements"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model_terms:ir.ui.view,arch_db:wt_helpdesk.view_ticket_type_parameter_form
+msgid "Ticket"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model_terms:ir.ui.view,arch_db:wt_helpdesk.view_ticket_type_parameter_tree
+msgid "Ticket Type"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model.fields,field_description:wt_helpdesk.field_conditions_conditions__type_condition
+msgid "Type Conditions"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model.fields,field_description:wt_helpdesk.field_pannes_type_parameter__name
+msgid "Type De Panne"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model.fields,field_description:wt_helpdesk.field_decision_parameter__name
+#: model:ir.model.fields,field_description:wt_helpdesk.field_motif_parameter__ticket_type_id
+#: model:ir.model.fields,field_description:wt_helpdesk.field_processus_processus__ticket_type_id
+#: model:ir.model.fields,field_description:wt_helpdesk.field_ticket_type_parameter__name
+msgid "Type Ticket"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model,name:wt_helpdesk.model_pannes_type_parameter
+msgid "Type of Pannes"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model,name:wt_helpdesk.model_ticket_type_parameter
+msgid "Type of Tickets"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.actions.act_window,name:wt_helpdesk.ticket_type_parameter_action
+#: model:ir.ui.menu,name:wt_helpdesk.ticket_type_parameter_menu
+msgid "Types Ticket"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.ui.menu,name:wt_helpdesk.pannes_type_parameter_menu
+msgid "Types de Pannes"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model.fields,field_description:wt_helpdesk.field_conditions_conditions__unite
+#: model:ir.model.fields,field_description:wt_helpdesk.field_notifications_notifications__unite
+msgid "Unite"
+msgstr ""
+
+#. module: wt_helpdesk
+#: model:ir.model.fields,field_description:wt_helpdesk.field_conditions_conditions__valeur
+#: model:ir.model.fields,field_description:wt_helpdesk.field_notifications_notifications__valeur
+msgid "Valeur"
+msgstr ""
+

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="portnet_view_account_invoice_refund" model="ir.ui.view">
+            <field name="name">account.invoice.refund.form</field>
+            <field name="model">account.invoice.refund</field>
+            <field name="inherit_id" ref="account.view_account_invoice_refund"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//footer" position="before">
+                        <notebook attrs="{'invisible':[('is_operation','=',False)]}">
+                            <page string="Codes des opérations">
+                            <group>
+                                <field name="is_operation" invisible="1" />
+                                <field name="filter_column"  invisible="1" />
+                                <field name="operation_ids" nolabel="1" mode="tree" colspan="4">
+                                    <tree editable="top">
+                                        <field name="code"/>
+                                    </tree>
+                                </field>
+                            </group>
+                            </page>
+                        </notebook>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</openerp>

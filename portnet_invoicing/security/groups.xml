@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data noupdate="0">
+
+     <record id="group_agent" model="res.groups">
+        <field name="name"> Agent </field>
+     </record>
+
+     <record id="group_director" model="res.groups">
+        <field name="name"> Direction générale </field>
+     </record>
+
+      <record id="group_customer_request_removal" model="res.groups">
+        <field name="name">Suppression des demandes de création client</field>
+     </record>
+
+      <record id="group_cancelled_invoice_removal" model="res.groups">
+        <field name="name">Suppression des factures annulées</field>
+     </record>
+
+      <record id="group_manual_contract_invoice" model="res.groups">
+        <field name="name">Création manuelle de facture contrat</field>
+     </record>
+
+
+  </data>
+
+</openerp>

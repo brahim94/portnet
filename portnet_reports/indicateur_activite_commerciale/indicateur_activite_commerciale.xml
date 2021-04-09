@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+
+    	<record id="indicateur_activite_commerciale_report_view" model="ir.ui.view">
+            <field name="name">wizard.comercial.indicator.activity.report</field>
+            <field name="model">comercial.indicator.activity.report</field>
+            <field name="arch" type="xml">
+                <form string="Indicateur d'activité Commerciale">
+                    <group>
+                        <field name="fiscalyear_id" required="1" />
+                    </group>
+
+                    <footer>
+                        <button name="print_report" string="Imprimer le rapport" type="object" class="oe_highlight"/>
+                        or
+                        <button string="fermer" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_indicateur_activite_commerciale" model="ir.actions.act_window">
+            <field name="name">Indicateurs D'activité Commerciale</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">comercial.indicator.activity.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="indicateur_activite_commerciale_report_view"/>
+            <field name="target">new</field>
+        </record>
+
+    <menuitem id="menu_indicateur_activite_commerciale_report" name="Indicateurs D'activité Commerciale" action="action_indicateur_activite_commerciale" sequence="3" parent="portnet_reports.menu_indicateur_techniques_financiers" />
+
+   </data>
+</openerp>

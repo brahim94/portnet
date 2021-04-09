@@ -1,0 +1,88 @@
+<odoo>
+
+    <report
+        id="action_report_act_eng"
+        model="purchase.requisition"
+        string="Act Engagement"
+        report_type="qweb-pdf"
+		name="tech_reports_extention.act"
+		print_report_name="'Act Engagement'"/>
+
+        <template id="act">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+
+        <style>
+        div.a{
+        text-indent: 50px;
+        }
+        </style>
+            <div style="vertical-align:center;text-align: center" class="cls_039">
+                <h4><strong><u>Annexe 4: Modèle de l’acte d’engagement.</u></strong></h4>
+            </div>
+
+            <div style="vertical-align:center;text-align: left" class="cls_039">
+                <h4><strong><u>A- Partie réservée à l’Administration</u></strong></h4>
+            </div>
+
+            <div style="vertical-align:center;text-align: left" class="cls_039">
+                Appel d'offres ouvert sur offres de prix n°……………………  du : …………….
+                <p>Objet du Marché :</p>
+                <br></br>
+            </div>
+            
+            <div style="vertical-align:center;text-align: left" class="cls_039">
+            Passé en application de l'alinéa 2  paragraphe 1 de l’article 16 et  paragraphe 1 de l’article 17 et l'alinéa 3  paragraphe 3 de l’article 17
+           <br> du décret n° 2-12-349 du 8 joumada I 1434 (20 mars 2013) relatif aux marchés publics.</br>
+            </div>
+            
+            <div style="vertical-align:center;text-align: left" class="cls_039">
+                <h3><strong><u>B - Partie réservée au concurrent</u></strong></h3>
+                <h4><strong><u>a) pour les personnes physiques :</u></strong></h4>
+                Je(1), soussigné,(Nom, prénom et qualité) ;
+                <br>Agissant en mon nom  personnel et pour mon propre compte(1),</br>
+                <br>Adresse du domicile élu : …………………………………………………………. ;</br>
+                <br>Affilié à la CNSS sous le n° :………………………………………………….. (2) ;</br>
+                <br>Inscrit au registre du commerce de………………. sous le n°………………… (2) ;</br>
+                <br>Inscrit au registre du commerce de………………. sous le n°………………… (2) ;</br>
+                <br>N° de la patente :………………………………………………………………..(2) ;</br>
+
+            </div>
+
+            <div style="vertical-align:center;text-align: left" class="cls_039">
+                <h4><strong><u>b) pour les personnes morales : </u></strong></h4>
+                Je (1),  soussigné, (Nom, prénom et qualité au sein de l’entreprise) ;
+                <br>Agissant au nom  et  pour le compte de ………(Raison social et forme juridique de l’entreprise) ; ,</br>
+                <br>Au capital de :…………………………………………………</br>
+                <br>Adresse du siège social de la société :……………………………………………………………… ;</br>
+                <br>Adresse du domicile élu : ……………………………………………………………....….……… . ;</br>
+                <br>Affilié à la CNSS sous le n° :…………………………………………….…… (2) et (3) ;</br>
+                <br>Inscrit au registre du commerce de …………….. sous le n°………………… (2) et (3) ;</br>
+                <br>N° de la patente :……………………………………………………………… (2) et (3) ;</br>
+                <br>En vertu des pouvoirs qui me sont conférés:</br>
+                <br>Après avoir pris connaissance du dossier d’appel d’offres, concernant les prestations précisées en objet de la partie A ci-dessus ;</br>
+                <br>Après avoir apprécié à mon point de vue et sous ma responsabilité la nature et les difficultés que comportent ces prestations : </br>
+                <br>1. Remets, revêtu de ma signature un bordereau de prix et un détail estimatif établis conformément aux modèles figurant au dossier d’appel d’offres.</br>
+                <br>2. M’engage à exécuter lesdites prestations conformément au Cahier des Prescriptions Spéciales et moyennant les prix que j’ai établi moi-même, lesquels font ressortir :</br>
+                <br></br>
+                <br> <strong>Montant Hors TVA </strong>:</br>
+                <br> <strong>Taux de la TVA </strong>:</br>
+                <br> <strong>Montant de la TVA  </strong>:</br>
+                <br> <strong>Montant TVA comprise</strong>:</br>
+                <br> <strong>L'ENSMR</strong>se libérera des sommes dues par elle en faisant donner crédit au compte</br>
+                <br> ( à la trésorerie générale, bancaire, ou postal)ouvert à mon nom (ou au nom de la Société) à</br>
+                <br> ……………………………(localité)…………………. , Sous relevé d’identification bancaire  (RIB) n°:…………………………………………………………………….</br>
+
+
+                
+            </div>
+
+            <div style="vertical-align:center;text-align: left" class="a">
+                Fait à                  , le 
+            </div>
+
+            </t>
+        </t>
+    </template>
+
+</odoo>

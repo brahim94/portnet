@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <!-- customer requests purge wizard -->
+
+        <record id="customer_requests_purge_wizard_view" model="ir.ui.view">
+            <field name="name">customer.requests.purge.wizard.view</field>
+            <field name="model">customer.requests.purge.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Nettoyage des demandes de création client">
+                    <group col="4">
+                        <group colspan="2">
+                            <field name="date_start" required="1" />
+                            <field name="date_stop" required="1" />
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Lancer" class="oe_highlight" type="object" name="action_validate" confirm="Cette action, vas supprimer toutes les demandes de création confirmées qui correspondent aux dates choisies. Voulez-vous continuer ?"/>
+                        ou
+                        <button string="Annuler" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action customer requests -->
+
+        <record model="ir.actions.act_window" id="action_customer_requests_purge">
+	        <field name="name">Nettoyage des DCC</field>
+	        <field name="res_model">customer.requests.purge.wizard</field>
+	        <field name="view_type">form</field>
+	        <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="customer_requests_purge_menu" name="Nettoyage des DCC" parent="base.menu_base_config"
+                  action="action_customer_requests_purge" sequence="1"
+                  groups="account.group_account_manager,portnet_invoicing.group_director"/>
+
+        
+
+    </data>
+</openerp>

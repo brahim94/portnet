@@ -1,0 +1,77 @@
+<odoo>
+
+    <report
+        id="action_report_approbation"
+        model="purchase.requisition"
+        string="Notification Approbation"
+        report_type="qweb-pdf"
+		name="tech_reports_extention.approbation"
+		print_report_name="'Notification Approbation'"/>
+
+        <template id="approbation">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.internal_layout">
+          
+
+                <table class="centre empty">
+                            <tr>
+                                <tr>
+                                    <th  style="text-align: center;width:30%">
+                                        <br></br>
+                                        <strong>ROYAUME DU MAROC</strong>
+                                        <br>_______</br>
+                                        <br>ECOLE  NATIONALE SUPERIEURE DES MINESDE RABAT</br>
+                                        <br>________</br>
+                                        <br>Numéro d’ordre De l’ENSMR</br>
+                                        <br>………………(1)</br>
+                                        <br>________</br>                                
+                                        <br>Le Directeur de L’ENSMR</br>                                
+                                    </th>
+                                    <td class="empty" style="text-align:center" ><strong><h4><u>ORDRE DE SERVICE DE NOTIFICATION DE L’APPROBATION</u></h4></strong>
+                                        <br></br>
+                                        <br>« raison sociale du concurrent », est informé que le Marché N° ……………… relatif à ……………………………….. est approuvé par l’autorité compétente de l’ENSMR.</br>
+                                        <div style="text-align:left">
+                                            <br>En conséquence, vous êtes invité à :
+                                            <ul>
+                                            <li>procéder à l’enregistrement dudit marché ;</li>
+                                            <li>constituer le cautionnement définitif conformément aux clauses du marché dans un délai ne dépassant pas 30/20 jours à compter de la date de notification du présent ordre de service (le cas échéant);</li>
+                                            <li>produire les attestations d’assurance stipulées par l’article 19 du CPS.</li>
+                                            </ul></br>
+                                        </div>    
+                                        <br>Le présent ordre de service n° ……………….(1) est notifié à …………………………………..; ……………………………………………… par le responsable de la Division Administrative de l’ENSMR. </br>
+                                        <p>Fait à Rabat le ……………………………</p>
+                                    </td>
+                                </tr>
+                            </tr>
+
+                    </table>
+
+                    <table class="centre empty">
+                            <tr>
+                                <tr>
+                                    <th  style="text-align: center;width:30%">
+                                        <br></br>
+                                        <strong>ROYAUME DU MAROC</strong>
+                                        <br>_______</br>
+                                        <br>ECOLE  NATIONALE SUPERIEURE DES MINESDE RABAT</br>
+                                        <br>_______</br>
+                                        <br>Numéro d’ordre</br>
+                                        <br>………………(1)</br>
+                                        <br>_______</br>                                
+                                        <br>Reçu le présent Ordre de service (Cachet, Signature de la Société)</br>                                
+                                    </th>
+                                    <td class="empty" style="text-align:center" ><strong><h4><u>NOTIFICATION</u></h4></strong>
+                                        <br></br>
+                                        <br>Le ………………, Monsieur le responsable de la Division Administrative de l’ENSMR, déclare avoir remis l’ordre de service inscrit au registre sous le n° d’ordre ……………….(1). à ………………………….., ………………………………………...</br>
+                                        
+                                    </td>
+                                </tr>
+                            </tr>
+                    </table>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

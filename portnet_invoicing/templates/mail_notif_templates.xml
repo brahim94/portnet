@@ -1,0 +1,416 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data>
+        <record id="email_template_edi_invoice_portnet" model="email.template">
+            <field name="name">Envoi de facture par mail portnet</field>
+            <field name="email_from">${(object.user_id.email or object.company_id.email or 'noreply@localhost')|safe}</field>
+            <field name="subject">Votre facture d’abonnement annuel PORTNET S.A.</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="model_id" ref="account.model_account_invoice"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="report_template" ref="account.account_invoices"/>
+            <field name="report_name">Invoice_${(object.number or '').replace('/','_')}_${object.state == 'draft' and 'draft' or ''}</field>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="body_html"><![CDATA[
+<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+
+    <p>Bonjour ${object.partner_id.name},</p>
+
+    <p>Une nouvelle facture est disponible pour vous : </p>
+
+    <p style="border-left: 1px solid #8e0000; margin-left: 30px;">
+       &nbsp;&nbsp;<strong>RÉFÉRENCES</strong><br />
+       &nbsp;&nbsp;Numéro de facture: <strong>${object.number}</strong><br />
+       &nbsp;&nbsp;Total de la facture: <strong>${object.amount_total} ${object.currency_id.name}</strong><br />
+       &nbsp;&nbsp;Date de la facture: ${object.date_invoice}<br />
+       % if object.origin:
+       &nbsp;&nbsp;Référence de la commande: ${object.origin}<br />
+       % endif
+       &nbsp;&nbsp;Votre contact: <a href="http://reclamation.portnet.ma">http://reclamation.portnet.ma</a>
+    </p>
+
+    <p>
+    <strong>Afin de faciliter votre règlement, vous pouvez accéder à votre facture depuis votre espace facture sur le Guichet Unique PortNet et choisir parmi les moyens affichés, le moyen de paiement qui vous convient : Carte bancaire, Espèce (proximo TASSEHILAT), Amanty ou par débit direct.</strong><br/>
+    <strong>Pour plus de détails , prière de consulter le guide du paiement multicanal sur le lien suivant : http://bit.ly/2CLVbXc</strong>
+    </p>
+
+    <br/>
+    <p>Si vous avez des questions, n'hésitez pas à nous contacter à travers <a href="http://reclamation.portnet.ma">http://reclamation.portnet.ma</a></p>
+    <p>Merci d'avoir choisi ${object.company_id.name or 'PORTNET'}!</p>
+</div>
+            ]]></field>
+        </record>
+
+        <record id="email_template_edi_invoice_portnet_60_next_inv" model="email.template">
+            <field name="name">Envoi de facture par mail portnet j-60 date anniversaire</field>
+            <field name="email_from">${(object.user_id.email or object.company_id.email or 'noreply@localhost')|safe}</field>
+            <field name="subject">Suspension de contrat PORTNET S.A.</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="model_id" ref="account.model_account_invoice"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="report_template" ref="account.account_invoices"/>
+            <field name="report_name">Invoice_${(object.number or '').replace('/','_')}_${object.state == 'draft' and 'draft' or ''}</field>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="body_html"><![CDATA[
+<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+
+    <p>Cher(es) client(e)s,</p>
+
+    <p>Nous vous informons que suite au non-paiement de votre facture d’abonnement annuel,<br/>
+    votre contrat PORTNET S.A. sera clôturé définitivement le <strong>${object.contract_id.next_invoice_date}</strong>.</p>
+
+    <p>Merci de noter qu’après la clôture dudit contrat, l’abonnement aux services de PORTNET S.A.<br/>
+    sera conditionné par la signature d’un nouveau contrat (dépôt d’un nouveau dossier)</p>
+
+    <p>Afin d’éviter la clôture de votre contrat, nous vous remercions par avance de procéder<br/>
+    au paiement de votre facture, au plus tard <strong>un mois avant la date de fin de contrat</strong> (mentionnée ci-dessus).</p>
+
+    <p>A noter que faute de réponse de votre part pendant ce délai, nous nous réservons le droit de recouvrer notre créance par voie judiciaire.</p>
+
+    <p>Pour tout besoin d’information ou de complément dans ce sens, merci de nous contacter<br/>
+    à travers l’outil de réclamation en ligne : <a href="http://reclamation.portnet.ma">http://reclamation.portnet.ma</a></p>
+
+    <p>
+    <strong>Afin de faciliter votre règlement, vous pouvez accéder à votre facture depuis votre espace facture sur le Guichet Unique PortNet et choisir parmi les moyens affichés, le moyen de paiement qui vous convient : Carte bancaire, Espèce (proximo TASSEHILAT), Amanty ou par débit direct.</strong><br/>
+    <strong>Pour plus de détails , prière de consulter le guide du paiement multicanal sur le lien suivant : http://bit.ly/2CLVbXc</strong>
+    </p>
+
+    <p>Bien cordialement.<br/>
+     Service Facturation et Recouvrement<br/>
+     PORTNET S.A.</p>
+
+</div>
+            ]]></field>
+        </record>
+
+        <record id="email_template_edi_invoice_portnet_one_month_after_due_date" model="email.template">
+            <field name="name">Envoi de facture par mail portnet j+30 date echeance</field>
+            <field name="email_from">${(object.user_id.email or object.company_id.email or 'noreply@localhost')|safe}</field>
+            <field name="subject">Facture d’abonnement PORTNET impayée.</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="model_id" ref="account.model_account_invoice"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="report_template" ref="account.account_invoices"/>
+            <field name="report_name">Invoice_${(object.number or '').replace('/','_')}_${object.state == 'draft' and 'draft' or ''}</field>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="body_html"><![CDATA[
+<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+
+    <p>Cher(es) client(e)s,</p>
+
+    <p>Sauf erreur ou omission de notre part, nous n’avons toujours pas reçu votre paiement<br/>
+     de la facture d’abonnement annuel PORTNET S.A., d’un montant total de 3 600 DH TTC.</p>
+
+    <p>Nous vous prions de bien vouloir procéder au paiement de votre abonnement annuel,<br>
+    afin de réactiver votre accès à PortNet.<br/>
+    Si vous ne désirez pas renouveler votre abonnement annuel, nous vous invitons à régulariser<br/>
+    vos factures en instance et nous adresser une demande dûment cachetée et signée par vos soins,<br/>
+    afin de résilier votre contrat d’abonnement aux services de PORTNET S.A.</p>
+
+    <p>Si vous avez déjà procédé au paiement, merci de nous communiquer votre justificatif de paiement<br/>
+     (chèque, virement ou versement) à travers l’outil de réclamation en ligne : <a href="http://reclamation.portnet.ma">http://reclamation.portnet.ma</a> Thème : Facturation & paiements.</p>
+
+     <p>
+    <strong>Afin de faciliter votre règlement, vous pouvez accéder à votre facture depuis votre espace facture sur le Guichet Unique PortNet et choisir parmi les moyens affichés, le moyen de paiement qui vous convient : Carte bancaire, Espèce (proximo TASSEHILAT), Amanty ou par débit direct.</strong><br/>
+    <strong>Pour plus de détails , prière de consulter le guide du paiement multicanal sur le lien suivant : http://bit.ly/2CLVbXc</strong>
+    </p>
+
+    <p>Par ailleurs, nous vous rappelons qu’en cas de non-paiement, PORTNET S.A. se réserve le droit<br/>
+    de résilier votre contrat d’abonnement.</p>
+
+    <p>Bien cordialement.<br/>
+     Service Facturation et Recouvrement<br/>
+     PORTNET S.A.</p>
+
+</div>
+            ]]></field>
+        </record>
+
+        <record id="email_template_edi_invoice_portnet_at_invoice_due_date" model="email.template">
+            <field name="name">Envoi de facture par mail portnet jour date echeance</field>
+            <field name="email_from">${(object.user_id.email or object.company_id.email or 'noreply@localhost')|safe}</field>
+            <field name="subject">Facture PORTNET impayée -SUSPENSION D’ABONNEMENT-</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="model_id" ref="account.model_account_invoice"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="report_template" ref="account.account_invoices"/>
+            <field name="report_name">Invoice_${(object.number or '').replace('/','_')}_${object.state == 'draft' and 'draft' or ''}</field>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="body_html"><![CDATA[
+<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+
+    <p>Cher(es) client(e)s,</p>
+
+    <p>Nous vous informons que suite au non-paiement de votre facture d’abonnement annuel PORTNET S.A.<br/>
+    échue le <strong>${object.date_due}</strong>, votre accès à PortNet a été suspendu.<br/>
+    Nous vous invitons à régulariser votre facture le plutôt possible, afin de réactiver votre abonnement.</p>
+
+    <p>Nous protons également à votre connaissance, qu’en cas de non-paiement, PORTNET S.A. se réserve<br/>
+    le droit de résilier votre contrat d’abonnement.</p>
+
+    <p>Si vous avez déjà procédé au paiement, merci de nous communiquer votre justificatif de paiement<br/>
+     (chèque, virement ou versement) à travers l’outil de réclamation en ligne : <a href="http://reclamation.portnet.ma">http://reclamation.portnet.ma</a> Thème : Facturation & paiements.</p>
+
+     <p>
+    <strong>Afin de faciliter votre règlement, vous pouvez accéder à votre facture depuis votre espace facture sur le Guichet Unique PortNet et choisir parmi les moyens affichés, le moyen de paiement qui vous convient : Carte bancaire, Espèce (proximo TASSEHILAT), Amanty ou par débit direct.</strong><br/>
+    <strong>Pour plus de détails , prière de consulter le guide du paiement multicanal sur le lien suivant : http://bit.ly/2CLVbXc</strong>
+    </p>
+
+    <p>Bien cordialement.<br/>
+     Service Facturation et Recouvrement<br/>
+     PORTNET S.A.</p>
+
+</div>
+            ]]></field>
+        </record>
+
+        <record id="email_template_edi_invoice_portnet_one_month_before_due_date" model="email.template">
+            <field name="name">Envoi de facture par mail portnet j-30 date echeance</field>
+            <field name="email_from">${(object.user_id.email or object.company_id.email or 'noreply@localhost')|safe}</field>
+            <field name="subject">Facture PORTNET Impayée</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="model_id" ref="account.model_account_invoice"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="report_template" ref="account.account_invoices"/>
+            <field name="report_name">Invoice_${(object.number or '').replace('/','_')}_${object.state == 'draft' and 'draft' or ''}</field>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="body_html"><![CDATA[
+<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+
+    <p>Cher(es) client(e)s,</p>
+
+    <p>Nous portons à votre connaissance que votre facture d’abonnement annuel PORTNET S.A. arrivera bientôt<br/>
+    à échéance, merci de penser à régulariser votre facture le plutôt possible, afin d’éviter toute suspension<br/>
+    éventuelle de votre accès à PortNet.</p>
+
+    <p>Si vous avez déjà procédé au paiement, merci de nous communiquer votre justificatif de paiement<br/>
+     (chèque, virement ou versement) à travers l’outil de réclamation en ligne : <a href="http://reclamation.portnet.ma">http://reclamation.portnet.ma</a> Thème : Facturation & paiements.</p>
+
+     <p>
+    <strong>Afin de faciliter votre règlement, vous pouvez accéder à votre facture depuis votre espace facture sur le Guichet Unique PortNet et choisir parmi les moyens affichés, le moyen de paiement qui vous convient : Carte bancaire, Espèce (proximo TASSEHILAT), Amanty ou par débit direct.</strong><br/>
+    <strong>Pour plus de détails , prière de consulter le guide du paiement multicanal sur le lien suivant : http://bit.ly/2CLVbXc</strong>
+    </p>
+
+    <p>Bien cordialement.<br/>
+     Service Facturation et Recouvrement<br/>
+     PORTNET S.A.</p>
+
+</div>
+            ]]></field>
+        </record>
+
+        <record id="email_template_edi_invoice_portnet_two_month_before_anniversary" model="email.template">
+            <field name="name">Envoi de notification par mail 60 jours avant date anniversaire pour client soldé</field>
+            <field name="email_from">${(user.company_id.email or 'noreply@localhost')|safe}</field>
+            <field name="subject">Votre contrat PORTNET S.A.</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="model_id" ref="portnet_invoicing.model_res_contract"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="body_html"><![CDATA[
+<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+
+    <p>Cher(es) client(e)s,</p>
+
+    <p>Nous vous informons que votre abonnement annuel aux services PORTNET S.A.<br/>
+    Prendra fin le <strong>${object.next_invoice_date}</strong>.</p>
+
+    <p>Nous vous rappelons par la même occasion que votre contrat PORTNET S.A. Est<br/>
+    renouvelable par tacite de reconduction. Si vous ne souhaitez pas renouveler votre<br/>
+    abonnement, nous vous prions de nous communiquer une demande de résiliation dûment<br/>
+    cachetée et signée par vos soins et ce <strong>un mois avant la date de fin de contrat (mentionnée ci-dessus)</strong></p>
+
+    <p>En cas de non-paiement, PORTNET S.A. Se réserve le droit de résilier votre contrat d’abonnement.<br/>
+     Pour tout besoin d’information ou de complément dans ce sens, merci de nous contacter<br/>
+     à travers l’outil de réclamation en ligne : <a href="http://reclamation.portnet.ma">http://reclamation.portnet.ma</a> Thème : Facturation & paiements.</p>
+
+     <p>
+    <strong>Afin de faciliter votre règlement, vous pouvez accéder à votre facture depuis votre espace facture sur le Guichet Unique PortNet et choisir parmi les moyens affichés, le moyen de paiement qui vous convient : Carte bancaire, Espèce (proximo TASSEHILAT), Amanty ou par débit direct.</strong><br/>
+    <strong>Pour plus de détails , prière de consulter le guide du paiement multicanal sur le lien suivant : http://bit.ly/2CLVbXc</strong>
+    </p>
+
+    <p>Bien cordialement.<br/>
+     Service Facturation et Recouvrement<br/>
+     PORTNET S.A.</p>
+
+</div>
+            ]]></field>
+        </record>
+
+         <!--Notification Clients of Payment Before Next Invoice Date of Contract : Created by Mouad Ghandi-->
+
+            <!--2 Months before anniversary date -->
+
+        <record id="email_template_notif_email_two_months_before_next_invoice_date" model="email.template">
+            <field name="name">Envoi de notification par mail 2 Mois avant date anniversaire du contrat client</field>
+            <field name="email_from">${(user.company_id.email or 'noreply@localhost')|safe}</field>
+            <field name="subject">Renouvellement abonnement PORTNET S.A.</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="model_id" ref="portnet_invoicing.model_res_contract"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="body_html"><![CDATA[
+<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+
+    <p>Cher(es) client(e)s,</p>
+
+    <p>Nous vous informons que votre contrat d'abonnement PORTNET S.A arrive à échéance le <strong>${object.next_invoice_date}</strong>.</p>
+
+    <p>Afin d’éviter la suspension de vos accès à cette date, nous vous invitons à régler le montant de votre abonnement annuel et
+       nous communiquer le justificatif de votre paiement à travers l’outil de réclamation
+       en ligne : <a href="http://reclamation.portnet.ma">http://reclamation.portnet.ma</a> Thème : Facturation & paiements, et ce
+       <strong>avant la date de fin de contrat mentionnée ci-dessus.</strong></p>
+
+    <br/>
+    <stron>La facture d'abonnement  vous sera communiquée une fois le paiement reçu.</strong>
+
+    <p>Si vous ne désirez pas renouveler votre abonnement, nous vous prions de nous envoyer une demande de résiliation dûment cachetée et signée <br/>
+     par le représentant légal de la société, au plus tard un mois avant la date d’échéance mentionnée ci-dessus.</p>
+
+    <p>Nous portons également à votre connaissance, qu’en cas de non-paiement<br/>
+     de votre abonnement. PORTNET S.A. se réserve le droit de résilier votre contrat d’abonnement.<br/></p>
+
+    <p>Bien cordialement.<br/>
+     Service Facturation et Recouvrement<br/>
+     PORTNET S.A.</p>
+
+</div>
+            ]]></field>
+        </record>
+
+            <!--1 Months before anniversary date -->
+
+        <record id="email_template_notif_email_one_months_before_next_invoice_date" model="email.template">
+            <field name="name">Envoi de notification par mail  1 Mois avant date anniversaire du contrat client</field>
+            <field name="email_from">${(user.company_id.email or 'noreply@localhost')|safe}</field>
+            <field name="subject">Renouvellement abonnement PORTNET S.A.</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="model_id" ref="portnet_invoicing.model_res_contract"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="body_html"><![CDATA[
+<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+
+    <p>Cher(es) client(e)s,</p>
+
+    <p>Nous vous informons que votre contrat d'abonnement PORTNET S.A.<br/>
+    arrive à échéance le <strong>${object.next_invoice_date}</strong>.</p>
+
+    <p>Afin d’éviter la suspension de vos accès à cette date, nous vous invitons à régler le montant de votre abonnement annuel et
+    nous communiquer le justificatif de votre paiement à travers l’outil de réclamation en ligne : <a href="http://reclamation.portnet.ma">http://reclamation.portnet.ma</a> Thème : Facturation & paiements, et ce <strong>avant la date de fin de contrat mentionnée ci-dessus.</strong></p>
+
+     <br/>
+    <strong>La facture d'abonnement  vous sera communiquée une fois le paiement reçu.</strong>
+
+    <p>Nous portons également à votre connaissance, qu’en cas de non-paiement<br/>
+     de votre abonnement. PORTNET S.A. se réserve le droit de résilier votre contrat d’abonnement.<br/></p>
+
+    <p>Bien cordialement.<br/>
+     Service Facturation et Recouvrement<br/>
+     PORTNET S.A.</p>
+
+</div>
+            ]]></field>
+        </record>
+
+        <!--AT anniversary date -->
+
+         <record id="email_template_notif_email_at_contract_next_invoice_date" model="email.template">
+            <field name="name">Envoi de notification par mail à la date anniversaire du contrat client</field>
+            <field name="email_from">${(user.company_id.email or 'noreply@localhost')|safe}</field>
+            <field name="subject">Renouvellement abonnement PORTNET S.A.- SUSPENSION D'ACCES -</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="model_id" ref="portnet_invoicing.model_res_contract"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="body_html"><![CDATA[
+<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+
+    <p>Cher(es) client(e)s,</p>
+
+    <p>Nous vous informons que votre contrat d'abonnement PORTNET S.A.<br/>
+     arrive à échéance <strong>Aujourd’hui</strong>.</p>
+
+    <p> Afin de réactiver votre accès, vous êtes invités à régler votre abonnement annuel de 3 600 dh TTC et<br/>
+    nous communiquer le justificatif de votre paiement à travers l’outil de réclamation en ligne : <a href="http://reclamation.portnet.ma">http://reclamation.portnet.ma</a> Thème : Facturation & paiements, et ce <strong>avant la date de fin de contrat mentionnée ci-dessus.</strong></p>
+    <br/>
+    <stron>La facture d'abonnement  vous sera communiquée une fois le paiement reçu.</strong>
+    <br/>
+    <p>Nous portons également à votre connaissance, qu’en cas de non-paiement<br/>
+     de votre abonnement. PORTNET S.A. se réserve le droit de résilier votre contrat d’abonnement.<br/></p>
+
+    <p>Bien cordialement.<br/>
+     Service Facturation et Recouvrement<br/>
+     PORTNET S.A.</p>
+
+</div>
+            ]]></field>
+        </record>
+
+
+
+        <!--4 Months After anniversary date -->
+
+         <record id="email_template_notif_email_four_months_after_next_invoice_date" model="email.template">
+            <field name="name">Envoi de notification par mail  4 Mois after date anniversaire du contrat client</field>
+            <field name="email_from">${(user.company_id.email or 'noreply@localhost')|safe}</field>
+            <field name="subject">Suspension de contrat PORTNET S.A.-</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="model_id" ref="portnet_invoicing.model_res_contract"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="body_html"><![CDATA[
+<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+
+    <p>Cher(es) client(e)s,</p>
+
+    <p>Nous vous informons que suite au non-paiement de votre abonnement annuel, votre contrat PORTNET S.A. sera clôturé définitivement.</p>
+
+    <p> Merci de noter qu’après la clôture dudit contrat, l’abonnement aux services de PORTNET S.A. sera conditionné par le dépôt d'une demande de renouvellement de contrat signée et cachetée par le représentant légal de société. </p>
+
+    <p> Si vous avez déjà procédé au paiement, merci de nous communiquer le justificatif de votre paiement (chèque, virement ou versement) </br>
+     à travers l’outil de réclamation en ligne : <a href="http://reclamation.portnet.ma">http://reclamation.portnet.ma</a> Thème : Facturation & paiements.</p>
+    <br/>
+
+    <p>Bien cordialement.<br/>
+     Service Facturation et Recouvrement<br/>
+     PORTNET S.A.</p>
+
+</div>
+            ]]></field>
+        </record>
+
+
+        <!--6 Months After anniversary date -->
+
+         <record id="email_template_notif_email_six_months_after_next_invoice_date" model="email.template">
+            <field name="name">Envoi de notification par mail 6 Mois after date anniversaire du contrat client</field>
+            <field name="email_from">${(user.company_id.email or 'noreply@localhost')|safe}</field>
+            <field name="subject">Résiliation du contrat PORTNET S.A.-</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="model_id" ref="portnet_invoicing.model_res_contract"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="body_html"><![CDATA[
+<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+
+    <p>Cher(es) client(e)s,</p>
+
+    <p>Nous vous informons que votre contrat à Portnet est résilié pour non-paiement des frais d’abonnement. </p>
+
+    <p> Pour plus d’informations, nous vous invitons à nous contacter à travers l’outil de réclamation en ligne : <a href="http://reclamation.portnet.ma">http://reclamation.portnet.ma</a></p>
+    <br/>
+
+    <p>Bien cordialement.<br/>
+     Service Facturation et Recouvrement<br/>
+     PORTNET S.A.</p>
+
+</div>
+            ]]></field>
+        </record>
+
+
+
+        <!--End Notifications-->
+    </data>
+</openerp>

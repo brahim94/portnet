@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+         <record id="positional_file_tree" model="ir.ui.view">
+            <field name="name">positional.file.tree</field>
+            <field name="model">positional.file</field>
+            <field name="arch" type="xml">
+                <tree string="Fichiers positionnels">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="size"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="positional_file_form" model="ir.ui.view">
+            <field name="name">positional.file.form</field>
+            <field name="model">positional.file</field>
+            <field name="arch" type="xml">
+                <form string="Fichier positionnel">
+                    <header>
+                            <button name="set_to_confirmed" string="Confirmer" class="oe_highlight" type="object" states="draft"  />
+                            <button name="set_to_draft" string="Remettre en brouillon" class="oe_highlight" type="object" states="confirmed"  />
+	                        <field name="state" widget="statusbar" />
+                    </header>
+                    <sheet>
+                        <group colspan="2">
+                             <field name="name" attrs="{'readonly':[('state','=','confirmed')]}"/>
+                             <field name="code" attrs="{'readonly':[('state','=','confirmed')]}"/>
+                             <field name="size" attrs="{'readonly':[('state','=','confirmed')]}"/>
+                        </group>
+                        <notebook colspan="4">
+                            <page string="Champs">
+                                <field name="field_ids" mode="tree" attrs="{'readonly':[('state','=','confirmed')]}" nolabel="1">
+                                     <tree editable="top">
+                                         <field name="column" />
+                                         <field name="data_type" />
+                                         <field name="position" />
+                                         <field name="length" />
+                                         <field name="required" />
+                                         <field name="related"/>
+                                         <field name="note" />
+                                     </tree>
+                                </field>
+                            </page>
+                            <page string="Table de correspondance(Norme Française)">
+                                <field name="amount_coding_ids" mode="tree" attrs="{'readonly':[('state','=','confirmed')]}" nolabel="1">
+                                     <tree editable="top">
+                                         <field name="code" />
+                                         <field name="value" />
+                                         <field name="sign" />
+                                     </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_positional_file_tree" model="ir.actions.act_window">
+            <field name="name">Fichiers positionnels</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">positional.file</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="positional_file_menu" name="Fichier positionnel" parent="base.menu_custom" sequence="0"/>
+        <menuitem id="positional_file_config" name="" parent="positional_file_menu" action="action_positional_file_tree" sequence="1"/>
+
+    </data>
+</openerp>

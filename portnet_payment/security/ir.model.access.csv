@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+paiement,suivi paiement,portnet_payment.model_account_voucher,portnet_invoicing.group_agent,1,1,1,1
+voucher_line,voucher_line,account_voucher.model_account_voucher_line,portnet_invoicing.group_agent,1,1,1,1
+analytique,ecriture analytique,portnet_payment.model_account_move_line,portnet_invoicing.group_agent,1,1,1,1
+journal,account journal,portnet_payment.model_account_journal,portnet_invoicing.group_agent,1,1,1,1
+bank,res bank,portnet_payment.model_res_bank,portnet_invoicing.group_agent,1,1,1,1
+folder_settings,folder settings,portnet_payment.model_folder_path_setting,portnet_invoicing.group_agent,1,1,1,1
+
+paiement_profil_sales,suivi paiement,portnet_payment.model_account_voucher,base.group_sale_manager,1,1,1,1
+paiement_profil_purchase,suivi paiement,portnet_payment.model_account_voucher,purchase.group_purchase_manager,1,1,1,1
+

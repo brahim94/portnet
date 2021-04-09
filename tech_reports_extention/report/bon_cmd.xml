@@ -1,0 +1,219 @@
+<odoo>
+
+    <report
+        id="action_report_b_cmd"
+        model="market.execution"
+        string="Bon de Commande"
+        report_type="qweb-pdf"
+		name="tech_reports_extention.bcmd"
+		print_report_name="'Bon de Commande'"/>
+
+        <template id="bcmd">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.internal_layout">
+
+                    <style type = "text/css">
+         table.centro {
+                    margin-left:auto; 
+                    margin-right:auto;
+                    }
+                    
+         
+         table.empty {
+            width:350px;
+            empty-cells:show;
+         }
+         td.empty {
+            padding:15px;
+            border: 1px solid black;
+            height:300px
+         }
+         td.bord {
+            border: 1px solid black;
+            
+         }
+         th {
+            border: 1px solid black;
+            }
+        table.centre {
+                    margin-left:auto; 
+                    margin-right:auto;
+                    width:100%;
+                    }
+        .inline { 
+           display: inline; 
+        }
+        th.nobord {
+        border: none;
+         }
+        
+        div.m {
+        margin-top:20px;
+        }
+        table.marg {
+                margin-top:30px;
+                }
+                
+      </style>
+
+                    <table  width="30%">
+                        <tr>
+                            <tr>
+                                <td style="text-align: center">Royaume du Maroc</td>
+                            </tr>
+                            <tr>
+                                <td  style="text-align:center" >*** </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center" >ECOLE NATIONALE SUPERIEURE</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center" >DES MINES DE RABAT</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center" > ***</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center" > Service Matériels et Marchés</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center" > Imputation : <span t-field="o.rubrique_id.code"/> - <span t-field="o.rubrique_id.name"/></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center"> Nature de prestation : <span t-field="o.nature_id"/></td>
+                            </tr>
+
+                        </tr>
+                    
+                    </table>
+
+                        <div style="position:absolute;left:520px;top:20px" class="cls_039">
+                        Exercice : <span t-field="o.tech_budget_id.list_of_years"/>
+                        <br>Budget : <span t-field="o.tech_budget_id"/></br>                
+                        </div>
+                                            
+                    
+                     <table class="centre marg" >
+                            <tr>
+                               
+                                <th  class="nobord" style="text-align: center" >BON DE COMMANDE N° : <span t-field="o.name"/></th>
+                            </tr>
+                    </table>
+
+                    <table class="marg">
+                            <tr> 
+                             <tr>
+                                <td >Prestataire : </td>
+                                <td><span t-field="o.purchase_order_id_bc.partner_id"/></td>
+                            </tr>
+                        
+                            <tr> 
+                                <td  >Adresse : </td>
+                                <td> <t t-if="o.purchase_order_id_bc.partner_id.street">
+                                        <span t-field="o.purchase_order_id_bc.partner_id.street"/>
+                                    </t>
+                                    <t t-if="o.partner_id.city">
+                                        <br><span t-field="o.purchase_order_id_bc.partner_id.city"/></br> 
+                                    </t>
+                                    <t t-if="o.purchase_order_id_bc.partner_id.country_id">                                
+                                    <br> <span t-field="o.purchase_order_id_bc.partner_id.country_id"/></br>
+                                    </t></td>
+                            </tr>
+                            
+                            <tr>    
+                                <td>Tél : </td>
+                                <td> <span t-field="o.purchase_order_id_bc.partner_id.phone"/></td>
+                            </tr>
+                            <tr>
+                                
+                                <td>ICE : </td>
+                                <td> <span t-field="o.purchase_order_id_bc.partner_id.ice_ex"/></td>
+                            </tr>
+                        </tr>
+                        
+                    
+                    </table> 
+
+                     <table class="centre marg" style="width:99%">
+                            <thead>
+                                <tr>
+                                    <th  rowspan="2" style="text-align: center">Prix n°</th>
+                                    <th  rowspan="2" style="text-align: center">Désignation</th>
+                                    <th  rowspan="2" style="text-align: center;width:40%" >Description</th>
+                                    <th class="mark" rowspan="2" style="text-align: center" >Unité</th>                                    
+                                    <th  rowspan="2" style="text-align: center" >Qté</th>
+                                    <th  rowspan="2" style="text-align: center" >PU</th>
+                                    <th  rowspan="2" style="text-align: center">Total HT</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="o.purchase_order_id_bc.order_line" t-as="line">
+                                <tr >
+                                    
+                                    <td class="bord" style="text-align: center"><span t-field="line.sequence"/></td>                                    
+                                    <td style="text-align: center" class="bord"><span t-field="line.product_id"/></td>                                                                        
+                                    <td class="bord" style="text-align: center"><span t-field="line.description"/></td>
+                                    <td style="text-align: center" class="bord"><span t-field="line.product_uom"/></td>                                    
+                                    <td class="bord" style="text-align: center"><span t-field="line.product_qty"/></td>
+                                    <td class="bord" style="text-align: center"><span t-field="line.price_unit"/></td>
+                                    <td class="bord" style="text-align: center"><span t-field="line.price_subtotal"/></td>
+
+                                </tr>
+                                
+                                 </t>
+                                 <tr>
+                                    <th colspan="5" style="text-align: right;padding:2px; margin:2px">TOTAL (HT) :</th>
+                                    <td class="bord" style="border: 1px solid black;text-align: center;padding:0px; margin:0px"><span t-field="o.purchase_order_id_bc.amount_untaxed"/></td>
+                                </tr>
+                                <tr>
+                                    <th colspan="5" style="text-align: right;border-bottom: none;padding:2px; margin:2px">TAUX TVA :</th>
+                                    <td class="bord" style="border: 1px solid black;text-align: center;padding:0px; margin:0px"><span t-field="o.purchase_order_id_bc.amount_tax"/></td>
+                                </tr>
+                                <tr>
+                                    <th colspan="5" style="text-align: right;padding:2px; margin:2px">TOTAL (TTC) :</th>
+                                    <td class="bord" style="border: 1px solid black;text-align: center;padding:0px; margin:0px"><span t-field="o.purchase_order_id_bc.amount_total"/></td>
+                                </tr>
+                            </tbody>
+    
+                </table> 
+
+                         <div class=" m">
+                            Arrêté le présent bon de commande à la somme de   (en lettres):
+                            <strong><span t-esc="o.get_amount_in_words()"/></strong>
+                    </div>
+                    <div class="m">
+                            <strong>Destination: ENSMR</strong>
+                    </div>
+                               
+                    <div class="m" style="position:absolute;top:820px;text-align:center">
+                            <strong>Document établit par :
+                            <br>Vérifié par :</br>   
+                            </strong>
+                    </div>
+                    
+                      <table class="centre marg">
+                        <tr>
+                            <tr>
+                                <td class="nobord"></td>
+                                <td style="text-align: center" class="nobord" colspan="2"> Date d’engagement : <strong><span t-field="o.enagagement_date" t-options='{"format": "dd/M/Y"}'/></strong></td>
+                                <td class="nobord" style="width:40%"> l’Ordonnateur : <strong><span t-field="o.follow_up_assured"/></strong></td>
+                            
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td style="text-align: center" colspan="2"> N° d’engagement : <strong><span t-field="o.engagement_number"/></strong></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            
+                        </tr>
+                    
+                    </table>
+
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

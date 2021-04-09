@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+        <record id="view_tree_payment_invoice_reporting" model="ir.ui.view">
+            <field name="name">payment.invoice.reporting.tree</field>
+            <field name="model">payment.invoice.reporting</field>
+            <field name="arch" type="xml">
+                <tree create="false" string="Situation globale facturation/encaissement">
+                    <field name="period_id"/>
+                    <field name="code_partner" />
+                    <field name="partner_name"/>
+                    <!--<field name="code_pres"/>-->
+                    <field name="design_pres"/>
+                    <field name="num_invoice"/>
+                    <field name="amount_untaxed"/>
+                    <field name="amount_total"/>
+                    <field name="amount_tax"/>
+                    <field name="quantity"/>
+                    <field name="price_unit"/>
+                    <field name="date_invoice"/>
+                    <field name="date_payment"/>
+                    <field name="ref_reglement"/>
+                    <field name="credit"/>
+                    <field name="balance"/>
+                    <field name="method_id"/>
+                    <field name="reconcile_type"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="payment_invoice_reporting_search_view" model="ir.ui.view">
+                <field name="name">payment.invoice.reporting.search.view</field>
+                <field name="model">payment.invoice.reporting</field>
+                <field name="arch" type="xml">
+                    <search>
+                        <field name="num_invoice"/>
+                        <field name="code_partner"/>
+                        <field name="partner_name"/>
+                        <field name="design_pres"/>
+
+                        <filter string="Encaissement total" name="total_reconciliation" domain="[('reconcile_type','=','total')]"/>
+                        <filter string="Encaissement partiel" name="partial_reconciliation" domain="[('reconcile_type','=','partial')]"/>
+                        <filter string="Aucun Encaissement" name="no_reconciliation" domain="[('reconcile_type','=','none')]"/>
+
+                        <group string="Grouper par">
+                            <filter name="num_invoice" string="Facture" context="{'group_by':'num_invoice'}"  />
+                            <filter name="period_id" string="Période" context="{'group_by':'period_id'}"  />
+                            <filter name="reconcile_type" string="Type d'encaissement" context="{'group_by':'reconcile_type'}"  />
+                            <filter name="code_partner" string="Code client" context="{'group_by':'code_partner'}"  />
+                            <filter name="partner_name" string="Nom client" context="{'group_by':'partner_name'}"  />
+                            <filter name="design_pres" string="Préstation" context="{'group_by':'design_pres'}"  />
+                            <filter name="method_id" string="Méthode de paiement" context="{'group_by':'method_id'}"  />
+                        </group>
+
+                    </search>
+                </field>
+            </record>
+
+
+
+   </data>
+</openerp>

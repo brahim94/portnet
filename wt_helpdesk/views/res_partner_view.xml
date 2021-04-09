@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<odoo>
+
+	<!-- Partner form view -->
+	<record model="ir.ui.view" id="view_partner_form_inherit">
+		<field name="name">res.partner.inherit</field>
+		<field name="model">res.partner</field>
+		<field name="inherit_id" ref="base.view_partner_form"/>
+		<field name="arch" type="xml">
+			<field name="ref" position="replace">
+			</field>
+			<field name="vat" position="after">
+				<field name="ref" string="CIN"/>
+				<field name="parent_supplier_id" attrs="{'invisible': [('supplier','=',False)]}"/>
+				<field name="parent_supplier_name" invisible="1"/>
+				<field name="code_fournisseur" readonly="1" attrs="{'invisible': [('supplier','=',False)]}"/>
+			</field>
+        </field>
+    </record>
+
+    <!-- Partner Search View -->
+	<record model="ir.ui.view" id="view_res_partner_filter_inherit">
+		<field name="name">res.partner.select.inherit</field>
+		<field name="model">res.partner</field>
+		<field name="inherit_id" ref="base.view_res_partner_filter"/>
+		<field name="arch" type="xml">
+			<field name="parent_id" position="after">
+				<field name="ref" string="CIN"/>
+				<field name="parent_supplier_id" string="Parent Supplier"/>
+			</field>
+        </field>
+    </record>
+
+    <!-- Product Category form view -->
+	<record model="ir.ui.view" id="product_category_form_view_inherit">
+		<field name="name">product.category.inherit</field>
+		<field name="model">product.category</field>
+		<field name="inherit_id" ref="product.product_category_form_view"/>
+		<field name="arch" type="xml">
+			<sheet position="inside">
+				<group string="Other Information" name="other_info">
+					<group>
+						<field name="code_ray"/>
+						<field name="code_fam"/>
+						<field name="code_sfam"/>
+						<field name="code_ssfam"/>
+					</group>
+					<group>
+					</group>
+				</group>
+			</sheet>
+		</field>
+	</record>
+
+</odoo>

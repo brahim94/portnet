@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Motif -->
+         <record id="view_motif_parameter_tree" model="ir.ui.view">
+            <field name="name">motif.parameter.tree</field>
+            <field name="model">motif.parameter</field>
+            <field name="arch" type="xml">
+                <tree string="Motif">
+                    <field name="name"/>
+                    <field name="code"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_motif_parameter_form" model="ir.ui.view">
+            <field name="name">motif.parameter.form</field>
+            <field name="model">motif.parameter</field>
+            <field name="arch" type="xml">
+                <form string="Motif">
+                   <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                       <group>
+                           <group>
+                                <field name="code"/>
+                           </group>
+                           <group>
+                                <field name="ticket_type_id"/>
+                           </group>
+                       </group>
+                   </sheet>
+               </form>
+           </field>
+       </record>
+
+       <record id="motif_parameter_action" model="ir.actions.act_window">
+            <field name="name">Motifs</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">motif.parameter</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new motif.
+                </p>
+            </field>
+        </record>
+
+   </data>
+</odoo>

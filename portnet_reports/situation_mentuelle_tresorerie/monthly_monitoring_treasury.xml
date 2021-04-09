@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+
+    	<record id="view_tree_monthly_monitoring_treasury_report" model="ir.ui.view">
+            <field name="name">monthly.monitoring.treasury.report.tree</field>
+            <field name="model">monthly.monitoring.treasury.report</field>
+            <field name="arch" type="xml">
+                <tree create="false" string="Suivi mensuel de la trésorerie">
+                    <field name="period_id"/>
+                    <field name="name" />
+                    <field name="initial_solde" />
+                    <field name="encais" />
+                    <field name="dencais" />
+                    <field name="final_solde" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="monthly_monitoring_treasury_report_search_view" model="ir.ui.view">
+                <field name="name">monthly.monitoring.treasury.report.search.view</field>
+                <field name="model">monthly.monitoring.treasury.report</field>
+                <field name="arch" type="xml">
+                    <search>
+                        <field name="name"/>
+                        <field name="period_id"/>
+
+                        <group string="Grouper par">
+                            <filter name="group_by_period_id" string="Période" context="{'group_by':'period_id'}"  />
+                        </group>
+
+                    </search>
+                </field>
+            </record>
+   </data>
+</openerp>

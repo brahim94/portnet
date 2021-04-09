@@ -1,0 +1,72 @@
+<methodCall>
+    <methodName>execute</methodName>
+    <params>
+        <param>
+            <value><string>v8_adnane_portnet</string></value>
+        </param>
+        <param>
+               <value><int>1</int></value>
+        </param>
+        <param>
+               <value><string>admin</string></value>
+        </param>
+           <param>
+               <value><string>res.contract</string></value>
+        </param>
+        <param>
+            <value><string>update_subscription</string></value>
+        </param>
+        
+        <param>
+            <value>
+                <struct>
+                    <member>
+                        <name>name</name>
+                        <value><string>Subscription 00012</string></value>
+                        <name>date_start</name>
+                        <value><dateTime.iso8601>2020-10-08</dateTime.iso8601></value>
+                        <name>date</name>
+                        <value><dateTime.iso8601>2020-10-30</dateTime.iso8601></value>
+                        <name>add_balance</name>
+                        <value><int>150</int></value>
+                        <name>state</name>
+                        <value><string>A</string></value>
+                        <name>comment</name>
+                        <value><string>AAAA BBBB CCCC DDDD EEEE</string></value>
+                        <name>date_write</name>
+                        <value><dateTime.iso8601>2020-10-18T12:03:40</dateTime.iso8601></value>
+                    </member>
+                </struct>
+            </value>
+        </param>
+
+    </params>
+</methodCall>
+
+
+<!-- Update / Export Subscription -->
+<souscription xmlns="http://www.portnet.ma/nouvelleTarification">
+    <!-- name -->
+    <identifiant>202000032</identifiant>
+    <!-- date_start -->
+    <debutValidite>2020-09-12T12:03:40</debutValidite>
+    <!-- date -->
+    <finValidite>2020-12-12T12:03:40</finValidite>
+    <!-- Modification Date -->
+    <dateModification>2020-12-12T12:03:40</dateModification>
+    <!-- fixed text -->
+    <motif>update ODOO</motif>
+</souscription>
+
+
+<!-- Suspend Subscription -->
+<souscription xmlns="http://www.portnet.ma/nouvelleTarification">
+    <!-- name -->       
+    <identifiant>CTR00000002</identifiant>
+    <!-- Status -->
+    <statut>SUSPENDU</statut>
+    <!-- Suspension Date -->
+    <dateSuspension>2020-02-01T00:00:00</dateSuspension>
+    <!-- Fixed text -->    
+    <motif>Suspension Odoo</motif>
+</souscription>

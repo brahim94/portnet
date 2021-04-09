@@ -1,0 +1,118 @@
+<odoo>
+
+    <report
+        id="action_report_borderau"
+        model="purchase.requisition"
+        string="Borderau envoi"
+        report_type="qweb-pdf"
+		name="tech_reports_extention.borderau"
+		print_report_name="'Borderau Envoi'"/>
+
+        <template id="borderau">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.internal_layout">
+                           <style type = "text/css">
+         table.centro {
+                    margin-left:auto; 
+                    margin-right:auto;
+                    }
+                    
+         
+         table.empty {
+            width:350px;
+            empty-cells:show;
+         }
+         td.empty {
+            padding:15px;
+            border: 1px solid black;
+         }
+         td.bord {
+            border: 1px solid black;
+            
+         }
+         th {
+            border: 1px solid black;
+            }
+        table.centre {
+                    margin-left:auto; 
+                    margin-right:auto;
+                    width:100%;
+                    }
+        .inline { 
+           display: inline; 
+        }
+        th.nobord {
+        border: none;
+         }
+        
+        div.m {
+        margin-top:20px;
+        }
+                
+      </style>
+
+                <div class="m" style="vertical-align:center;text-align: center">
+                    <strong><h4> LE DIRECTEUR DE L’ECOLE NATIONALE SUPERIEURE DES MINES DE RABAT </h4></strong>
+                    <br>A</br>
+                    <br>MONSIEUR</br>
+                </div>
+
+                <div class="m" style="vertical-align:center;text-align: center">
+                    <strong><h3><i> BORDEREAU D’ENVOI </i></h3></strong>
+                </div>
+                
+                    <table class="center m" style="width:99%">
+                            <thead>
+                                    <tr>
+                                        <th  rowspan="2" style="text-align: center;width:40%">DESIGNATION DES PIECES</th>
+                                        <th  rowspan="2" style="text-align: center;width:20%">NOMBRE</th>
+                                        <th  rowspan="2" style="text-align: center;width:40%">OBSERVATIONS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <!-- <t t-foreach="o.order_line" t-as="line">                                 -->
+                                    <tr>
+                                        <td  class = "empty" style="text-align: center">Dossier de l’appel d’offres ouvert n°…………………. ayant pour objet : « …………………………………………………………………………………………………………. »</td>
+                                        <td class = "empty" style="text-align: center"></td>                                    
+                                        <td class = "empty" style="text-align: center">J’ai l’honneur de vous transmettre le dossier ci-contre pour examen et ce conformément au paragraphe 2 de l’article 19 du décret n°2-12-349 du 20 Mars 2013 relatif aux marchés publics.</td>                                                                            
+                                    </tr>
+                                    <tr>
+                                        <td  class = "empty" style="text-align: left"><strong>Support budgétaire</strong> :« compte » : « intitulé »</td>
+                                        <td class = "empty" style="text-align: center"></td>                                    
+                                        <td class = "empty" style="text-align: left"></td>                                                                            
+                                    </tr>
+                                     <tr>
+                                        <td  class = "empty" style="text-align: left"><strong>Pièces jointes :</strong>
+                                        <ul>
+                                        <li>Cahier des prescriptions spéciales</li>
+                                        <li>Règlement de consultation</li>
+                                        <li>Modèle de l’acte d’engagement</li>
+                                        <li>Modèle de la déclaration sur l’honneur</li>
+                                        <li>Avis d’appel d’offres en français</li>
+                                        <li>Avis d’appel d’offres en arabe</li>                                        
+                                        </ul></td>
+                                        <td class = "empty" style="text-align: center">
+                                        <br>1</br>
+                                        <br>1</br>
+                                        <br>1</br>
+                                        <br>1</br>
+                                        <br>1</br>
+                                        <br>____</br>
+                                        <br>6</br>
+                                        </td>                                    
+                                        <td class = "empty" style="text-align: left"></td>                                                                            
+                                    </tr>
+                            </tbody>
+                    
+                </table>
+
+
+
+
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

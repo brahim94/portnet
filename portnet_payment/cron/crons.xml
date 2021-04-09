@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data noupdate="1">
+
+        <!-- Unreconcile invalid cheque payment -->
+
+        <record forcecreate="True" id="ir_cron_unreconcile_invalid_cheque" model="ir.cron">
+            <field name="name">Unreconcile invalid cheque payment</field>
+            <field eval="True" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="True" name="doall"/>
+            <field eval="'account.move.line'" name="model"/>
+            <field eval="'_unreconcile_invalid_cheque'" name="function"/>
+        </record>
+
+        <!-- ETEBAC3 -->
+
+        <record forcecreate="True" id="ir_cron_etebac3" model="ir.cron">
+            <field name="name">ETEBAC3</field>
+            <field eval="True" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="True" name="doall"/>
+            <field eval="'res.bank'" name="model"/>
+            <field eval="'_load_etebac3'" name="function"/>
+        </record>
+
+        <!-- OUT Payments -->
+
+        <record forcecreate="True" id="ir_cron_odoo_payments" model="ir.cron">
+            <field name="name">Odoo payments deposit</field>
+            <field eval="True" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="True" name="doall"/>
+            <field eval="'account.voucher'" name="model"/>
+            <field eval="'_payments_deposit'" name="function"/>
+        </record>
+
+        <!-- Parse XML payments -->
+
+        <record forcecreate="True" id="ir_cron_parse_xml_payments" model="ir.cron">
+            <field name="name">Parse XML payments</field>
+            <field eval="True" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="True" name="doall"/>
+            <field eval="'account.voucher'" name="model"/>
+            <field eval="'_parse_xml_payments'" name="function"/>
+        </record>
+
+
+  </data>
+</openerp>

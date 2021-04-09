@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="view_bank_statement_form_portnet" model="ir.ui.view">
+            <field name="name">view.bank.statement.form3.portnet</field>
+            <field name="model">account.bank.statement.line</field>
+            <field name="inherit_id" ref="account.view_bank_statement_form"/>
+            <field name="arch" type="xml">
+
+                <field name="user_id" position="before">
+                    <field name="expense_type_id" invisible="context.get('journal_type') != 'cash' " required=" context.get('journal_type') == 'cash' " />
+                     <field name="limit" />
+                </field>
+
+            </field>
+        </record>
+
+
+    </data>
+</openerp>

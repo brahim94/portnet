@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+
+
+        <record id="budget_tri_suivi_wizard_view" model="ir.ui.view">
+            <field name="name">budget.tri.suivi.wizard.view</field>
+            <field name="model">budget.tri.suivi.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Suivi mensuel de la trésorerie">
+                    <group col="4">
+                        <separator string="Périodes" colspan="4"/>
+                        <field name="period1" colspan="2" required="1" />
+                        <field name="period2" colspan="2" required="1"/>
+                    </group>
+                    <newline/>
+                    <footer>
+                        <button string="Générer" class="oe_highlight" type="object" name="action_gen"/>
+                        ou
+                        <button string="Annuler" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+
+
+        <!-- Action -->
+
+        <act_window id="action_budget_tri_suivi_wizard"
+                    name="Indicateurs trimestriels de suivi du budget"
+                    res_model="budget.tri.suivi.wizard"
+                    view_mode="form"
+                    target ="new"
+                    groups="account.group_account_manager"
+                    />
+
+    <menuitem id="menu_quarterly_indicators_monitoring_budget_report" name="Indicateurs trimestriels de suivi du budget" action="action_budget_tri_suivi_wizard" sequence="6" parent="account.menu_finance_reports" />
+
+    </data>
+</openerp>

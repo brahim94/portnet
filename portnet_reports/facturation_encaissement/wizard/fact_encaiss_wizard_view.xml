@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+
+
+        <record id="fact_encaiss_wizard_view" model="ir.ui.view">
+            <field name="name">fact.encaiss.wizard.view</field>
+            <field name="model">fact.encaiss.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Situation globale encaissements">
+                    <group col="4">
+                        <separator string="Périodes" colspan="4"/>
+                        <field name="period_ids" colspan="4" nolabel="1"/>
+                    </group>
+                    <newline/>
+                    <footer>
+                        <button string="Générer" class="oe_highlight" type="object" name="action_gen"/>
+                        ou
+                        <button string="Annuler" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+
+
+        <!-- Action -->
+
+        <act_window id="action_fact_encaiss_wizard"
+                    name="Situation globale encaissements"
+                    res_model="fact.encaiss.wizard"
+                    view_mode="form"
+                    target ="new"
+                    groups="account.group_account_manager"
+                    />
+
+        <menuitem id="menu_payment_invoice_report" name="Situation globale facturation/encaissement" action="action_fact_encaiss_wizard" sequence="3" parent="account.menu_finance_reports" />
+
+
+    </data>
+</openerp>

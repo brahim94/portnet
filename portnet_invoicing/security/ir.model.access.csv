@@ -1,0 +1,61 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+request,customer request,portnet_invoicing.model_customer_request,account.group_account_manager,1,1,1,0
+contract,advanced contract,portnet_invoicing.model_res_contract,account.group_account_manager,1,1,1,1
+exception,report exception,portnet_invoicing.model_report_exception,account.group_account_manager,1,1,1,1
+operation_type,operation_type,portnet_invoicing.model_operation_type,account.group_account_manager,1,1,1,1
+periodicity,periodicity,portnet_invoicing.model_res_periodicity,account.group_account_manager,1,1,1,1
+project,project break,portnet_invoicing.model_project_break,account.group_account_manager,1,1,1,1
+partner group,partner group,portnet_invoicing.model_res_partner_group,account.group_account_manager,1,1,1,1
+db settings,db settings,portnet_invoicing.model_op_store_db_settings,account.group_account_manager,1,1,1,1
+folder settings,folder settings,portnet_invoicing.model_folder_path_setting,account.group_account_manager,1,1,1,1
+operation_type_line,operation_type_line,portnet_invoicing.model_operation_type_line,account.group_account_manager,1,1,1,1
+reason_account_manager,Motif absence IFU account manager,portnet_invoicing.model_subscription_fiscal_id_reason,account.group_account_manager,1,1,1,1
+invoicing_operation_account_manager,invoicing_operation account manager,portnet_invoicing.model_invoicing_operation,account.group_account_manager,1,1,1,0
+
+
+account_payment_term,account_payment_term,account.model_account_payment_term,portnet_invoicing.group_agent,1,1,1,1
+payment_mode,payment_mode,account_payment.model_payment_mode,portnet_invoicing.group_agent,1,1,1,1
+request_profil_agent,customer request,portnet_invoicing.model_customer_request,portnet_invoicing.group_agent,1,1,1,0
+contract_agent,advanced contract,portnet_invoicing.model_res_contract,portnet_invoicing.group_agent,1,1,1,1
+account_period,account_period,account.model_account_period,portnet_invoicing.group_agent,1,1,1,1
+operation_type_agent,operation_type_agent,portnet_invoicing.model_operation_type,portnet_invoicing.group_agent,1,1,1,1
+operation_type_line,operation_type_line,portnet_invoicing.model_operation_type_line,portnet_invoicing.group_agent,1,1,1,1
+res_partner_category,res_partner_category,base.model_res_partner_category,portnet_invoicing.group_agent,1,1,1,1
+product_category,product_category,product.model_product_category,portnet_invoicing.group_agent,1,1,1,1
+product_product,product_product,product.model_product_product,portnet_invoicing.group_agent,1,1,1,1
+res_partner,res_partner,base.model_res_partner,portnet_invoicing.group_agent,1,1,1,0
+customer_invoicing_wizard,customer_invoicing_wizard,portnet_invoicing.model_customer_invoicing_wizard,portnet_invoicing.group_agent,1,1,1,1
+db settings,db settings,portnet_invoicing.model_op_store_db_settings,portnet_invoicing.group_agent,1,1,1,1
+folder settings,folder settings,portnet_invoicing.model_folder_path_setting,portnet_invoicing.group_agent,1,1,1,1
+periodicity,periodicité du contrat,portnet_invoicing.model_res_periodicity,account.group_account_invoice,1,0,0,0
+product_template_agent,product_template_agent,sale.model_product_template,portnet_invoicing.group_agent,1,1,1,1
+report_exception_agent,report_exception_agent,portnet_invoicing.model_report_exception,portnet_invoicing.group_agent,1,1,1,1
+reason_agent,Motif absence IFU agent,portnet_invoicing.model_subscription_fiscal_id_reason,portnet_invoicing.group_agent,1,0,0,0
+
+request_profil_purchase,customer request,portnet_invoicing.model_customer_request,purchase.group_purchase_manager,1,1,1,0
+res_contract_purchase_manager,res_contract_purchase_manager,portnet_invoicing.model_res_contract,purchase.group_purchase_manager,1,0,0,0
+partner group purchase manager,partner group purchase manager,portnet_invoicing.model_res_partner_group,purchase.group_purchase_manager,1,1,1,1
+project break purchase manager,project break purchase manager,portnet_invoicing.model_project_break,purchase.group_purchase_manager,1,1,1,1
+reason_purchase_manager,Motif absence IFU purchase_manager,portnet_invoicing.model_subscription_fiscal_id_reason,purchase.group_purchase_manager,1,0,0,0
+
+
+
+request_profil_sales,customer request,portnet_invoicing.model_customer_request,base.group_sale_manager,1,1,1,0
+contract_profil_sales,advanced contract,portnet_invoicing.model_res_contract,base.group_sale_manager,1,1,1,1
+reason_sale_manager,Motif absence IFU sale manager,portnet_invoicing.model_subscription_fiscal_id_reason,base.group_sale_manager,1,1,1,1
+invoicing_operation_sale_manager,invoicing_operation sale manager,portnet_invoicing.model_invoicing_operation,base.group_sale_manager,1,1,1,0
+
+
+account_invoice_tva_reglement ,account_invoice_tva_reglement,tva_ma.model_account_invoice_tva_reglement,portnet_invoicing.group_agent,1,0,0,0
+partner group agent,partner group agent,portnet_invoicing.model_res_partner_group,portnet_invoicing.group_agent,1,1,1,1
+project break agent,project break agent,portnet_invoicing.model_project_break,portnet_invoicing.group_agent,1,1,1,1
+
+request_profil_request_removal,customer request removal,portnet_invoicing.model_customer_request,portnet_invoicing.group_customer_request_removal,1,1,1,1
+
+
+xml_history_agent,xml_history_agent,portnet_invoicing.model_xml_history,portnet_invoicing.group_agent,1,0,0,0
+xml_history_account_manager,xml_history_account_manager,portnet_invoicing.model_xml_history,account.group_account_manager,1,0,0,0
+xml_history_sale_manager,xml_history_sale_manager,portnet_invoicing.model_xml_history,base.group_sale_manager,1,0,0,0
+
+
+

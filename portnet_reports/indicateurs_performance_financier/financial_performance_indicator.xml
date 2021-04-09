@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+
+    	<record id="financial_indicator_performance_report_view" model="ir.ui.view">
+            <field name="name">wizard.financial.indicator.performance.report</field>
+            <field name="model">financial.indicator.performance.report</field>
+            <field name="arch" type="xml">
+                <form string="Indicateurs financiers">
+                    <group>
+                        <field name="fiscalyear_id" required="1" />
+                    </group>
+
+                    <footer>
+                        <button name="print_report" string="Imprimer le rapport" type="object" class="oe_highlight"/>
+                        or
+                        <button string="fermer" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_financial_indicator_performance_menu" model="ir.actions.act_window">
+            <field name="name">Indicateurs de Performance financière</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">financial.indicator.performance.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="financial_indicator_performance_report_view"/>
+            <field name="target">new</field>
+        </record>
+
+    <menuitem id="menu_financial_indicator_performance_report" name="Indicateurs de Performance financière" action="action_financial_indicator_performance_menu" sequence="4" parent="portnet_reports.menu_indicateur_techniques_financiers" />
+
+   </data>
+</openerp>

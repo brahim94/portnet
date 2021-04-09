@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_purchase_req_line_wizard_form" model="ir.ui.view">
+            <field name="name">purchase.request.line.wizard.form</field>
+            <field name="model">purchase.request.line.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Purchase Request Line Wizard">
+                    <group col="3">
+                        <group>
+                            <field name="etat"/>
+                        </group>
+                        <group>
+                            <field name="traitement" attrs="{'invisible':[('etat', '!=', 'qualifie')]}"/>
+                        </group>
+                        <group>
+                            <field name="besoin_type" attrs="{'invisible':[('etat', '!=', 'qualifie')]}"/>
+                            <field name="programme_previsionnel" attrs="{'invisible': [('besoin_type', '!=', 'Prévisionnel')], 'required': [('besoin_type', '=', 'Prévisionnel')]}"/>
+                        </group>
+                    </group>
+                  <div style="text-align: center;">
+                      <button name="action_update_purchase_line" string="Apply" type="object" class="oe_highlight"/>
+                  </div>
+                  <group>
+                        <field name="line_ids" nolabel="1">
+                            <tree editable="bottom" create="false">
+                                <field name="request_id"/>
+                                <field name="estimated_cost" readonly="1"/>
+                                <field name="product_id" readonly="1"/>
+                                <field name="name" readonly="1"/>
+                                <field name="prod_demand_qty" readonly="1"/>
+                                <field name="product_qty"/>
+                                <field name="product_uom_id" readonly="1"/>
+                                <field name="financement_type"/>
+                                <field name="besoin_type"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <footer>
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_purchase_req_line_wizard" 
+              name="Qualifier" 
+              res_model="purchase.request.line.wizard" binding_model="purchase.request.line"
+              view_mode="form" 
+              target="new"/>
+
+        <record id="purchase_request.action_purchase_request_line_make_purchase_order" model="ir.actions.act_window">
+            <field name="name">Create RFQ</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">purchase.request.line.make.purchase.order</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="purchase_request.view_purchase_request_line_make_purchase_order"/>
+            <field name="target">new</field>
+            <field name="binding_model_id" eval="False"/>
+        </record>
+        
+    </data>
+
+</odoo>

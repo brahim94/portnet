@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="portnet_invoice_form" model="ir.ui.view">
+            <field name="name">portnet.invoice.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+
+
+                <field name="origin" position="after">
+                    <field name="contract_id" attrs="{'invisible': [('contract_id','=',False)],}" readonly="1" />
+                </field>
+
+
+                <xpath expr="//field[@name='invoice_line']/tree/field[@name='product_id']" position="replace">
+                    <field name="product_id" domain="[('is_subscription','=',False)]" on_change="product_id_change2(product_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit, parent.currency_id, parent.company_id, parent.pricelist_id, parent.date_invoice, context)"/>
+                </xpath>
+
+                <xpath expr="//field[@name='invoice_line']/tree/field[@name='account_id']" position="replace">
+                    <field name="account_id" groups="account.group_account_user" domain="[('company_id', '=', parent.company_id), ('journal_id', '=', parent.journal_id), ('type', '=', 'other')]" on_change="onchange_account_id2(product_id, parent.partner_id, parent.type, parent.fiscal_position,account_id, parent.pricelist_id, parent.date_invoice)"/>
+                </xpath>
+
+                <xpath expr="//field[@name='invoice_line']/tree/field[@name='uos_id']" position="replace">
+                    <field name="uos_id" groups="product.group_uom" on_change="uos_id_change2(product_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit, parent.currency_id, parent.company_id, parent.pricelist_id, parent.date_invoice, context)"/>
+                </xpath>
+
+                <xpath expr="//field[@name='date_due']" position="after">
+                    <field name="prevision_date" attrs="{'readonly':[('state','!=','draft')]}"/>
+                    <field name="treasury_term_id" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='payment_term']" position="replace">
+                    <field name="payment_term" class="oe_inline" on_change="onchange_payment_term_date_invoice(payment_term,date_invoice)"/>
+                </xpath>
+                <field name="partner_id" position="replace">
+                   <field string="Customer" name="partner_id"
+                                on_change="onchange_partner_id(type, partner_id, date_invoice, payment_term,treasury_term_id, partner_bank_id, company_id, context)"
+                                context="{'search_default_customer':1, 'show_address': 1}"
+                                options='{"always_reload": True}'
+                                domain="[('customer', '=', True)]"/>
+                </field>
+
+                <field name="partner_id" position="after">
+                    <field name="categ_pricelist_id" invisible="1" />
+                    <field name="pricelist_id" domain="[('id','=',categ_pricelist_id)]"
+                           attrs="{'readonly': [('state','not in','draft')]}"/>
+                </field>
+
+                <xpath expr="//field[@name='date_invoice']" position="replace">
+                    <field name="date_invoice" on_change="onchange_payment_term_date_invoice(payment_term,date_invoice)" />
+                </xpath>
+
+                <field name="move_id" position="after">
+                    <field name="op_id" readonly="1"/>
+                    <field name="line_store_ids" invisible="1"/>
+                    <field name="majoration" />
+                    <field name="original_invoice_id" attrs="{'invisible': [('majoration','=',False)], 'required': [('majoration','=',True)]}"/>
+                </field>
+
+                <button name="invoice_cancel" position="after">
+                    <button name="action_customer_penalty_fees" icon="terp-stock_format-default" string="Pénalités de retard" type="object" attrs="{'invisible': ['|',('type','!=','out_invoice'),('state','not in',['open','paid'])]}" groups="account.group_account_manager"/>
+                    <!--<button name="action_send_mail_auto" class="oe_highlight" string="AUTO MAIL" type="object"/>-->
+                </button>
+
+                 <xpath expr="//field[@name='invoice_line']/tree/field[@name='account_analytic_id']" position="before">
+                    <field name="budget_item_id" />
+                </xpath>
+
+                <button name="invoice_open" position="replace">
+                    <button name="invoice_open" attrs="{'invisible': ['|',('state','!=','draft'),('op_id','!=',False)]}" string="Validate" class="oe_highlight" groups="base.group_user"/>
+                </button>
+
+                <field name="user_id" position="after">
+                    <field name="op_qty" attrs="{'invisible': [('op_id','=',False)],}" readonly="1" />
+                </field>
+
+                <field name="tax_line" position="after">
+                    <separator string="Historique XML" colspan="4"/>
+                    <field name="xml_history_ids" readonly="1" nolabel="1"/>
+                </field>
+
+            </field>
+        </record>
+
+
+        <record id="account_customer_invoice_tree_portnet" model="ir.ui.view">
+            <field name="name">account.customer.invoice.tree.portnet</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_tree" />
+            <field name="arch" type="xml">
+                <field name="partner_id" position="before">
+                    <field name="customer_categ_id"/>
+                    <field name="partner_code"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="portnet_invoice_supplier_form" model="ir.ui.view">
+            <field name="name">portnet.invoice.supplier.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='invoice_line']" position="before">
+                    <header attrs="{'invisible': ['|',('state','!=','draft'),('type','!=','in_invoice')]}">
+                        <button name="action_supplier_penalty_fees" icon="terp-stock_format-default" string="Pénalités de retard" type="object"/>
+                    </header>
+                </xpath>
+
+
+                <xpath expr="//field[@name='invoice_line']/tree/field[@name='product_id']" position="replace">
+                    <field name="product_id" domain="[('is_subscription','=',False)]" on_change="product_id_change2(product_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit, parent.currency_id, parent.company_id, parent.pricelist_id, parent.date_invoice, context)"/>
+                </xpath>
+
+                <xpath expr="//field[@name='invoice_line']/tree/field[@name='account_id']" position="replace">
+                    <field name="account_id" groups="account.group_account_user" domain="[('company_id', '=', parent.company_id), ('journal_id', '=', parent.journal_id), ('type', '=', 'other')]" on_change="onchange_account_id2(product_id, parent.partner_id, parent.type, parent.fiscal_position,account_id, parent.pricelist_id, parent.date_invoice)"/>
+                </xpath>
+
+                <xpath expr="//field[@name='invoice_line']/tree/field[@name='uos_id']" position="replace">
+                    <field name="uos_id" groups="product.group_uom" on_change="uos_id_change2(product_id, uos_id, quantity, name, parent.type, parent.partner_id, parent.fiscal_position, price_unit, parent.currency_id, parent.company_id, parent.pricelist_id, parent.date_invoice, context)"/>
+                </xpath>
+
+                <xpath expr="//field[@name='partner_bank_id']" position="after">
+                    <field name="treasury_term_id" invisible="1"/>
+                </xpath>
+                <field name="partner_id" position="replace">
+                    <field string="Supplier" name="partner_id"
+                           on_change="onchange_partner_id(type, partner_id, date_invoice, payment_term, treasury_term_id, partner_bank_id, company_id, context)"
+                           context="{'default_customer': 0, 'search_default_supplier': 1, 'default_supplier': 1}"
+                           domain="[('supplier', '=', True)]"/>
+                </field>
+
+                <field name="origin" position="after">
+                    <field name="requisition_id" attrs="{'readonly':[('state','=','done')]}"  string="Demande d'achat"/>
+                </field>
+
+
+            </field>
+        </record>
+
+
+        <record id="account_cutoff_prepaid.invoice_form" model="ir.ui.view">
+            <field name="name">prepaid.cutoff.invoice_form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='invoice_line']/tree/field[@name='account_analytic_id']" position="after">
+                    <field name="is_subscription" invisible="1"/>
+                    <field name="start_date" attrs="{'required': [('is_subscription','=',True)]}"/>
+                    <field name="end_date" attrs="{'required': [('is_subscription','=',True)]}"/>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="account_cutoff_prepaid.invoice_supplier_form" model="ir.ui.view">
+            <field name="name">prepaid.cutoff.invoice_supplier_form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='invoice_line']/tree/field[@name='account_analytic_id']" position="after">
+                    <field name="is_subscription" invisible="1"/>
+                    <field name="start_date" attrs="{'required': [('is_subscription','=',True)]}"/>
+                    <field name="end_date" attrs="{'required': [('is_subscription','=',True)]}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="account.action_invoice_tree1" model="ir.actions.act_window">
+            <field name="name">Customer Invoices</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('type','=','out_invoice'),('op_id','=',False)]</field>
+            <field name="context">{'default_type':'out_invoice', 'type':'out_invoice', 'journal_type': 'sale'}</field>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a customer invoice.
+              </p><p>
+                Odoo's electronic invoicing allows to ease and fasten the
+                collection of customer payments. Your customer receives the
+                invoice by email and he can pay online and/or import it
+                in his own system.
+              </p><p>
+                The discussions with your customer are automatically displayed at
+                the bottom of each invoice.
+              </p>
+            </field>
+        </record>
+
+        <!-- deleted invoices -->
+
+
+    <record id="deleted_invoices_tree_view" model="ir.ui.view">
+        <field name="name">deleted.invoices.tree</field>
+        <field name="model">deleted.invoices</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree strig="Factures supprimés" create="false" delete="false" edit="false">
+                    <field name="invoice_delete_date"/>
+                    <field name="user"/>
+                    <field name="invoice_numbers"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_deleted_invoices_tree_view">
+            <field name="name">Factures supprimés</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">deleted.invoices</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+     </record>
+
+     <menuitem id="menu_deleted_invoices" name="Factures supprimés" parent="base.menu_custom" action="action_deleted_invoices_tree_view" sequence="1"/>
+
+    </data>
+</openerp>

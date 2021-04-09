@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="submission_increment_wizard_form" model="ir.ui.view">
+            <field name="name">submission.increment.wizard.form</field>
+            <field name="model">submission.increment</field>
+            <field name="arch" type="xml">
+                <form string="Submission Increment Wizard">
+                    <group>
+                        <field name="name" readonly="1"/>
+                    </group>
+                    <footer>
+                        <button string="Appliquer" class="oe_highlight" type="object" name="action_validate"/>
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_submission_increment_wizard" model="ir.actions.act_window">
+            <field name="name">Submission Increment</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">submission.increment</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="submission_increment_wizard_form"/>
+            <field name="target">new</field>
+        </record>
+        
+    </data>
+
+</odoo>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <!-- supplier penalty fees wizard -->
+
+        <record id="supplier_penalty_fees_wizard_view" model="ir.ui.view">
+            <field name="name">supplier.penalty.fees.wizard.view</field>
+            <field name="model">supplier.penalty.fees.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Pénalités de retard">
+                        <group col="4" colspan="4">
+                            <group colspan="4">
+                                <separator string="Depuis un bon de réception" colspan="4" attrs="{'invisible': [('penalty_move_line_ids','=',[])]}"/>
+                                <field name="penalty_move_line_ids" colspan="4" nolabel="1" attrs="{'invisible': [('penalty_move_line_ids','=',[])]}">
+                                    <tree string="Depuis un bon de réception" editable="bottom" create="false" >
+                                        <field name="picking_name" readonly="1"/>
+                                        <field name="product_name" readonly="1" />
+                                        <field name="received_qty" readonly="1"/>
+                                        <field name="invoice_qty" readonly="1"/>
+                                        <field name="planned_date" required="1"/>
+                                        <field name="reception_date" required="1" />
+                                        <field name="diff" readonly="1" sum="diff"/>
+                                    </tree>
+                                </field>
+                                <separator string="Depuis un bon de commande" colspan="4" attrs="{'invisible': [('penalty_purchase_line_ids','=',[])]}"/>
+                                <field name="penalty_purchase_line_ids" colspan="4" nolabel="1"  attrs="{'invisible': [('penalty_purchase_line_ids','=',[])]}">
+                                    <tree string="Depuis un bon de commande" editable="bottom" create="false" >
+                                        <field name="purchase_order_name" readonly="1"/>
+                                        <field name="purchase_line_id" readonly="1" />
+                                        <field name="purchased_qty" readonly="1"/>
+                                        <field name="invoice_qty" readonly="1"/>
+                                        <field name="planned_date" required="1"/>
+                                        <field name="reception_date" required="1" />
+                                        <field name="diff" readonly="1" sum="diff"/>
+                                    </tree>
+                                </field>
+                                <separator string="Depuis la facture" colspan="4" attrs="{'invisible': [('penalty_invoice_line_ids','=',[])]}"/>
+                                <field name="penalty_invoice_line_ids" colspan="4" nolabel="1"  attrs="{'invisible': [('penalty_invoice_line_ids','=',[])]}">
+                                    <tree string="Depuis la facture" editable="bottom" create="false" >
+                                        <field name="invoice_line_id" readonly="1" />
+                                        <field name="invoice_qty" readonly="1"/>
+                                        <field name="planned_date" required="1"/>
+                                        <field name="reception_date" required="1" />
+                                        <field name="diff" readonly="1" sum="diff"/>
+                                    </tree>
+                                </field>
+                            </group>
+                            <field name="base_amount" invisible="1" />
+                            <group col="4" colspan="4">
+                                <field name="penalty_fees_product_id" colspan="2" required="1" widget="selection"/>
+                                <field name="penalty_rate" colspan="2" readonly="1"/>
+                                <field name="total_days" colspan="2" required="1"/>
+                                <field name="amount" colspan="2" required="1" />
+                            </group>
+                        </group>
+                    <footer>
+                        <button string="Valider" class="oe_highlight" type="object" name="action_validate"/>
+                        ou
+                        <button string="Annuler" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+
+    </data>
+</openerp>

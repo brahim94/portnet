@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Reference -->
+        <record id="reference_1" model="reference.reference">
+            <field name="name">Date Achat</field>
+            <field name="code">purchase_date</field>
+        </record>
+
+        <record id="reference_2" model="reference.reference">
+            <field name="name">Date Reclamation</field>
+            <field name="code">ticket_date</field>
+        </record>
+
+        <record id="reference_3" model="reference.reference">
+            <field name="name">Delai Garantie</field>
+            <field name="code">warranty_date</field>
+        </record>
+
+        <record id="reference_4" model="reference.reference">
+            <field name="name">Aujourd`hui</field>
+            <field name="code">today_date</field>
+        </record>
+
+        <!-- Schedular to  send email for ticket-->
+        <record id="ir_cron_mail_notify_ticket" model="ir.cron">
+            <field name="name">Réclamation: Notification</field>
+            <field name="model_id" ref="model_ticket_ticket"/>
+            <field name="state">code</field>
+            <field name="code">model.send_ticket_notification()</field>
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall" />
+            <field name="priority">10</field>
+        </record>
+
+        <!-- Import Suppliers -->
+        <record id="ir_cron_sync_suppliers" model="ir.cron">
+            <field name="name">Sychronisation: Fournisseurs</field>
+            <field name="model_id" ref="model_sychronize_sychronize"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_import_suppliers()</field>
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall" />
+            <field name="priority">10</field>
+        </record>
+
+        <!-- Import Articles -->
+        <record id="ir_cron_sync_articles" model="ir.cron">
+            <field name="name">Sychronisation: Articles</field>
+            <field name="model_id" ref="model_sychronize_sychronize"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_import_articles()</field>
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall" />
+            <field name="priority">15</field>
+        </record>
+
+        <!-- Import Invoices -->
+        <record id="ir_cron_sync_invoices" model="ir.cron">
+            <field name="name">Sychronisation: Factures</field>
+            <field name="model_id" ref="model_sychronize_sychronize"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_import_invoices()</field>
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall" />
+            <field name="priority">20</field>
+        </record>
+    </data>
+</odoo>

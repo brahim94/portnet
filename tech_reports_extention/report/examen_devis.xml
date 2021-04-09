@@ -1,0 +1,361 @@
+<odoo>
+
+    <report
+        id="action_report_examen"
+        model="purchase.requisition"
+        string="Examen de Devis"
+        report_type="qweb-pdf"
+		name="tech_reports_extention.examen"
+		print_report_name="'Examen de Devis'"/>
+
+        <template id="examen">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.internal_layout">
+
+                    <!-- <style>
+                    table.centro {
+                    margin-left:auto; 
+                    margin-right:auto;
+                    }
+                    table, td, th {
+                    border: 1px solid black;
+                    }
+                    td.show{
+                    empty-cells: show;
+                    }
+                    </style> -->
+
+                     <style type = "text/css">
+         table.centro {
+                    margin-left:auto; 
+                    margin-right:auto;
+                    }
+                    
+         
+         table.empty {
+            width:350px;
+            empty-cells:show;
+         }
+         td.empty {
+            padding:15px;
+            border: 1px solid black;
+            
+         }
+         td.bord {
+            border: 1px solid black;
+            
+         }
+         th {
+            border: 1px solid black;
+            }
+        table.centre {
+                    margin-left:auto; 
+                    margin-right:auto;
+                    width:100%;
+                    }
+        .inline { 
+           display: inline; 
+        }
+        th.nobord {
+        border: none;
+         }
+         div {
+            margin-top:20px;
+            }
+        div.k{
+            margin-top: 0px; 
+            margin-bottom: 0px; 
+            margin-left: 0px; 
+            margin-right: 0px;
+        }
+        table.marg {
+                margin-top:30px;
+                }
+        
+
+      </style>
+
+                    <!-- <div class ="k" style="vertical-align:center;text-align: left">
+				        Le <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d')"/>, la commission composée de :
+                        <t t-foreach="o.consultation_tender_commission_ids" t-as="line">
+                            <br>     <t t-if="line.partner_type == 'Président' ">
+                                            -	M.    <span t-field="line.employee_id"/> : Chef de la Division Administrative : <span t-field="line.department_id"/></t> </br>
+                        </t>
+                    </div>
+                    <div class ="k" style="vertical-align:center;text-align: left">
+                        <t t-foreach="o.consultation_tender_commission_ids" t-as="line">
+                            <br>     <t t-if="line.partner_type == 'Service utilisateur' ">
+                                            -	M.    <span t-field="line.employee_id"/> : Représentant le service Utilisateur : <span t-field="line.department_id"/></t></br> 
+                        </t>
+                    </div>
+				     -->
+                        <table class="marg" width="100%">
+                        <tr>
+                            <tr>
+                                <th class="nobord"></th>
+                                <td>Le, <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d')"/> , la commission composée de : </td>
+                            </tr>
+                            <t t-foreach="o.consultation_tender_commission_ids" t-as="line">
+                                <tr>
+                                    
+                                    <t t-if="line.partner_type == 'Président'  ">
+                                        <th class="nobord"></th>
+                                        <td>  -M. <span t-field="line.employee_id"/>: Chef de la Division Administrative : <span t-field="line.department_id"/></td>
+                                    </t>
+                                </tr>
+                            <tr>    
+                                <t t-if="line.partner_type == 'Service utilisateur' ">
+                                    <th class="nobord"></th>
+                                    <td>  -M. <span t-field="line.employee_id"/> : Représentant le service Utilisateur : <span t-field="line.department_id"/></td>
+                                </t>
+                            </tr>
+                            </t>
+                        </tr>
+                    
+                    </table>
+
+                    <div class="marg" style="vertical-align:center;text-align: left">
+                        s’est réunie pour procéder à l’ouverture des plis contenant les devis relatifs à la consultation 
+                        <br>pour « <span t-field="o.consultation_name"/> » pour le compte de L’ENSMR.</br>  
+			        </div>
+
+                    <div class="marg" style="vertical-align:center;text-align: left">
+                        La Division Administrative a consulté préalablement les prestataires suivants :  
+			        </div>
+
+                    <table class="centro empty marg" style="empty-cells: show" width="70%">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center">Prestataire</th>
+                            </tr>
+                            
+                        </thead>
+                        
+                        <tbody>
+                            <t t-foreach="o.purchase_ids" t-as="line">
+                                <tr>
+                                    <t t-if="line.state_bc_order != 'draft'">
+                                        <td  class = "empty"><span t-field="line.partner_id"/></td>
+                                    </t>
+                                </tr>
+                            </t>
+                        </tbody>
+                        
+                    
+                    </table>
+<!--                     
+                    <table class="centre empty marg">
+                        <t t-foreach="o.purchase_ids" t-as="line">
+                            <tr>
+                                <t t-if="line.state_bc_order == 'purchase'">
+                                     <td <br>Les prestataires ayant répondu dans les délais impartis et dont les offres sont les suivants :</br></td> 
+                                </t>
+                            </tr>
+                        </t>                        
+                    </table> -->
+                    
+                     <div class="marg" style="vertical-align:center;text-align: left">
+                        Les prestataires ayant répondu dans les délais impartis et dont les offres sont les suivants :
+			        </div>
+
+                
+                <table class="centre empty marg">
+                    <thead>
+                            <tr>
+                                <th style="text-align: center" >Prestataire</th>
+                                <th style="text-align: center" >Montant de l’offre TTC en DH</th>
+                                <th style="text-align: center" >Date limite de remis de devis</th>
+                                <th style="text-align: center" width="30%">Observations</th>
+                            </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="o.purchase_ids" t-as="line">
+                            <tr>
+                                <t t-if="line.state_bc_order == 'purchase' or line.state_bc_order == 'done'">
+                                    <td  class = "empty" style="text-align: center"> <span t-field="line.partner_id"/></td>
+                                    <td  class = "empty" style="text-align: center"> <span t-field="line.amount_total"/></td>
+                                    <td  class = "empty"><span t-field="line.date_order" t-options='{"format": "dd/M/Y"}'/> à 16 h. </td>
+                                    <td  class = "empty"> </td>
+
+                                </t>
+                            </tr>
+                        </t>
+                        <t t-foreach="o.purchase_ids" t-as="line">
+                            <tr>
+                                <t t-if="line.state_bc_order == 'done'">
+                                    <td class="marg" colspan="4"> Après examen des montants proposés, la commission décide de proposer à l’ordonnateur <br>de retenir l’offre de la Société:</br> <span t-field="line.partner_id"/></td>
+                                </t>
+                            </tr>
+                        </t>
+                        
+                    </tbody>
+                </table>
+
+                
+                    <div class="marg" style="position:absolute;top:800px;text-align:center">
+                            <strong>Signatures des membres de la commission</strong>
+                    </div>
+
+                    <!-- <div class="page">
+
+                    <p style="page-break-after:always;"></p>
+                         
+
+                        <table  width="30%">
+                        <tr>
+                            <tr>
+                                <td style="text-align: center">Royaume du Maroc</td>
+                            </tr>
+                            <tr>
+                                <td  style="text-align:center" >*** </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center" >ECOLE NATIONALE SUPERIEURE</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center" >DES MINES DE RABAT</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center" > ***</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center" > Service Matériels et Marchés</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center" > Imputation : (code et intitulé)</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align:center"> Nature de prestation : (intitulé)</td>
+                            </tr>
+
+                        </tr>
+                    
+                    </table>
+
+                        <div style="position:absolute;left:520px;top:1020px" class="cls_039">
+                        Exercice :
+                        <br>Budget :</br>                
+                        </div>
+                         -->
+                    
+                    
+                        <!-- <div style="vertical-align:center;text-align: center" class="cls_039">
+                            BON DE COMMANDE                 
+                        </div>
+                        <div style="position:absolute;left:520px;top:1200px">
+                             N° :                 
+                        </div> -->
+                    
+                    
+                    <!-- <table class="centre" >
+                        <tr>
+                            <tr>
+                                <th class="nobord"></th>
+                                <th class="nobord" style="text-align: center" width="60%">BON DE COMMANDE</th>
+                                <th class="nobord" style="text-align: left">N° :</th>
+                            </tr>
+                             <tr>
+                                <td width="20%">Prestataire :</td>
+                                <td colspan="2"></td>
+                            
+                            </tr>
+                        
+                            <tr>
+                                
+                                <td width="20%">Adresse :</td>
+                                <td colspan="2"></td>
+                            </tr>
+                            <tr>
+                                
+                                <td width="20%">Tél : </td>
+                                <td colspan="2"></td>
+                            </tr>
+                            <tr>
+                                
+                                <td width="20%">ICE : </td>
+                                <td colspan="2"></td>
+                            </tr>
+                       
+                        </tr>
+                    
+                    </table> -->
+
+                    <!-- <table class="centre" style="width:99%">
+                            <thead>
+                                <tr>
+                                    <th  rowspan="2" style="text-align: center;width:20%">Prix n°</th>
+                                    <th  rowspan="2" style="text-align: center;width:40%">Désignation</th>
+                                    <th  rowspan="2" style="text-align: center" >Qté</th>
+                                    <th  rowspan="2" style="text-align: center" >PU</th>
+                                    <th  rowspan="2" style="text-align: center">Total HT</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="o.order_line" t-as="line">
+                                <tr >
+                                    
+                                    <td class="bord"><span t-field="line.product_id"/></td>                                    
+                                    <td class="bord"><span t-field="line.name"/></td>
+                                    <td class="bord"><span t-field="line.product_qty"/></td>
+                                    <td class="bord"><span t-field="line.price_unit"/></td>
+                                    <td class="bord"><span t-field="line.price_subtotal"/></td>
+
+                                </tr>
+                                
+                                 </t>
+                                 <tr>
+                                    <th colspan="4" style="text-align: right;padding:2px; margin:2px">TOTAL (HT) :</th>
+                                    <td class="bord" style="border: 1px solid black;text-align: center;padding:0px; margin:0px"><span t-field="o.amount_untaxed"/></td>
+                                </tr>
+                                <tr>
+                                    <th colspan="4" style="text-align: right;border-bottom: none;padding:2px; margin:2px">TAUX TVA :</th>
+                                    <td class="bord" style="border: 1px solid black;text-align: center;padding:0px; margin:0px"><span t-field="o.amount_tax"/></td>
+                                </tr>
+                                <tr>
+                                    <th colspan="4" style="text-align: right;padding:2px; margin:2px">TOTAL (TTC) :</th>
+                                    <td class="bord" style="border: 1px solid black;text-align: center;padding:0px; margin:0px"><span t-field="o.amount_total"/></td>
+                                </tr>
+                            </tbody>
+    
+                </table> -->
+
+                        <!-- <div class="rule">
+                            <strong>Arrêté le présent devis à la somme de   (en lettres)::</strong>
+                            <span t-esc="o.get_amount_in_words()"/>
+                    </div>
+                    <div class="rule">
+                            <strong>Destination: ENSMR</strong>
+                    </div>
+                               
+                    <div style="position:absolute;left:570.99px;top:1800px;text-align:center">
+                            <strong>Document établit par :
+                            <br>Vérifié par :</br>   
+                            </strong>
+                    </div>
+                    
+                      <table class="centre">
+                        <tr>
+                            <tr>
+                                <th class="nobord"></th>
+                                <th class="nobord"> Date d’engagement :</th>
+                                <th class="nobord" >l’Ordonnateur :</th>
+                                
+                            </tr>
+                             <tr>
+                                <td>N° d’engagement :</td>
+                                <td colspan="2"></td>
+                            </tr>
+                            
+                        </tr>
+                    
+                    </table>
+
+                    </div> -->
+
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

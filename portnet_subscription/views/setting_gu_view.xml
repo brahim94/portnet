@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+         <!-- Settings Guichet Unique -->
+        <record id="setting_guichet_unique_tree_view" model="ir.ui.view">
+            <field name="name">setting.guichet.unique.tree</field>
+            <field name="model">setting.guichet.unique</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree strig="Dossiers des échanges">
+                    <field name="url"  />
+                    <field name="login"  />
+                    <field name="passwd" />
+                    <field name="hmac" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="setting_guichet_unique_form_view" model="ir.ui.view">
+            <field name="name">setting.guichet.unique.form</field>
+            <field name="model">setting.guichet.unique</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form strig="Configuration Guichet Unique">
+                    <group>
+                        <field name="url"  />
+                        <field name="login"  />
+                        <field name="passwd" />
+                        <field name="hmac" />
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_setting_guichet_unique">
+            <field name="name">Configuration Guichet Unique</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">setting.guichet.unique</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_settings_gu" name="Settings GU" parent="base.menu_custom" sequence="1" action="action_setting_guichet_unique"/>
+
+</data>
+</openerp>

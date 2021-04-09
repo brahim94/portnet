@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+
+
+        <record id="account_cutoff_form2" model="ir.ui.view">
+            <field name="name">account.cutoff.form2</field>
+            <field name="model">account.cutoff</field>
+            <field name="inherit_id" ref="account_cutoff_base.account_cutoff_form"/>
+            <field name="arch" type="xml">
+
+                <field name="cutoff_date" position="replace">
+                     <field name="cutoff_date" />
+                </field>
+
+                <field name="cutoff_journal_id" position="replace">
+                    <field name="cutoff_journal_id" attrs="{'readonly': [('cutoff_date','=',False)]}"/>
+                </field>
+                <field name="cutoff_account_id" position="replace">
+                    <field name="cutoff_account_id" attrs="{'readonly': [('cutoff_date','=',False)]}"/>
+                </field>
+
+
+            </field>
+        </record>
+
+        <!-- Form view for lines -->
+        <record id="account_cutoff_line_form2" model="ir.ui.view">
+            <field name="name">account.cutoff.line.prepaid.form2</field>
+            <field name="model">account.cutoff.line</field>
+            <field name="inherit_id" ref="account_cutoff_prepaid.account_cutoff_line_form"/>
+            <field name="arch" type="xml">
+
+                <field name="after_cutoff_days" position="before">
+                    <field name="before_cutoff_days" invisible="'prepaid' not in context.get('type', '-')"/>
+                    <field name="residual_amount" invisible="'prepaid' not in context.get('type', '-')" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                </field>
+
+
+            </field>
+        </record>
+
+        <!-- Tree view for lines -->
+        <record id="account_cutoff_line_tree2" model="ir.ui.view">
+            <field name="name">account.cutoff.line.prepaid.tree2</field>
+            <field name="model">account.cutoff.line</field>
+            <field name="inherit_id" ref="account_cutoff_prepaid.account_cutoff_line_tree"/>
+            <field name="arch" type="xml">
+
+                <field name="after_cutoff_days" position="before">
+                    <field name="before_cutoff_days" invisible="'prepaid' not in context.get('type', '-')"/>
+                    <field name="residual_amount" invisible="'prepaid' not in context.get('type', '-')"/>
+                </field>
+
+                <field name="currency_id" position="replace">
+                     <field name="currency_id" groups="base.group_multi_currency" invisible="1"/>
+                </field>
+
+                <field name="company_currency_id" position="replace">
+                     <field name="company_currency_id" groups="base.group_multi_currency" invisible="1"/>
+                </field>
+
+                 <field name="analytic_account_code" position="replace">
+                     <field name="analytic_account_code" groups="analytic.group_analytic_accounting" invisible="1"/>
+                </field>
+
+
+
+            </field>
+        </record>
+
+        <record id="view_account_form_portnet" model="ir.ui.view">
+            <field name="name">view.account.form.portnet</field>
+            <field name="model">account.account</field>
+            <field name="inherit_id" ref="account.view_account_form"/>
+            <field name="arch" type="xml">
+                <field name="note" position="replace"/>
+                <xpath expr='//label[@for="note"]' position='replace'>
+                    <notebook colspan="4">
+                        <page string="Paramètres PCA">
+                            <label for="prepaid_revenue"/>
+                            <field name="prepaid_revenue"/>
+                            <label for="prepaid_expense"/>
+                            <field name="prepaid_expense"/>
+                        </page>
+                        <page string="Notes internes">
+                            <field name="note"/>
+                        </page>
+                    </notebook>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="view_account_journal_form_portnet" model="ir.ui.view">
+            <field name="name">view.account.journal.form.portnet</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <xpath expr='//page[@string="Advanced Settings"]' position='after'>
+                        <page string="Paramètres PCA">
+                            <label for="prepaid_revenue"/>
+                            <field name="prepaid_revenue"/>
+                            <label for="prepaid_expense"/>
+                            <field name="prepaid_expense"/>
+                        </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_move_form_portnet" model="ir.ui.view">
+            <field name="name">view.move.form.portnet</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <field name="ref" position="after">
+                    <field name="invoice_id" readonly="1" />
+                </field>
+            </field>
+        </record>
+
+        <menuitem id="account.menu_finance_bank_and_cash" name="Bank and Cash" parent="account.menu_finance" sequence="4"
+            groups="base.group_sale_manager,purchase.group_purchase_manager,account.group_account_manager"/>
+        <menuitem id="account.menu_finance_periodical_processing" name="Periodic Processing" parent="account.menu_finance" sequence="13" groups="base.group_sale_manager,purchase.group_purchase_manager,account.group_account_manager"/>
+        <menuitem id="account.periodical_processing_journal_entries_validation" name="Draft Entries" parent="account.menu_finance_periodical_processing" groups="base.group_sale_manager,purchase.group_purchase_manager,account.group_account_manager"/>
+        <menuitem id="account.periodical_processing_reconciliation" name="Reconciliation" parent="account.menu_finance_periodical_processing" groups="base.group_sale_manager,purchase.group_purchase_manager,account.group_account_manager"/>
+        <menuitem id="account.periodical_processing_invoicing" name="Invoicing" parent="account.menu_finance_periodical_processing" groups="base.group_sale_manager,purchase.group_purchase_manager,account.group_account_manager"/>
+        <menuitem id="account.menu_finance_charts" name="Charts" parent="account.menu_finance"  sequence="6" groups="base.group_sale_manager,purchase.group_purchase_manager,account.group_account_manager"/>
+        <menuitem id="account.menu_finance_reporting" name="Accounting" parent="base.menu_reporting" sequence="35" groups="base.group_sale_manager,purchase.group_purchase_manager,account.group_account_manager"/>
+        <menuitem id="account.menu_finance_reporting_budgets" name="Budgets" parent="account.menu_finance_reporting" groups="base.group_sale_manager,purchase.group_purchase_manager,account.group_account_manager"/>
+        <menuitem id="account.menu_finance_reports" name="Reporting" parent="account.menu_finance" sequence="14" groups="base.group_sale_manager,purchase.group_purchase_manager,account.group_account_manager"/>
+        <menuitem id="account.menu_finance_legal_statement" name="Legal Reports" parent="account.menu_finance_reports" groups="base.group_sale_manager,purchase.group_purchase_manager,account.group_account_manager"/>
+        <menuitem id="account.menu_finance_management_belgian_reports" name="Belgian Reports" parent="account.menu_finance_reporting" groups="base.group_sale_manager,purchase.group_purchase_manager,account.group_account_manager"/>
+        <menuitem id="account.menu_finance_configuration" name="Configuration" parent="account.menu_finance" sequence="15" groups="base.group_sale_manager,purchase.group_purchase_manager,account.group_account_manager" />
+        <menuitem id="account.menu_finance_accounting" name="Financial Accounting" parent="account.menu_finance_configuration" sequence="1" groups="base.group_sale_manager,purchase.group_purchase_manager,account.group_account_manager"/>
+        <menuitem id="account.menu_analytic_accounting" name="Analytic Accounting" parent="account.menu_finance_configuration" groups="analytic.group_analytic_accounting,base.group_sale_manager,purchase.group_purchase_manager,account.group_account_manager" sequence="40"/>
+        <menuitem id="account.menu_analytic" parent="account.menu_analytic_accounting" name="Accounts" groups="analytic.group_analytic_accounting,base.group_sale_manager,purchase.group_purchase_manager,account.group_account_manager"/>
+        <menuitem id="account.menu_journals" sequence="15" name="Journals" parent="account.menu_finance_configuration" groups="base.group_sale_manager,purchase.group_purchase_manager,account.group_account_manager"/>
+        <menuitem id="account.menu_configuration_misc" name="Miscellaneous" parent="account.menu_finance_configuration" sequence="55" groups="base.group_sale_manager,purchase.group_purchase_manager,account.group_account_manager"/>
+         <menuitem id="base.menu_action_currency_form" name="Currencies" parent="account.menu_configuration_misc" sequence="20" groups="base.group_sale_manager,purchase.group_purchase_manager,account.group_account_manager"/>
+        <menuitem id="account.menu_finance_generic_reporting" name="Generic Reporting" parent="account.menu_finance_reports" sequence="100" groups="base.group_sale_manager,purchase.group_purchase_manager,account.group_account_manager"/>
+        <menuitem id="account.menu_finance_entries" name="Journal Entries" parent="account.menu_finance" sequence="5" groups="base.group_sale_manager,purchase.group_purchase_manager,account.group_account_manager"/>
+        <menuitem id="account.menu_account_reports" name="Financial Reports" parent="account.menu_finance_configuration" sequence="30" groups="base.group_sale_manager,purchase.group_purchase_manager,account.group_account_manager"/>
+
+        <menuitem id="account.menu_finance_recurrent_entries" name="Recurring Entries"
+            parent="account.menu_finance_periodical_processing" sequence="15" groups="base.group_sale_manager,purchase.group_purchase_manager,account.group_account_manager"/>
+
+        <menuitem id="account.menu_account_end_year_treatments"
+            name="End of Period" parent="account.menu_finance_periodical_processing"
+            sequence="25" groups="base.group_sale_manager,purchase.group_purchase_manager,account.group_account_manager"/>
+        <menuitem id="account.menu_finance_periodical_processing_billing" name="Billing" parent="account.menu_finance_periodical_processing" sequence="35" groups="base.group_sale_manager,purchase.group_purchase_manager,account.group_account_manager"/>
+
+        <menuitem id="account.next_id_22" name="Partners" parent="account.menu_finance_generic_reporting" sequence="1" groups="base.group_sale_manager,purchase.group_purchase_manager,account.group_account_manager"/>
+        <menuitem id="account.menu_multi_currency" name="Multi-Currencies" parent="account.menu_finance_generic_reporting" sequence="10" groups="base.group_multi_currency,purchase.group_purchase_manager,account.group_account_manager"/>
+        <menuitem
+            parent="account.menu_finance_legal_statement"
+            id="account.final_accounting_reports"
+            name="Accounting Reports" groups="base.group_sale_manager,purchase.group_purchase_manager,account.group_account_manager"/>
+
+
+    </data>
+</openerp>

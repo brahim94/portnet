@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+            <record model="ir.ui.view" id="xml_history_tree_view">
+                <field name="name">xml.history.tree.view</field>
+                <field name="model">xml.history</field>
+                <field name="type">tree</field>
+                <field name="arch" type="xml">
+                    <tree string="Historique XML"  create="false" delete="false">
+                         <field name="date"/>
+                         <field name="type"/>
+                         <field name="invoice_number"/>
+                         <field name="customer_code"/>
+                         <field name="customer_name"/>
+                         <field name="invoice_state"/>
+                         <field name="messageref" />
+                    </tree>
+                </field>
+            </record>
+
+
+            <!-- Début Vue search -->
+            <record id="xml_history_search_view" model="ir.ui.view">
+                <field name="name">xml.history.search.view</field>
+                <field name="model">xml.history</field>
+                <field name="arch" type="xml">
+                    <search>
+                        <field name="type"/>
+                        <field name="invoice_number"/>
+                        <field name="customer_code"/>
+                        <field name="customer_name"/>
+                        <field name="messageref" />
+                        <group string="Grouper par">
+                            <filter name="type" string="Type" context="{'group_by':'type'}"  />
+                            <filter name="customer_name" string="Nom client" context="{'group_by':'customer_name'}"  />
+                            <filter name="customer_code" string="Code client" context="{'group_by':'customer_code'}"  />
+                            <filter name="invoice_number" string="Numéro facture" context="{'group_by':'invoice_number'}"  />
+                        </group>
+                    </search>
+                </field>
+            </record>
+            <!-- Fin Vue search -->
+
+            <record model="ir.actions.act_window" id="action_xml_history_tree_view">
+                <field name="name">Historique XML</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">xml.history</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form,search</field>
+            </record>
+
+
+
+            <menuitem id="menu_xml_history" name="Historique XML" parent="base.menu_base_config" sequence="1" action="action_xml_history_tree_view" groups="account.group_account_manager,portnet_invoicing.group_director"/>
+
+    </data>
+</openerp>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="unprocessd_jplus2_form_view" model="ir.ui.view">
+            <field name="name">unprocessed.jplus2.form</field>
+            <field name="model">unprocessed.jplus2</field>
+            <field name="arch" type="xml">
+                <form string="Rejet j+2">
+                    <group>
+                        <field name="date"/>
+                        <field name="filename"/>
+                        <field name="line_content"/>
+                    </group>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="unprocessd_jplus2_tree_view" model="ir.ui.view">
+            <field name="name">unprocessed.jplus2.tree</field>
+            <field name="model">unprocessed.jplus2</field>
+            <field name="arch" type="xml">
+                <tree string="Rejet j+2">
+                    <field name="date"/>
+                    <field name="filename"/>
+                    <field name="line_content"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_unprocessd_jplus2_tree_view" model="ir.actions.act_window">
+            <field name="name">Rejets J+2</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">unprocessed.jplus2</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="unprocessd_jplus2_menu" name="Rejets J+2"
+                  action="action_unprocessd_jplus2_tree_view"
+                      parent="account.menu_finance_receivables" sequence="1000"/>
+
+    </data>
+</openerp>

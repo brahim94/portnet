@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Réclamation Type -->
+         <record id="view_ticket_type_parameter_tree" model="ir.ui.view">
+            <field name="name">ticket.type.parameter.tree</field>
+            <field name="model">ticket.type.parameter</field>
+            <field name="arch" type="xml">
+                <tree string="Réclamation Type">
+                    <field name="name"/>
+                    <field name="code"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_ticket_type_parameter_form" model="ir.ui.view">
+            <field name="name">ticket.type.parameter.form</field>
+            <field name="model">ticket.type.parameter</field>
+            <field name="arch" type="xml">
+                <form string="Réclamation">
+                   <sheet>
+                       <group>
+                           <group>
+                                <field name="name"/>
+                           </group>
+                           <group>
+                                <field name="code"/>
+                           </group>
+                       </group>
+                   </sheet>
+               </form>
+           </field>
+       </record>
+
+       <record id="ticket_type_parameter_action" model="ir.actions.act_window">
+            <field name="name">Types Réclamation</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ticket.type.parameter</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new réclamation type
+                </p>
+            </field>
+        </record>
+
+   </data>
+</odoo>

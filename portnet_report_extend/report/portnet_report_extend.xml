@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <openerp>
+        <data>
+            <template id="report_invoice_porntet_extend" inherit_id="account.report_invoice_document">        
+            
+            <div class="page">
+
+                        <table class="tab1">
+                            <tr>
+                                <td>
+                                    <span t-if="o.type == 'out_invoice'">‫فاتورة<br/>
+                                        <t t-if="o.state != 'proforma2'"> FACTURE </t>
+                                        <t t-if="o.state == 'proforma2'">FACTURE PRO-FORMA</t>
+                                    </span>
+                                    <span t-if="o.type == 'out_refund'">رد<br/>Avoir</span>
+                                </td>
+                                <td>‫فوترة‬ ‫خدمات‬ ‫بورتنت‬<br/>Facturation des services PORTNET</td>
+                            </tr>
+                        </table>
+
+                        <br/><br/><br/>
+
+                        <table class="tab2">
+                            <tr>
+                                <td class="td1">‫رقم‬ ‫الفاتورة‬<br/>
+                                    <t t-if="o.state != 'proforma2'">N°FACTURE</t>
+                                    <t t-if="o.state == 'proforma2'">FACTURE PRO-FORMA</t>
+                                    <br/>
+                                    <span t-if="o.state != 'proforma2'"><span t-field="o.number"/></span>
+                                </td>
+                                <td class="td2">‫تاريخ‬ ‫الإصدار‬<br/>Date d'émission<br/><span t-field="o.date_invoice"/></td>
+                                <td class="td3" rowspan="2">
+
+                                    <table class="tab22">
+                                        <tr>
+                                            <td>Code Client:</td>
+                                            <td><strong><span t-field="o.partner_id.code"/></strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nom Client:</td>
+                                            <td><strong><span t-field="o.partner_id.name"/></strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Adresse Client:</td><td><strong><span t-if="o.partner_id.street"><span t-field="o.partner_id.street"/></span></strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>ICE Client:</td><td><strong><span t-if="o.partner_id.ice"><span t-field="o.partner_id.ice"/></span></strong></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td4"></td>
+                                <td class="td5">‫آخر‬ ‫موعد‬ ‫السداد‬<br/>Date limite de paiement<br/><span t-field="o.date_due"/></td>
+                            </tr>
+                            <tr>
+                                <td class="td6" colspan="2">Période facturée ‫المرحلة‬ ‫المفوترة‬<br/>
+                                    <t t-if="o.is_product_abonn  == False"><span t-field="o.period_name"/></t>
+                                    <t t-if="o.is_product_abonn  == True">Date Début : <span t-field="o.start_date" t-field-options='{"format": "dd/MM/y"}'/> <strong>/</strong>  Date Fin : <span t-field="o.end_date" t-field-options='{"format": "dd/MM/y"}'/></t>
+                                </td>
+                                <td class="td7">Type Client:    <strong><span t-field="o.partner_id.categ_id"/></strong></td>
+                            </tr>
+                        </table>
+
+                        <br/><br/><br/><br/>
+
+                        <table class="tab3">
+                            <tr>
+                                <td>‫الاصطلاح‬<br/>Code</td><td class="text-left">‫نوع ‫الخدمات‬‬<br/>Nature des prestations</td><td>‫العدد‬<br/>Quantité</td><td>‫الوحدة‬<br/>Unité</td><td>‫السعر‬<br/>Tarif</td><td>‫القدر‬<br/>Montant</td>
+                            </tr>
+                            <tr t-foreach="o.invoice_line" t-as="l">
+                                <td class="text-center"><span t-field="l.product_id.default_code"/></td>
+                                <td class="text-left"><span t-field="l.product_id.name"/></td>
+                                <td class="text-center"><span t-field="l.quantity"/></td>
+                                <td class="text-center"><span t-field="l.uos_id"/></td>
+                                <td class="text-center"><span t-field="l.price_unit"/></td>
+                                <td class="text-center"><span t-field="l.price_subtotal"/></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" rowspan="3">
+                                    <table class="tab4" t-if="o.tax_line">
+                                        <tr>
+                                            <td>Tax</td>
+                                            <td>Base</td>
+                                            <td>Amount</td>
+                                        </tr>
+                                        <tr t-foreach="o.tax_line" t-as="t">
+                                            <td class="text-center"><span t-field="t.name"/></td>
+                                            <td class="text-center"><span t-field="t.base"/></td>
+                                            <td class="text-center"><span t-field="t.amount"/></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td class="text-center" colspan="2">‫المجموع‬ ‫بدون‬ ‫ضرائب‬<br/>TOTAL H.T</td>
+                                <td class="text-center"><strong><span t-field="o.amount_untaxed"/></strong></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center" colspan="2">‫الضريبة‬ ‫على‬ ‫القيمة‬ ‫المضافة‬<br/>TAXES</td>
+                                <td class="text-center"><strong><span t-field="o.amount_tax"/></strong></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center" colspan="2">‫المجموع‬ ‫بالضرائب‬<br/>MONTANT A PAYER</td>
+                                <td class="text-center"><strong><span t-field="o.amount_total"/></strong></td>
+                            </tr>
+
+                        </table>
+
+                        <span t-if="o.amount_total !=0">Facture arrêtée à la somme de :</span><br/>
+                        <strong><span t-if="o.amount_total !=0"><span t-field="o.amount_letter"/></span></strong>
+
+                    </div>
+    
+        </template>
+
+    </data>
+</openerp>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+       <record model="ir.ui.view" id="operation_type_form_view">
+                <field name="name">operation.type.form.view</field>
+                <field name="model">operation.type</field>
+                <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <form string="Types d'opérations" version="8.0" >
+                    	<header>
+                            <button name="set_confirmed" string="Valider" class="oe_highlight" type="object" states="draft"  />
+                            <button name="set_draft" string="Remettre en brouillon" class="oe_highlight" type="object" states="confirmed"  />
+	                        <field name="state" widget="statusbar" />
+                    	</header>
+                    	<sheet>
+                            <group col="4">
+                                <group colspan="2">
+                                    <field name="name" attrs="{'readonly':[('state','=','confirmed')]}"/>
+                                    <field name="partner_categ_id" attrs="{'readonly':[('state','=','confirmed')]}"/>
+                                </group>
+                                <group colspan="2">
+                                    <field name="product_category_id" attrs="{'readonly':[('state','=','confirmed')]}"/>
+                                    <field name="product_id" attrs="{'invisible': [('product_category_id','=',False)],'readonly':[('state','=','confirmed')]}" />
+                                    <field name="fixed_price" attrs="{'readonly':[('state','=','confirmed')]}"/>
+                                </group>
+                                <notebook colspan="4">
+                                    <page string="Paramètrage des champs">
+                                        <field name="line_ids" nolabel="1" attrs="{'readonly':[('state','=','confirmed')]}" >
+                                            <tree string="Paramètrage des champs" editable="bottom">
+                                                <field name="name"/>
+                                                <field name="field"/>
+                                                <field name="data_type"/>
+                                                <field name="required"/>
+                                                <field name="report"/>
+                                                <field name="filter"/>
+                                                <field name="sequence"/>
+                                            </tree>
+                                        </field>
+                                    </page>
+                                </notebook>
+                            </group>
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+            
+           <record model="ir.ui.view" id="operation_type_tree_view">
+                <field name="name">operation.type.tree.view</field>
+                <field name="model">operation.type</field>
+                <field name="type">tree</field>
+                <field name="arch" type="xml">
+                    <tree string="Types d'opérations" colors="blue:state == 'draft';green:state == 'confirmed'">
+                        <field name="name"/>
+                        <field name="partner_categ_id"/>
+                        <field name="product_id" />
+                        <field name="fixed_price"/>
+                        <field name="state"/>
+                    </tree>
+                </field>
+            </record>
+
+
+            <record model="ir.actions.act_window" id="action_operation_type_tree_view">
+                <field name="name">Types d'opérations</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">operation.type</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+            </record>
+
+
+            <menuitem id="operation_type_menu" name="Types d'opérations" parent="base.menu_base_config" sequence="1" action="action_operation_type_tree_view" groups="base.group_sale_manager,account.group_account_manager"/>
+
+
+         <!-- Début Vue search -->
+            <record id="operation_type_search_view" model="ir.ui.view">
+                <field name="name">operation.type.search.view</field>
+                <field name="model">operation.type</field>
+                <field name="arch" type="xml">
+                    <search>
+
+                        <field name="partner_categ_id"/>
+                        <field name="name"/>
+                        <field name="state"/>
+                        <field name="partner_categ_id"/>
+                        <field name="product_category_id" />
+                        <field name="product_id" />
+
+                        <filter string="Confirmés" name="confirmed_types" domain="[('state','=','confirmed')]"/>
+                        <filter string="Brouillon" name="draft_types" domain="[('state','=','draft')]"/>
+
+                        <group string="Grouper par">
+                            <filter name="state" string="Statut" context="{'group_by':'state'}"  />
+                        </group>
+
+                    </search>
+                </field>
+            </record>
+            <!-- Fin Vue search -->
+
+
+    </data>
+</openerp>

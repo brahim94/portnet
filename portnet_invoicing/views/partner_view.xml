@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <delete id="tva_ma.view_partner_form_inherit_1" model="ir.ui.view"/>
+
+        <record id="portnet_partner_form" model="ir.ui.view">
+            <field name="name">portnet.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+
+
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button string="Facture d'abonnement" attrs="{'invisible': ['|',('subscribed','=',True),('without_subscription','=',True)]}" type="object" name="do_subscription" class="oe_highlight"/>
+                    <button string="Valider" attrs="{'invisible': ['|',('state','!=','draft'),('subscribed','=',False),('without_subscription','=',False)]}" type="object" name="set_confirmed" class="oe_highlight"/>
+                    <button string="Remettre en brouillon" states="confirmed" type="object" name="set_draft" class="oe_highlight"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+            </xpath>
+
+           <!-- <xpath expr="//group" position="attributes">
+                 <attribute name="attrs">{'readonly': [('state','=','confirmed'),('subscribed','=',True)]}</attribute>
+            </xpath>
+
+            <xpath expr="//notebook" position="attributes">
+                 <attribute name="attrs">{'readonly': [('state','=','confirmed'),('subscribed','=',True)]}</attribute>
+            </xpath>-->
+
+            <xpath expr="//field[@name='category_id']" position="replace">
+                <field name="partner_group_id" placeholder="Société mère"/>
+                <field name="categ_id" placeholder="Catégorie client" attrs="{'invisible': [('customer','=',False)],'required': [('customer','=',True)]}"/>
+                <field name="supplier_categ_id" placeholder="Catégorie fournisseur" attrs="{'invisible': [('supplier','=',False)]}"/>
+            </xpath>
+
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="code" placeholder="Code"  attrs="{'required': ['|',('customer','=',True),('supplier','=',True)]}" />
+            </xpath>
+
+            <xpath expr="//field[@name='user_id']" position="replace">
+                <field name="subscribed" readonly="1" attrs="{'invisible': ['|',('customer','=',False),('without_subscription','=',True)]}" />
+                <field name="etl"  readonly="1" attrs="{'invisible': ['|',('customer','=',False),('without_subscription','=',True)]}"/>
+                <field name="without_subscription" />
+                <field name="first_invoice_date" attrs="{'readonly': ['|',('etl','=',False),('state','=','confirmed')],'required': [('etl','=',True)]}"/>
+                <field name="penalty_rate" placeholder="ex : 0.1"/>
+
+            </xpath>
+
+            <xpath expr="//field[@name='website']" position="before">
+                <!--<field name="ifu" attrs="{'required': ['|',('customer','=',True),('supplier','=',True)]}"/>
+                <field name="ice" />
+                <field name="rc" attrs="{'required': ['|',('customer','=',True),('supplier','=',True)]}"/>-->
+                <field name="ice" attrs="{'readonly': [('state','=','confirmed')]}"/>
+                <field name="ifu"
+                       attrs="{'invisible':[('categ_code','in',('CONS','BANQUES'))], 'required': ['|',('customer','=',True),('supplier','=',True)]}"/>
+                <field name="rc"
+                       attrs="{'required': ['|',('customer','=',True),('supplier','=',True)],'readonly': [('state','=','confirmed')]}"/>
+            </xpath>
+
+            <xpath expr="//field[@name='title']" position="after">
+                <!-- <field name="centre_rc"/>-->
+                 <field name="centre_rc" attrs="{'readonly': [('state','=','confirmed')]}"/>
+            </xpath>
+
+            <xpath expr="//field[@name='street']" position="replace">
+                <field name="street" placeholder="Adresse..." attrs="{'readonly': [('use_parent_address','=',True)],'required':['|',('customer','=',True),('supplier','=',True)]}" />
+            </xpath>
+
+           <!-- <xpath expr="//field[@name='street2']" position="replace">
+                <field name="street2" attrs="{'readonly': [('use_parent_address','=',True)],'required':['|',('customer','=',True),('supplier','=',True)]}" />
+            </xpath>-->
+
+            <xpath expr="//field[@name='email']" position="replace">
+                <field name="email" widget="email" attrs="{'required': ['|',('customer','=',True),('supplier','=',True)]}"/>
+            </xpath>
+
+
+            <xpath expr="//field[@name='phone']" position="replace">
+                <field name="phone" attrs="{'required': ['|',('customer','=',True),('supplier','=',True)]}"/>
+            </xpath>
+
+            <xpath expr="//field[@name='website']" position="replace"/>
+            <xpath expr="//field[@name='title']" position="before">
+                <field name="website"  widget="url" placeholder="ex : www.odoo.com" />
+            </xpath>
+            <xpath expr="//field[@name='property_payment_term']" position="after">
+                <field name="treasury_term_id" widget="selection" />
+            </xpath>
+
+            <xpath expr="//sheet" position="attributes">
+                <attribute name="attrs">{'readonly': [('state','=','confirmed')]}</attribute>
+            </xpath>
+
+            </field>
+
+
+        </record>
+
+
+        <record id="portnet_partner_tree" model="ir.ui.view">
+            <field name="name">portnet.partner.tree</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+            <field name="arch" type="xml">
+
+            <field name="display_name" position="after">
+                <field name="code"/>
+                <field name="categ_id"/>
+                <field name="ifu"/>
+                <field name="ice" />
+                <field name="rc"/>
+            </field>
+
+            <field name="email" position="after">
+                <field name="partner_group_id"/>
+                <field name="etl"/>
+                <field name="subscribed"/>
+                <field name="state"/>
+            </field>
+
+            </field>
+        </record>
+
+        <record id="portnet_partner_view_button_contracts_count" model="ir.ui.view">
+            <field name="name">portnet.partner.view.button.contracts.count</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="account.partner_view_button_contracts_count"/>
+            <field name="arch" type="xml">
+
+            <button name="279" position="replace">
+                <button class="oe_inline oe_stat_button" type="action" name="%(portnet_invoicing.action_contracts)d"  context="{'search_default_partner_id': active_id,'default_partner_id': active_id}" icon="fa-book">
+                    <field string="Contrats" name="nb_contracts" widget="statinfo"/>
+                </button>
+            </button>
+
+
+            </field>
+        </record>
+
+
+        <record id="portnet_partner_filter" model="ir.ui.view">
+            <field name="name">portnet.partner.filter</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+
+            <field name="name" position="after">
+                <field name="code" filter_domain="[('code','ilike',self)]"/>
+                <field name="ifu" filter_domain="[('ifu','ilike',self)]"/>
+                <field name="rc" filter_domain="[('rc','ilike',self)]"/>
+                <field name="centre_rc" filter_domain="[('centre_rc','ilike',self)]"/>
+                <field name="ice" filter_domain="[('ice','ilike',self)]"/>
+            </field>
+
+
+            <field name="parent_id" position="after">
+                <filter string="Création forcée" name="forced_creations" domain="[('forced','=',True)]"/>
+                <filter string="Facture d'abonnement générée" name="subscribed" domain="[('subscribed','=',True)]"/>
+                <filter string="Repris" name="etl" domain="[('etl','=',True)]"/>
+                <filter string="Validé" name="confirmed_partners" domain="[('state','=','confirmed')]"/>
+                <filter string="Brouillon" name="draft_partners" domain="[('state','=','draft')]"/>
+            </field>
+
+            <filter string="Country" position="after">
+                <filter string="Catégorie" context="{'group_by': 'categ_id'}"/>
+                <filter string="Société mère" context="{'group_by': 'partner_group_id'}"/>
+            </filter>
+
+            </field>
+        </record>
+
+        <record id="action_partner_customer_etl_form" model="ir.actions.act_window">
+            <field name="name">Clients repris</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{'default_customer':1, 'search_default_customer':1, 'default_etl':1, 'search_default_etl':1}</field>
+            <field name="domain">[('etl','=',True),('customer','=',True),('parent_id','=',False)]</field>
+            <field name="filter" eval="True"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Cliquez ici pour ajouter un nouveau client
+                </p>
+            </field>
+        </record>
+
+        <!-- __________________________Catégorie de client___________________________ -->
+
+
+        <record id="portnet_partner_category_form" model="ir.ui.view">
+            <field name="name">portnet.partner.category.form</field>
+            <field name="model">res.partner.category</field>
+            <field name="inherit_id" ref="base.view_partner_category_form"/>
+            <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='parent_id']" position="before">
+                <field name="type"/>
+                <field name="code"/>
+                <field name="pricelist_id" required="1"/>
+                <field name="fiscal_position_id"/>
+                <field name="payment_term_id"/>
+                <field name="annual_invoicing" />
+                <field name="invoicing_advance_in_months" />
+                <field name="penalty_rate" placeholder="ex : 0.1" attrs="{'invisible': [('type','=','supplier')]}" />
+                <field name="be_notified"/>
+                <field name="closed_related_contracts"/>
+            </xpath>
+
+            <xpath expr="//field[@name='parent_id']" position="after">
+                <notebook colspan="4">
+                    <page string="Types d'opérations" attrs="{'invisible': [('op_type_ids','=',[])]}">
+                        <field name="op_type_ids" readonly="1" attrs="{'invisible': [('op_type_ids','=',[])]}">
+                            <tree string="Types d'opérations">
+                                <field name="name"/>
+                                <field name="product_id"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+            </xpath>
+
+
+            </field>
+        </record>
+
+        <record id="portnet_partner_category_tree" model="ir.ui.view">
+            <field name="name">portnet.partner.category.tree</field>
+            <field name="model">res.partner.category</field>
+            <field name="inherit_id" ref="base.view_partner_category_list"/>
+            <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='complete_name']" position="after">
+                <field name="type"/>
+                <field name="code"/>
+                <field name="pricelist_id"/>
+                <field name="payment_term_id"/>
+                <field name="fiscal_position_id"/>
+                <field name="parent_id"/>
+                <field name="active"/>
+            </xpath>
+
+
+            </field>
+        </record>
+
+        <menuitem action="base.action_partner_category_form" id="menu_partner_category2" name="Catégories de partenaires" parent="base.menu_base_config" groups="base.group_no_one"/>
+        <menuitem id="menu_customer_etl" name="Clients repris" parent="base.menu_sales" sequence="2" action="action_partner_customer_etl_form"/>
+
+
+    </data>
+</openerp>

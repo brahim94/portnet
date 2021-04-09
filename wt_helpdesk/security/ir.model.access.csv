@@ -1,0 +1,16 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_pannes_type_parameter,access_pannes_type_parameter,model_pannes_type_parameter,,1,1,1,1
+access_ticket_type_parameter,access_ticket_type_parameter,model_ticket_type_parameter,,1,1,1,1
+access_decision_parameter,access_decision_parameter,model_decision_parameter,,1,1,1,1
+access_action_client_parameter,access_action_client_parameter,model_action_client_parameter,,1,1,1,1
+access_motif_parameter,access_motif_parameter,model_motif_parameter,,1,1,1,1
+access_processus_processus,access_processus_processus,model_processus_processus,,1,1,1,1
+access_articles_parameter,access_articles_parameter,model_articles_parameter,,1,1,1,1
+access_action_fournisseur_parameter,access_action_fournisseur_parameter,model_action_fournisseur_parameter,,1,1,1,1
+access_reference_reference,access_reference_reference,model_reference_reference,,1,1,1,1
+access_conditions_conditions,access_conditions_conditions,model_conditions_conditions,,1,1,1,1
+access_notifications_notifications,access_notifications_notifications,model_notifications_notifications,,1,1,1,1
+access_ticket_ticket,access_ticket_ticket,model_ticket_ticket,,1,1,1,1
+access_ticket_suivi,access_ticket_suivi,model_ticket_suivi,,1,1,1,1
+access_factures_factures,access_factures_factures,model_factures_factures,,1,1,1,1
+access_sychronize_sychronize,access_sychronize_sychronize,model_sychronize_sychronize,,1,1,1,1

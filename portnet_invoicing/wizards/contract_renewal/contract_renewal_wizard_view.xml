@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <!-- contract renewal get wizard -->
+
+        <record id="contract_renewal_wizard_view" model="ir.ui.view">
+            <field name="name">contract.renewal.wizard.view</field>
+            <field name="model">contract.renewal.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Renouveller le contrat">
+                    <footer>
+                        <button string="Lancer" class="oe_highlight" type="object" name="action_renewal"
+                                confirm = "Le renouvellement du contrat va générer une facture validée. Voulez-vous continuer ?"/>
+                        ou
+                        <button string="Annuler" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- contract renewal Action -->
+
+        <act_window id="action_contract_renewal_wizard"
+                    name="Renouveller le contrat"
+                    res_model="contract.renewal.wizard"
+                    src_model="res.contract"
+                    view_mode="form"
+                    target ="new"
+                    key2="client_action_multi"
+                    groups="account.group_account_manager,portnet_invoicing.group_agent"
+                    />
+
+        
+
+    </data>
+</openerp>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="ir_cron_auth_signup_send_pending_user_reminder" model="ir.cron">
+            <field name="name">Requisition: Action Renouveler Terms</field>
+            <field name="model_id" ref="model_purchase_requisition"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_action_renouveler_terms()</field>
+            <field name="user_id" ref="base.user_root" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+        </record>
+
+        <record id="purchase_requisition.seq_purchase_tender" model="ir.sequence">
+            <field name="name">Call for Tender</field>
+            <field name="code">purchase.requisition.purchase.tender</field>
+            <field name="prefix">AO/</field>
+             <field name="padding">5</field>
+            <field name="suffix">/%(y)s</field>
+            <field name="company_id" eval="False"></field>
+        </record>
+
+         <record id="seq_consultation" model="ir.sequence">
+            <field name="name">Consultation / BC</field>
+            <field name="code">purchase.requisition.consultation</field>
+            <field name="prefix">BC</field>
+             <field name="padding">5</field>
+            <!-- <field name="suffix">/%(y)s</field> -->
+            <field name="company_id" eval="False"></field>
+        </record>
+
+        <record id="seq_contract_convention" model="ir.sequence">
+            <field name="name">Contrat / Convention</field>
+            <field name="code">purchase.requisition.convention</field>
+            <field name="prefix">CV</field>
+            <field name="padding">5</field>
+            <!-- <field name="suffix">/%(y)s</field> -->
+            <field name="company_id" eval="False"></field>
+        </record>
+
+        <record id="seq_regie" model="ir.sequence">
+            <field name="name">Régie</field>
+            <field name="code">purchase.requisition.regie</field>
+            <field name="prefix">RE</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"></field>
+        </record>
+
+        <record id="seq_market_execution" model="ir.sequence">
+            <field name="name">Market Execution</field>
+            <field name="code">market.execution</field>
+            <field name="prefix"></field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"></field>
+        </record>
+
+        <record id="seq_bc_execution" model="ir.sequence">
+            <field name="name">BC Execution</field>
+            <field name="code">bc.execution</field>
+            <field name="prefix">BC/</field>
+            <field name="padding">5</field>
+            <field name="suffix">/%(y)s</field>
+            <field name="company_id" eval="False"></field>
+        </record>
+
+        <record id="seq_ce_execution" model="ir.sequence">
+            <field name="name">Execution Convention</field>
+            <field name="code">execution.convention</field>
+            <field name="prefix">CV/</field>
+            <field name="padding">5</field>
+            <field name="suffix">/%(y)s</field>
+            <field name="company_id" eval="False"></field>
+        </record>
+
+        <record id="seq_reg_execution" model="ir.sequence">
+            <field name="name">Regie Convention</field>
+            <field name="code">regie.execution</field>
+            <field name="prefix">RE/</field>
+            <field name="padding">5</field>
+            <field name="suffix">/%(y)s</field>
+            <field name="company_id" eval="False"></field>
+        </record>
+
+
+        <record id="seq_market_engagement" model="ir.sequence">
+            <field name="name">Market Engagement</field>
+            <field name="code">market.engagement</field>
+            <field name="prefix"></field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"></field>
+        </record>
+
+         <record id="seq_market_notification" model="ir.sequence">
+            <field name="name">Market Notification</field>
+            <field name="code">market.notification</field>
+            <field name="prefix"></field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"></field>
+        </record>
+
+        <record id="seq_order_service_number" model="ir.sequence">
+            <field name="name">Order Service Number</field>
+            <field name="code">market.order.service</field>
+            <field name="prefix"></field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"></field>
+        </record>
+
+        <record id="seq_market_service" model="ir.sequence">
+            <field name="name">Market Service</field>
+            <field name="code">market.service</field>
+            <field name="prefix"></field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"></field>
+        </record>
+
+        <record id="seq_market_execution_reclamation" model="ir.sequence">
+            <field name="name">Market Service Execution Reclamation</field>
+            <field name="code">market.execution.reclamation</field>
+            <field name="prefix"></field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"></field>
+        </record>
+
+        <record id="seq_tender_number" model="ir.sequence">
+            <field name="name">Tender</field>
+            <field name="code">tender.number</field>
+            <field name="prefix"></field>
+            <field name="suffix">/ENSMR/%(year)s</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"></field>
+        </record>
+
+        <!-- Weekdays -->
+        <record id="weekday_monday" model="weekday.weekday">
+            <field name="name">Monday</field>
+        </record>
+
+        <record id="weekday_tuesday" model="weekday.weekday">
+            <field name="name">Tuesday</field>
+        </record>
+
+        <record id="weekday_wednesday" model="weekday.weekday">
+            <field name="name">Wednesday</field>
+        </record>
+
+        <record id="weekday_thursday" model="weekday.weekday">
+            <field name="name">Thursday</field>
+        </record>
+
+        <record id="weekday_friday" model="weekday.weekday">
+            <field name="name">Friday</field>
+        </record>
+
+        <record id="weekday_saturday" model="weekday.weekday">
+            <field name="name">Saturday</field>
+        </record>
+
+        <record id="weekday_sunday" model="weekday.weekday">
+            <field name="name">Sunday</field>
+        </record>
+
+    </data>
+</odoo>

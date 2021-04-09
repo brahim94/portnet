@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Notifications -->
+        <record id="view_notification_tree" model="ir.ui.view">
+            <field name="name">notifications.notifications.tree</field>
+            <field name="model">notifications.notifications</field>
+            <field name="arch" type="xml">
+                <tree edit="false" create="false" delete="false" string="Notification" decoration-success="state == 'new'" decoration-muted="state == 'sent'">
+                    <field name="name"/>
+                    <field name="base_type"/>
+                    <field name="destinataire_id"/>
+                    <field name="state"/>
+                    <field name="date_sent"/>
+                    <field name="notification_type" invisible="1"/>
+                    <button name="action_send_email" class="oe_highlight" attrs="{'invisible': ['|',('notification_type','=','automatic'),('state','=','sent')]}" string="Envoyer" type="object"/>
+                    <button name="action_send_email" class="oe_highlight" attrs="{'invisible': [('state','=','new')]}" string="Ré-envoyer" type="object"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_notification_form" model="ir.ui.view">
+            <field name="name">notifications.notifications.form</field>
+            <field name="model">notifications.notifications</field>
+            <field name="arch" type="xml">
+                <form edit="false" create="false" string="Notification">
+                    <header>
+                        <button name="action_send_email" class="oe_highlight" string="Send E-mail" type="object"  attrs="{'invisible': [('notification_type', '!=', 'manual'), ('notification_email_mode','=',True)]}"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="base_type"/>
+                                <field name="decision_id" attrs="{'invisible': [('base_type','!=','decisions')], 'required': [('base_type','=','decisions')]}" string="Etat déclencheur"/>
+                                <field name="action_client_id" attrs="{'invisible': [('base_type','!=','action_client')], 'required': [('base_type','=','action_client')]}" string="Etat déclencheur"/>
+                                <field name="fournisseur_id" attrs="{'invisible': [('base_type','!=','action_fournisseur')], 'required': [('base_type','=','action_fournisseur')]}"/>
+                                <field name="destinataire_id"/>
+                                <field name="notification_type" widget="radio" options="{'horizontal': true}"/>
+                            </group>
+                            <group>
+                                <field name="unite"/>
+                                <field name="valeur"/>
+                                <label for="notification_email_mode" string="Notification Mode"/>
+                                <div>
+                                    <field name="notification_email_mode"/>
+                                    <label for="notification_email_mode"/>
+                                    <field name="notification_sms_mode"/>
+                                    <label for="notification_sms_mode"/>
+                                </div>
+                                <field name="email_to" domain="[('model_id.model','=','ticket.ticket')]" attrs="{'invisible': [('notification_email_mode','!=',True)], 'required': [('notification_email_mode','=',True)]}" string="Email"/>
+                                <field name="sms_to" attrs="{'invisible': [('notification_sms_mode','!=',True)], 'required': [('notification_sms_mode','=',True)]}" string="SMS"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Processus -->
+        <record id="view_processus_tree" model="ir.ui.view">
+            <field name="name">processus.processus.tree</field>
+            <field name="model">processus.processus</field>
+            <field name="arch" type="xml">
+                <tree string="Processus">
+                    <field name="name"/>
+                    <field name="code"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_processus_form" model="ir.ui.view">
+            <field name="name">processus.processus.form</field>
+            <field name="model">processus.processus</field>
+            <field name="arch" type="xml">
+                <form string="Processus">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="code"/>
+                            </group>
+                            <group>
+                                <field name="ticket_type_id"/>
+                                <field name="motif_id" domain="[('ticket_type_id','=',ticket_type_id)]"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="conditions" string="Conditions">
+                                <group>
+                                    <field name="conditions_ids" nolabel="1">
+                                        <tree>
+                                            <field name="type_condition"/>
+                                            <field name="reference_1"/>
+                                            <field name="reference_2"/>
+                                            <field name="unite"/>
+                                            <field name="operator"/>
+                                            <field name="valeur"/>
+                                        </tree>
+                                        <form string="Conditions">
+                                            <group>
+                                                <field name="type_condition" widget="radio" options="{'horizontal': true}"/>
+                                            </group>
+                                            <group>
+                                                <group>
+                                                    <field name="reference_1" attrs="{'invisible': [('type_condition','=','no_repair')]}" options="{'no_create_edit': True,'no_open': True, 'no_quick_create': True}"/>
+                                                    <field name="reference_2" domain="[('id','!=',reference_1)]" attrs="{'invisible': [('type_condition','=','no_repair')]}" options="{'no_create_edit': True,'no_open': True, 'no_quick_create': True}"/>
+                                                </group>
+                                                <group>
+                                                    <field name="unite" attrs="{'invisible': [('type_condition','=','no_repair')]}"/>
+                                                    <field name="operator"/>
+                                                    <field name="valeur"/>
+                                                </group>
+                                            </group>
+                                        </form>
+                                    </field>
+                                </group>
+                            </page>
+                            <page name="decisions" string="Décisions">
+                                <group>
+                                    <field name="decisions_ids" nolabel="1">
+                                        <tree>
+                                            <field name="code"/>
+                                            <field name="name"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page name="actions_client" string="Actions Client">
+                                <group>
+                                    <field name="actions_client_ids" nolabel="1">
+                                        <tree>
+                                            <field name="code"/>
+                                            <field name="name"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page name="actions_fournisseur" string="Actions Fournisseur">
+                                <group>
+                                    <field name="actions_fournisseur_ids" nolabel="1">
+                                        <tree>
+                                            <field name="code"/>
+                                            <field name="name"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page name="notification" string="Notification">
+                                <group>
+                                    <field name="notification_ids" nolabel="1">
+                                        <tree edit="false">
+                                            <field name="name"/>
+                                            <field name="base_type"/>
+                                            <field name="destinataire_id"/>
+                                            <field name="unite"/>
+                                            <field name="valeur"/>
+                                            <field name="state" invisible="1"/>
+                                        </tree>
+                                        <form>
+                                            <sheet>
+                                                <div class="oe_title">
+                                                    <h1>
+                                                        <field name="name"/>
+                                                    </h1>
+                                                </div>
+                                                <group>
+                                                    <group>
+                                                        <field name="base_type"/>
+                                                        <field name="decision_id" attrs="{'invisible': [('base_type','!=','decisions')], 'required': [('base_type','=','decisions')]}" string="Etat déclencheur"/>
+                                                        <field name="action_client_id" attrs="{'invisible': [('base_type','!=','action_client')], 'required': [('base_type','=','action_client')]}" string="Etat déclencheur"/>
+                                                        <field name="fournisseur_id" attrs="{'invisible': [('base_type','!=','action_fournisseur')], 'required': [('base_type','=','action_fournisseur')]}"/>
+                                                        <field name="destinataire_id"/>
+                                                        <field name="notification_type" widget="radio" options="{'horizontal': true}"/>
+                                                    </group>
+                                                    <group>
+                                                        <field name="unite"/>
+                                                        <field name="valeur"/>
+                                                        <label for="notification_email_mode" string="Notification Mode"/>
+                                                        <div>
+                                                            <field name="notification_email_mode"/>
+                                                            <label for="notification_email_mode"/>
+                                                            <field name="notification_sms_mode"/>
+                                                            <label for="notification_sms_mode"/>
+                                                        </div>
+                                                        <field name="email_to" domain="[('model_id.model','=','ticket.ticket')]" attrs="{'invisible': [('notification_email_mode','!=',True)], 'required': [('notification_email_mode','=',True)]}" string="Email"/>
+                                                        <field name="sms_to" attrs="{'invisible': [('notification_sms_mode','!=',True)], 'required': [('notification_sms_mode','=',True)]}" string="SMS"/>
+                                                    </group>
+                                                </group>
+                                            </sheet>
+                                        </form>
+                                    </field>
+                                </group>
+                            </page>
+                            <page name="edition" string="Edition">
+                                <div>
+                                    <field name="report_1"/>
+                                    <label for="report_1"/>
+                                </div>
+                                <div>
+                                    <field name="report_2"/>
+                                    <label for="report_2"/>
+                                </div>
+                                <div>
+                                    <field name="report_3"/>
+                                    <label for="report_3"/>
+                                </div>
+                            </page>
+                        </notebook>
+                   </sheet>
+               </form>
+           </field>
+       </record>
+
+       <record id="processus_action" model="ir.actions.act_window">
+            <field name="name">Processus</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">processus.processus</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new processus.
+                </p>
+            </field>
+        </record>
+
+   </data>
+</odoo>

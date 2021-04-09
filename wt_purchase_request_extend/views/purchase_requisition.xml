@@ -1,0 +1,889 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="purchase_order_tree_bc" model="ir.ui.view">
+        <field name="name">purchase.order.tree.bc</field>
+        <field name="model">purchase.order</field>
+        <field name="priority">4</field>
+        <field name="arch" type="xml">
+            <tree string="Purchase Order" multi_edit="1" decoration-bf="message_unread==True" decoration-muted="state=='cancel'" decoration-info="state in ('wait','confirmed')" class="o_purchase_order" default_order="amount_total asc, name, id">
+                <field name="message_unread" invisible="1"/>
+                <field name="partner_ref" optional="hide"/>
+                <field name="name" string="Reference" readonly="1"/>
+                <field name="date_order" invisible="not context.get('quotation_only', False)" optional="show"/>
+                <field name="date_approve" invisible="1" />
+                <field name="partner_id" readonly="1"/>
+                <field name="company_id" readonly="1" options="{'no_create': True}" invisible="1"/>
+                <field name="date_planned" invisible="1"/>
+                <field name="user_id" invisible="1"/>
+                <field name="origin" invisible="1"/>
+                <field name="amount_untaxed" sum="Total Untaxed amount" string="Untaxed" widget="monetary" optional="hide"/>
+                <field name="amount_total" string="Prix Offert" avg="Montant moyen" widget="monetary" optional="show"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="state" optional="show" invisible="1"/>
+                <field name="state_bc_order" optional="show" string="Etat"/>
+                <field name="invoice_status" optional="hide"/>
+                <field name="activity_exception_decoration" widget="activity_exception"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_purchase_requisition_list_bc">
+        <field name="name">Consultations</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">purchase.order</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('requisition_id','=',active_id)]</field>
+        <field name="context">{
+            "default_requisition_id":active_id,
+            "default_user_id": False,
+            "default_is_bc_purchase_requisition": 1,
+            }
+        </field>
+    </record>
+
+    <record id="purchase_order_action_view_order_tree_bc" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="wt_purchase_request_extend.purchase_order_tree_bc"/>
+        <field name="act_window_id" ref="action_purchase_requisition_list_bc"/>
+    </record>
+
+    <!-- <record id="sale_order_action_view_order_form" model="ir.actions.act_window.view">
+        <field name="sequence" eval="3"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="sale.view_order_form"/>
+        <field name="act_window_id" ref="action_orders"/>
+    </record> -->
+
+    <!-- Purchase Requisition Inherited Tree -->
+    <record id="view_purchase_requisition_tree_inherited_form" model="ir.ui.view">
+        <field name="name">purchase.requisition.tree.inherit</field>
+        <field name="model">purchase.requisition</field>
+        <field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_tree"/>
+        <field name="arch" type="xml">
+            <field name="company_id" position="after">
+                <field name="contract_type" string="Type Opération"/>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_purchase_requisition_regie">
+        <field name="name">Request for Quotations</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">purchase.order</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('requisition_id','=',active_id)]</field>
+    </record>
+
+    <record id="view_purchase_requisition_nouveau_devis_inherited_form" model="ir.ui.view">
+        <field name="name">purchase.requisition.nouveau.tree.inherit</field>
+        <field name="model">purchase.requisition</field>
+        <field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[1]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[2]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>                                
+        </field>
+    </record>
+
+    <!-- Purchase Requisition Inherited Form -->
+    <record id="view_purchase_requisition_inherited_form" model="ir.ui.view">
+        <field name="name">purchase.requisition.form.inherit</field>
+        <field name="model">purchase.requisition</field>
+        <field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='company_id']" position="after">
+                <label for="nbr" string="Renouvellement" attrs="{'invisible': [('contract_type', '!=', 'Contrat / Convention')]}"/>
+                <div class="o_row" attrs="{'invisible': [('contract_type', '!=', 'Contrat / Convention')]}">
+                    <field name="nbr" attrs="{'required': [('contract_type', '=', 'Contrat / Convention')]}"/>
+                    <field name="unit" attrs="{'required': [('contract_type', '=', 'Contrat / Convention')]}"/>
+                </div>
+                <!-- <div class="o_row" attrs="{'invisible': [('contract_type', '!=', 'Contrat / Convention')]}"> -->
+                    <field name="limite" attrs="{'invisible': [('contract_type', '!=', 'Contrat / Convention')], 'required': [('contract_type', '=', 'Contrat / Convention')]}" style="width: 50%;"/>
+                <!-- </div> -->
+                <field name="tacite_reconduction" attrs="{'invisible': [('contract_type', '!=', 'Contrat / Convention')]}"/>
+                 <field name="is_pending_state" attrs="{'invisible': [('contract_type', '!=', 'Contrat / Convention')]}" invisible="1"/>
+            </xpath>
+            
+            <xpath expr="//form/header" position="inside">
+                <button name="action_renouveler_terms" string="Renouveler" type="object" class="btn-primary" attrs="{'invisible': ['|', '|', '|', ('state', '!=', 'done'), ('contract_type', '!=', 'Contrat / Convention'), ('tacite_reconduction', '!=', False), ('is_pending_state', '=', False)]}"
+                    />
+
+                <button name="action_affecter_besoins" states="draft" string="Affecter besoins" type="object" class="btn-primary"/>
+                <button name="action_annuler_affectation" states="affecte" string="Annuler affectation" type="object" class="btn-primary"/>
+                <button name="action_publication" states="elaboration" string="Publier" type="object" class="btn-primary"/>
+                <button name="action_evaluation" states="publication" string="Evaluer" type="object" class="btn-primary"/>
+                <button name="action_decision" states="evaluation" string="Décider" type="object" class="btn-primary"/>
+                <button name="action_done" states="decision,consultation" string="Clôturer" type="object" class="btn-primary"/>
+                <button name="create_purchase_quotation_bc" states="preparation" string="Consulter" type="object" class="btn-primary"/>
+                <button name="create_purchase_quotation_rg" string="Générer Bordereau" type="object" class="btn-primary" attrs="{'invisible': ['|', ('contract_type', '!=', 'Régie'), ('state', 'not in', ('in_progress', 'ongoing'))]}"/>
+                <field name="state_appel_offers_order" widget="statusbar" statusbar_visible="draft,affecte,elaboration,publication,evaluation,decision,done" attrs="{'invisible': [('contract_type', '!=', 'Appel d’offres')]}"/>
+                <field name="state_consulation_order" widget="statusbar" statusbar_visible="preparation,consultation,done" attrs="{'invisible': [('contract_type', 'not in', ('Consultation / BC', 'Contrat / Convention'))]}"/>
+
+            </xpath>
+            <button name="%(purchase_requisition.action_purchase_requisition_list)d" position="replace">
+                <button name="%(purchase_requisition.action_purchase_requisition_list)d" type="action" class="oe_stat_button" icon="fa-list-alt" attrs="{'invisible': ['|', '|', '|', ('state', '=', 'draft'), ('contract_type', '=', 'Consultation / BC'), ('contract_type', '=', 'Contrat / Convention'), ('contract_type', '=', 'Régie')]}">
+                    <field name="order_count" widget="statinfo" nolabel="1"/>
+                    <label for="order_count" string="Bordereau de prix" style="font-size: 9px;"/>
+                </button>
+
+                <button name="%(wt_purchase_request_extend.action_purchase_requisition_regie)d" type="action" class="oe_stat_button" icon="fa-list-alt" attrs="{'invisible': ['|', ('state', '=', 'draft'), ('contract_type', '!=', 'Régie')]}">
+                    <field name="order_count" widget="statinfo" nolabel="1"/>
+                    <label for="order_count" string="Bordereau de prix" style="font-size: 9px;"/>
+                </button>
+
+                <button name="%(wt_purchase_request_extend.action_purchase_requisition_list_bc)d" type="action" class="oe_stat_button" icon="fa-list-alt" attrs="{'invisible': ['|', '|', ('state', '=', 'draft'), ('contract_type', '!=', 'Contrat / Convention')]}">
+                    <field name="order_count" widget="statinfo" nolabel="1"/>
+                    <label for="order_count" string="Consultations" style="font-size: 9px;"/>
+                </button>
+            </button>
+            <div name="button_box" position="inside">
+                <button name="%(wt_purchase_request_extend.action_purchase_requisition_list_bc)d" type="action" class="oe_stat_button" icon="fa-list-alt" attrs="{'invisible': ['|', ('state', '=', 'draft'), ('contract_type', '!=', 'Consultation / BC')]}">
+                    <field name="order_count" widget="statinfo" nolabel="1"/>
+                    <label for="order_count" string="Consultations" style="font-size: 9px;"/>
+                </button>
+            </div>
+            <xpath expr="//form/header/button[@name='action_in_progress']" position="attributes">
+                <attribute name="states"></attribute>
+                <attribute name="attrs">{'invisible': ['|', ('state', 'not in', ('draft', 'affecte')), ('contract_type', 'in', ('Appel d’offres', 'Consultation / BC', 'Contrat / Convention'))]}</attribute>
+            </xpath>
+            <button name="action_in_progress" position="after">
+                <button name="action_in_progress" string="Confirm" type="object" class="btn-primary" attrs="{'invisible': ['|', ('state', 'not in', ('draft', 'affecte')), ('contract_type', '!=', 'Appel d’offres')]}" context="{'is_appel_offers': True}"/>
+                <button name="action_in_progress" string="Confirm" type="object" class="btn-primary" attrs="{'invisible': ['|', ('state', 'not in', ('draft', 'affecte')), ('contract_type', 'not in', ('Consultation / BC', 'Contrat / Convention'))]}" context="{'is_consultation': True}"/>
+            </button>
+            <field name="state" position="attributes">
+                <attribute name="statusbar_visible">draft,affecte,in_progress,open,done</attribute>
+                <attribute name="attrs">{'invisible': ['|', ('is_quantity_copy', '=', 'none'), ('contract_type', 'in', ('Appel d’offres', 'Consultation / BC', 'Contrat / Convention'))]}</attribute>
+            </field>
+            <field name="state_blanket_order" position="attributes">
+                <attribute name="attrs">{'invisible': ['|', ('is_quantity_copy', '!=', 'none'), ('contract_type', 'in', ('Appel d’offres', 'Consultation / BC', 'Contrat / Convention'))]}</attribute>
+            </field>
+            <button name="action_cancel" position="attributes">
+                <attribute name="states">draft,in_progress,ongoing,elaboration</attribute>
+            </button>
+            <field name="user_id" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </field>
+            <field name="type_id" position="after">
+                <field name="contract_type" invisible="1"/>
+                <field name="id" invisible="1"/>
+            </field>
+            <!-- <field name="ordering_date" position="attributes">
+                <attribute name="attrs">{'invisible':[('contract_type', 'not in', ['Consultation / BC', 'Régie'])]}</attribute>
+            </field>
+            <field name="schedule_date" position="attributes">
+                <attribute name="attrs">{'invisible':[('contract_type', 'not in', ['Consultation / BC', 'Régie'])]}</attribute>
+            </field> -->
+            <field name="ordering_date" position="replace">
+            </field>
+            <field name="schedule_date" position="replace">
+            </field>
+            <field name="vendor_id" position="attributes">
+                <attribute name="attrs">{'invisible':[('contract_type', '!=', 'Régie')], 'required':[('contract_type', '=', 'Régie')]}</attribute>
+
+            </field>
+            <field name="origin" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="date_end" position="before">
+                <field name="tender_type" attrs="{'invisible':[('contract_type', 'in', ['Consultation / BC', 'Régie', 'Contrat / Convention'])]}"/>
+            </field>
+            <field name="date_end" position="replace">
+            </field>
+            <field name="line_ids" position="replace">
+            </field>
+            <xpath expr="//notebook" position="replace">
+                <notebook>
+                    <page string="Besoins" attrs="{'invisible': [('state', '!=', 'draft')]}">
+                        <field name="besoins_ids" options="{'no_create': True}" domain="[('etat', '=', 'qualifie'), ('traitement', '=', contract_type)]" create="false">
+                            <tree>
+                                <field name="request_id"/>
+                                <field name="request_state"/>
+                                <field name="department_id"/>
+                                <field name="estimated_cost" readonly="1"/>
+                                <field name="product_id" readonly="1"/>
+                                <field name="name" readonly="1"/>
+                                <field name="prod_demand_qty" readonly="1"/>
+                                <field name="product_qty"/>
+                                <field name="product_uom_id" readonly="1"/>
+                                <field name="financement_type"/>
+                                <field name="besoin_type"/>
+                                <field name="etat"/>
+                                </tree>
+                            </field>
+                    </page>
+                    <page string="Articles">
+                        <field name="line_ids">
+                            <tree string="Articles" editable="bottom">
+                                <field name="product_id" context="{'default_purchase_requisition': 'tenders'}" domain="[('purchase_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"/>
+                                <field name="product_qty"/>
+                                <field name="qty_ordered" optional="show" invisible="1"/>
+                                <field name="product_uom_category_id" invisible="1"/>
+                                <field name="product_uom_id" string="UoM" groups="uom.group_uom" optional="show"/>
+                                <field name="schedule_date" groups="base.group_no_one"/>
+                                <field name="account_analytic_id" optional="hide" domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]" groups="analytic.group_analytic_accounting"/>
+                                <field name="analytic_tag_ids" optional="hide" domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]" groups="analytic.group_analytic_tags" widget="many2many_tags"/>
+                                <field name="price_unit"/>
+                                <field name="purchase_request_line_ids" widget="many2many_tags" string="Lignes demandes d’achat" force_save="1" readonly="1"/>
+                            </tree>
+                            <form string="Products">
+                                <group>
+                                    <field name="product_id" context="{'default_purchase_requisition': 'tenders'}" domain="[('purchase_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]"/>
+                                    <field name="product_qty"/>
+                                    <field name="qty_ordered" invisible="1"/>
+                                    <field name="product_uom_category_id" invisible="1"/>
+                                    <field name="product_uom_id"/>
+                                    <field name="schedule_date"/>
+                                    <field name="account_analytic_id" domain="['|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]" groups="analytic.group_analytic_accounting"/>
+                                    <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                                    <field name="purchase_request_line_ids" string="Lignes demandes d’achat" force_save="1" readonly="1"/>
+                                </group>
+                            </form>
+                        </field>
+                        <separator string="Terms and Conditions"/>
+                        <field name="description" attrs="{'readonly': [('state','not in',('draft','in_progress','open'))]}"/>
+                    </page>
+
+                    
+
+                    <page string="Elaboration" attrs="{'invisible': ['|', ('state', 'in', ('draft', 'affecte', 'ongoing')), ('contract_type', 'in', ('Consultation / BC', 'Contrat / Convention'))]}">
+                        <label for="tender_commission_ids" string="Commission de validation" style="margin-bottom:10px;"/>
+                        <field name="tender_commission_ids">
+                            <tree editable="bottom">
+                                <field name="partner_type"/>
+                                <field name="employee_id" attrs="{'invisible': ['|',('partner_type', 'not in', ('Président', 'Maitre d’ouvrage', 'Service utilisateur', 'Service achat', 'Service comptable')), ('partner_type', '=', False)], 'required': [('partner_type', 'in', ('Président', 'Maitre d’ouvrage', 'Service utilisateur', 'Service achat', 'Service comptable'))]}"/>
+                                <field name="partner_id" attrs="{'invisible': ['|', ('partner_type', 'not in', ('Controleur d’état', 'Bureau d’étude')), ('partner_type', '=', False)], 'required': [('partner_type', 'in', ('Controleur d’état', 'Bureau d’étude'))]}"/>   
+                                <field name="department_id" attrs="{'invisible': [('employee_id', '=', False)]}"/>
+                            </tree>
+                        </field>
+
+                        <notebook>
+                            <page string="Detail">
+                                <group>
+                                    <group>
+                                        <field name="project_scope"/>
+                                        <field name="condition"/>
+                                        <field name="lot_type" widget="radio"/>
+                                    </group>
+                                    <group>
+                                        <field name="admin_charactristics" widget="many2many_tags"/>
+                                        <field name="lot_number" attrs="{'invisible':[('lot_type', '!=', 'lot_multiple')]}"/>
+                                    </group>
+                                </group>
+                                <field name="article_ids" invisible="1"/>
+                                <label for="lot_details_ids" string="Détails lots" style="margin-bottom:10px;"/>
+                                <field name="lot_details_ids" 
+                                        context="{'active_id_pr_req_id':id,'lot_type': lot_type, 'lot_number': lot_number, 'lot_details_ids': lot_details_ids, 'articles': article_ids}" options='{"no_open":True}' widget='one2many'>
+                                    <tree editable="bottom">
+                                        <field name="n_lot" readonly="1" force_save="1"/>
+                                        <field name="object_name"/>
+                                        <field name="estimated_price" readonly="1" force_save="1"/>
+                                        <field name="caution"/>
+                                        <field name="retenu"/>
+                                        <field name="evaluation_id"/>
+                                        <field name="product_ids" required="1" domain="[('id', 'in', context.get('articles', []))]" context="{'product_ids': product_ids}" widget="many2many_tags"/>
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <field name="n_lot" readonly="1" force_save="1"/>
+                                            <field name="object_name"/>
+                                        </group>
+                                        <group>
+                                            <group>
+                                                <field name="estimated_price"/>
+                                                <field name="caution"/>
+                                            </group>
+                                            <group>
+                                                <field name="evaluation_id"/>
+                                                <field name="retenu"/>
+                                            </group>
+                                        </group>
+                                    </form>
+                                </field>
+                                
+                                <label for="piece_provide_ids" string="Pièces à fournir" style="margin-bottom:10px;"/>
+                                <field name="piece_provide_ids">
+                                    <tree editable="bottom">
+                                        <field name="pieces" required="1"/>
+                                        <field name="obligatoire"/>
+                                        <field name="obligatoire_copy" invisible="1"/>
+                                    </tree>
+                                    <form>
+                                        <group>
+	                                        <field name="pieces"/>
+	                                        <field name="obligatoire"/>
+	                                        <field name="obligatoire_copy" invisible="1"/>
+                                        </group>
+                                    </form>
+                                </field>
+                                
+                                <!-- <field name="jalon_ids" invisible="0"/> -->
+                                <label for="planification_ids" string="Planification" style="margin-bottom:10px;"/>
+                                <button name="button_dummy" type="object" icon="fa-check" style="color: green;"/>
+                                <field name="planification_ids" context="{'lot_ids': lot_details_ids}">
+                                    <tree editable="bottom">
+                                        <field name="lot_id" domain="[('id', 'in', context.get('lot_ids', []))]"/>
+                                        <!-- <field name="jalon_id" domain="[('id', 'in', context.get('jalons', []))]"/> -->
+                                        <field name="jalon_id"/>
+                                        <field name="day"/>
+                                        <field name="start_date"/>
+                                        <field name="end_date"/>
+                                        <field name="details"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Piéces Jointes">
+                                <group>
+                                    <group>
+                                        <field name="cps_filename" invisible="1"/>
+                                        <field name="cps_attachment_id" filename="cps_filename"/>
+                                        <field name="rc_filename" invisible="1"/>
+                                        <field name="rc_attachment_id" filename="rc_filename"/>
+                                        <field name="estimation_filename" invisible="1"/>
+                                        <field name="estimation_attachment_id" filename="estimation_filename"/>
+                                    </group>
+                                    <group>
+                                        <field name="commission_filename" invisible="1"/>
+                                        <field name="commission_attachment_id" filename="commission_filename"/>
+                                        <field name="price_filename" invisible="1"/>
+                                        <field name="price_attachment_id" filename="price_filename"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </page>
+                    <page string="Publication" attrs="{'invisible': ['|', ('state', 'not in', ('publication', 'evaluation', 'decision', 'done', 'unsuccessful', 'cancel')), ('contract_type', 'in', ('Consultation / BC', 'Contrat / Convention'))]}">
+                        <group>
+                            <group>
+                                <field name="tender_number"/>
+                            </group>
+                            <group>
+                                <field name="date_publication"/>
+                            </group>
+                        </group>
+                        <separator string="Définition des délais et dates"/>
+                        <label for="submission_days" string="Submission"/>
+                        <group col="4">
+                            <field name="submission_days"/>
+                            <field name="submission_date"/>
+                        </group>
+                        <label for="site_visit_days" string="Site Visit"/>
+                        <group col="4">
+                            <field name="site_visit_days"/>
+                            <field name="site_visit_date"/>
+                        </group>
+                        <label for="sample_deposit_days" string="Sample Deposit"/>
+                        <group col="4">
+                            <field name="sample_deposit_days"/>
+                            <field name="sample_deposit_date"/>
+                        </group>
+                        <label for="prospectus_days" string="Prospectus Deposit"/>
+                        <group col="4">
+                            <field name="prospectus_days"/>
+                            <field name="prospectus_date"/>
+                        </group>
+                        <label for="convocation_days" string="Convocation of the"/>
+                        <group col="4">
+                            <field name="convocation_days"/>
+                            <field name="convocation_date"/>
+                        </group>
+                        <notebook>
+                            <page string="Détail">
+                                <label for="newspaper_publication_ids" style="margin-bottom:10px;"/>
+                                <field name="newspaper_publication_ids" context="{'default_publication_date': date_publication}">
+                                    <tree editable="bottom">
+                                        <field name="journal_id"/>
+                                        <field name="notice_type"/>
+                                        <field name="reference_publication"/>
+                                        <field name="publication_date"/>
+                                        <button name="print_report_avis" type="object" string="Imprimer Avis" class="oe_highlight"/>
+                                    </tree>
+                                </field>
+                               <!--  <label for="membre_ids" string="Commission de publication des offres" style="margin-bottom:10px;"/>
+                                <field name="membre_ids" nolabel="1">
+                                    <tree editable="bottom">
+                                        <field name="partner_id"/>
+                                        <field name="partner_type"/>
+                                    </tree>
+                                </field> -->
+                                <label for="withdrawal_ids" string="Registre des retraits / dépôts" style="margin-bottom:10px;"/>
+                                <field name="withdrawal_ids" nolabel="1">
+                                    <tree editable="bottom">
+                                        <field name="withdrawals_type"/>
+                                        <field name="concurrent" domain="[('supplier_rank','>', 0)]" context="{'default_supplier_rank': 1}"/>
+                                        <field name="withdrawal_date"/>
+                                        <field name="submission_date"/>
+                                        <field name="prospectus_date" string="Date prospectus / échantillon"/>
+                                        <field name="visit_date" string="Visite effectuée?"/>
+                                    </tree>
+                                </field>
+                                <label for="rectification_ids" style="margin-bottom:10px;"/>
+                                <field name="rectification_ids" nolabel="1" context="{'submission_date': submission_date}">
+                                    <tree editable="bottom">
+                                        <field name="date"/>
+                                        <field name="description"/>
+                                        <field name="deadline_days"/>
+                                        <field name="original_deadline_days" invisible="1"/>
+                                        <field name="original_updated_days" invisible="1"/>
+                                        <button name="%(wt_purchase_request_extend.action_submission_increment_wizard)d" type="action" class="btn-primary" string="Appliquer" attrs="{'invisible': [('deadline_days', '&gt;', 10)]}" context="{'default_name': deadline_days}"/>
+                                        <field name="date_should_be" readonly="1" force_save="1"/>
+                                        <!-- <button name="open_wizard" type="object" class="btn-primary" string=" Vérifier" attrs="{'invisible': [('deadline_days', '&gt;', 10)]}" context="{'default_name': deadline_days}"/> -->
+                                        <!-- <button name="%(wt_purchase_request_extend.action_submission_increment_wizard)d" type="action" class="btn-primary" string=" Vérifier" attrs="{'invisible': [('deadline_days', '&gt;', 10)]}" context="{'default_name': deadline_days}"/> -->
+                                        <!-- <field name="date_should_be" readonly="1" force_save="1"/> -->
+                                        <!-- <field name="filename" invisible="1"/> -->
+                                        <!-- <field name="corrective_notice" filename="filename"/>
+                                        <button name="print_report_avis_rectification" type="object" string="Imprimer Avis" class="oe_highlight"/> -->
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <group>
+                                                <field name="date"/>
+                                                <field name="description"/>
+                                            </group>
+                                            <group>
+                                                <field name="deadline_days"/>
+                                                <field name="original_deadline_days" invisible="1"/>
+                                                <field name="date_should_be" readonly="1" force_save="1"/>
+                                                <button name="%(wt_purchase_request_extend.action_submission_increment_wizard)d" type="action" class="btn-primary" string=" Vérifier" attrs="{'invisible': [('deadline_days', '&gt;', 10)]}" context="{'default_name': deadline_days}"/>
+                                            </group>
+                                        </group>
+                                        <group>
+                                            <group>
+                                                <field name="corrective_notice" filename="filename"/>
+                                                <field name="filename" invisible="1"/>
+                                            </group>
+                                            <group>
+                                                <button name="print_report_avis_rectification" type="object" string="Imprimer Avis" class="oe_highlight"/>
+                                            </group>
+                                        </group>
+                                    </form>
+                                </field>
+                                <group>
+                                    <group>
+                                        <field name="is_tender_cancel" string="Cancellation of the call for Tenders" attrs="{'invisible':[('is_tender_unsuccess', '=', True)]}"/>
+                                        <field name="is_tender_unsuccess" string="Unsuccessful Call For Tenders" attrs="{'invisible':[('is_tender_cancel', '=', True)]}"/>
+                                    </group>
+                                    <group>
+                                        <field name="cancel_reason" attrs="{'invisible':[('is_tender_cancel', '!=', True)], 'required':[('is_tender_cancel', '=', True)]}"/>
+                                        <field name="cancel_filename" invisible="1"/>
+                                        <field name="cancel_attach_id" attrs="{'invisible':[('is_tender_cancel', '!=', True)], 'required':[('is_tender_cancel', '=', True)]}" filename="cancel_filename"/>
+                                        
+                                        <field name="unsuccess_reason" attrs="{'invisible':[('is_tender_unsuccess', '!=', True)], 'required':[('is_tender_unsuccess', '=', True)]}"/>
+                                        <field name="unsuccess_filename" invisible="1"/>
+                                        <field name="unsuccess_attach_id" attrs="{'invisible':[('is_tender_unsuccess', '!=', True)], 'required':[('is_tender_unsuccess', '=', True)]}" filename="unsuccess_filename"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Piéces Jointes">
+                                <group>
+                                    <group>
+                                        <field name="avis_fr_filename" invisible="1"/>
+                                        <field name="avis_fr_attachment_id" filename="avis_fr_filename"/>
+                                        <field name="checklist_filename" invisible="1"/>
+                                        <field name="checklist_attachment_id" filename="checklist_filename"/>
+                                        <field name="pv_site_visit_filename" invisible="1"/>
+                                        <field name="pv_site_visit" filename="pv_site_visit_filename"/>
+                                    </group>
+                                    <group>
+                                        <field name="avis_ar_filename" invisible="1"/>
+                                        <field name="avis_ar_attachment_id" filename="avis_ar_filename"/>
+                                        <field name="newspaper_filename" invisible="1"/>
+                                        <field name="newspaper_attachment_id" filename="newspaper_filename"/>
+                                    </group>
+                                </group>
+                            </page>
+                            
+                        </notebook>
+                    </page>
+                    <page string="Evaluation" attrs="{'invisible': ['|', ('state', 'not in', ('evaluation', 'decision', 'done', 'unsuccessful', 'cancel')), ('contract_type', 'in', ('Consultation / BC', 'Contrat / Convention'))]}">
+                        <field name="withdrawal_partner_ids" invisible="1"/>
+                        <label for="bidder_offer_ids" string="Bidder offers" style="margin-bottom:10px;"/>
+                        <field name="bidder_offer_ids" options='{"no_open":True}' widget='one2many' nolabel="1" 
+                        context="{'withdrawal_partners': withdrawal_partner_ids,'piece_provide_ids':piece_provide_ids}">
+                            <tree>
+                                <field name="partner_id" domain="[('id', 'in', context.get('withdrawal_partners', [])), ('supplier_rank','>', 0)]" context="{'default_supplier_rank': 1}"/>
+                                <!-- <field name="parts_ids"s widget="many2many_tags"/> -->
+                                <field name="parts_ids">
+                                    <tree editable="bottom">
+                                        <field name="pieces"/>
+                                        <field name="obligatoire"/>
+                                        <field name="obligatoire_copy" />
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <field name="pieces"/>
+                                            <field name="obligatoire"/>
+                                            <field name="obligatoire_copy" />
+                                        </group>
+                                    </form>
+                                </field>
+                                <field name="parts_ids_count"/>
+                            </tree>
+                            <form>
+                                <group>
+                                    <field name="partner_id" domain="[('id', 'in', context.get('withdrawal_partners', [])), ('supplier_rank','>', 0)]" context="{'default_supplier_rank': 1}"/>
+                                <!-- <field name="parts_ids" widget="many2many_tags"/> -->
+                                <field name="parts_ids">
+                                    <tree editable="bottom">
+                                        <field name="pieces" readonly="1" force_save="1"/>
+                                        <field name="obligatoire_copy" readonly="1" string="Obligatoire" force_save="1"/>
+                                        <field name="obligatoire_copy1" string="Fournie?" force_save="1"/>
+                                    </tree>
+                                    <form>
+                                        <group>
+	                                        <field name="pieces"/>
+	                                        <field name="obligatoire_copy" />
+	                                        <field name="obligatoire_copy1"/>
+                                        </group>
+                                    </form>
+                                </field>
+                                </group>
+                            </form>
+                        </field>
+                        <group>
+                            <field name="bidder_partner_ids" invisible="1"/>
+                        </group>
+                        <notebook>
+                            <page string="Sessions">
+                                <notebook>
+                                    <page string="Detail">
+                                        <label for="session_ids" string="Sessions" style="margin-bottom:10px;"/>
+                                        <field name="session_ids" nolabel="1" context="{'parent_lot_ids': lot_details_ids, 'parent_partner_ids': bidder_partner_ids, 'requisition_id': active_id}">
+                                            <tree>
+                                                <field name="session_type"/>
+                                                <field name="date"/>
+                                                <field name="state"/>
+                                                <field name="is_public" string="Public ?"/>
+                                                <field name="is_final"/>
+                                                <field name="is_notation"/>
+                                            </tree>
+                                            <form>
+                                                <group>
+                                                    <group>
+                                                        <field name="session_type"/>
+                                                        <field name="state"/>
+                                                        <field name="is_final"/>
+                                                    </group>
+                                                    <group>
+                                                            <field name="date"/>
+                                                            <field name="is_public" string="Public ?"/>
+                                                            <field name="is_notation"/>
+                                                            <field name="notation_value" attrs="{'invisible': [('is_notation', '=', False)]}"/>
+                                                            <field name="is_moins_disant" attrs="{'invisible': [('is_notation', '!=', False)]}"/>
+                                                    </group>
+                                                </group>
+                                                <group>
+                                                    <field name="bidder_ids" context="{'child_partner_ids': context.get('parent_partner_ids', []), 'child_lot_ids': context.get('parent_lot_ids', []), 'default_is_notation': is_notation, 'notation_value': notation_value}" nolabel="1">
+                                                        <tree editable="bottom">
+                                                            <field name="bidder_id" domain="[('id', 'in', context.get('child_partner_ids', [])), ('supplier_rank','>', 0)]" context="{'default_supplier_rank': 1}"/>
+                                                            <field name="lot_id" domain="[('id', 'in', context.get('child_lot_ids', []))]"/>
+                                                            <field name="object_name"/>
+                                                            <field name="decision"/>
+                                                            <field name="ecart" attrs="{'invisible':[('decision', '!=', 'écarté')], 'required':[('decision', '=', 'écarté')]}"/>
+                                                            <field name="is_notation" invisible="1"/>
+                                                            <field name="note" attrs="{'invisible': [('is_notation', '=', False)], 'required': [('is_notation', '!=', False)]}"/>
+                                                            <field name="ranking" invisible="1"/>
+                                                        </tree>
+                                                    </field>
+                                                </group>
+                                            </form>
+                                        </field>
+                                    </page>
+                                    <page string="Attachments">
+                                        <field name="session_attachment_id">
+                                            <tree>
+                                                <field name="session_type"/>
+                                                <field name="document_type"/>
+                                                <field name="filename" invisible="1"/>
+                                                <field name="attachment_id" filename="filename"/>
+                                            </tree>
+                                            <form>
+                                                <group>
+                                                    <group>
+                                                        <field name="session_type"/>
+                                                    </group>
+                                                    <group>
+                                                        <field name="document_type"/>
+                                                    </group>
+                                                </group>
+                                                <group>
+                                                    <field name="filename" invisible="1"/>
+                                                    <field name="attachment_id" filename="filename"/>
+                                                </group>
+                                            </form>
+                                        </field>
+                                    </page>
+                                </notebook>
+                            </page>
+                            <page string="Financial offers">
+                                <button name="create_purchase_quotation" type="object" string="Generate Bordereaux" class="oe_highlight" />
+                            </page>
+                        </notebook>
+                        <notebook>
+                            <page string="Complements">
+                                <field name="decision_bidder_partner_ids" invisible="1"/>
+                                <field name="decision_bidder_lot_ids" invisible="1"/>
+                                <field name="decision_compliments_ids">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="decision_complement_ids"/>
+                                        <!-- <field name="description"/> -->
+                                        <!-- <field name="day"/> -->
+                                        <!-- <field name="date"/> -->
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <group>
+                                                <field name="name"/>
+                                            </group>
+                                            <group></group>
+                                        </group>
+                                        <group>
+                                            <field name="decision_complement_ids" nolabel="1">
+                                                <tree editable="bottom">
+                                                    <field name="is_fournie"/>
+                                                    <field name="is_conforme"/>
+                                                    <field name="date"/>
+                                                    <field name="comment"/>
+                                                </tree>
+                                            </field>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                            <page string="Attachments">
+                                <group>
+                                    <group>
+                                        <field name="decision_pv_filename" invisible="1"/>
+                                        <field name="decision_pv_attach_id" filename="decision_pv_filename"/>
+                                    </group>
+                                    <group>
+                                        <field name="result_filename" invisible="1"/>
+                                        <field name="result_attach_id" filename="result_filename"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </page>
+                    <page string="Decision" attrs="{'invisible': ['|', ('state', 'not in', ('decision', 'done', 'unsuccessful', 'cancel')), ('contract_type', 'in', ('Consultation / BC', 'Contrat / Convention'))]}">
+                        <label for="tender_decision_ids" string="Decision Final" style="margin-bottom:10px;"/>
+                        <field name="tender_decision_ids">
+                            <tree create="false" delete="false" editable="bottom">
+                                <field name="ranking" readonly="1" force_save="1" invisible="1"/>
+                                <field name="bidder_id" readonly="1" force_save="1"/>
+                                <field name="lot_id" domain="[('id', 'in', parent.lot_details_ids)]" readonly="1" force_save="1"/>
+                                <field name="decision" readonly="1" force_save="1"/>
+                                <field name="date" attrs="{'required':[('decision', '=', 'Attributaire')]}"/>
+                                <field name="description"/>
+                                <button name="generate_letter" type="object" string="Generate Letter" class="oe_highlight"/>
+                            </tree>
+                        </field>
+                        <label for="tender_decision_cancel_ids" style="margin-bottom:10px;"/>
+                        <field name="tender_decision_cancel_ids">
+                            <tree create="false" delete="false" editable="bottom">
+                                <field name="bidder_id"/>
+                                <field name="lot_id" domain="[('id', 'in', parent.lot_details_ids)]"/>
+                                <field name="description"/>
+                                <button name="generate_letter_cancel_print" type="object" string="Generate Letter" class="oe_highlight"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Other information" name="other_information" attrs="{'invisible': [('contract_type', 'in', ('Consultation / BC', 'Contrat / Convention'))]}">
+                        <group>
+                            <group>
+                                <field name="date_end"/>
+                            </group>
+                            <group></group>
+                        </group>
+                    </page>
+
+                    
+                    <page string="Consultation" name="consultaion" attrs="{'invisible': [('contract_type', 'not in', ('Consultation / BC', 'Contrat / Convention'))]}">
+                        <group>
+                            <field name="consultation_name"/>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="attachment_consultation_charges_filename" invisible="1"/>
+                                <field name="attachment_consultation_charges" filename="attachment_consultation_charges_filename"/>
+                                <field name="is_consultation_comm_valid"/>
+                            </group>
+                            <group>
+                                <field name="consultation_admin_charactristics" widget="many2many_tags"/>
+                            </group>
+                        </group>
+                        <label for="consultation_tender_commission_ids" string="Commission de validation" style="margin-bottom:10px;" attrs="{'invisible': [('is_consultation_comm_valid', '=', False)]}"/>
+                        <field name="consultation_tender_commission_ids" attrs="{'invisible': [('is_consultation_comm_valid', '=', False)]}">
+                            <tree editable="bottom">
+                                <field name="partner_type"/>
+                                <field name="employee_id" attrs="{'invisible': ['|',('partner_type', 'not in', ('Président', 'Maitre d’ouvrage', 'Service utilisateur', 'Service achat', 'Service comptable')), ('partner_type', '=', False)], 'required': [('partner_type', 'in', ('Président', 'Maitre d’ouvrage', 'Service utilisateur', 'Service achat', 'Service comptable'))]}"/>
+                                <field name="partner_id" attrs="{'invisible': ['|', ('partner_type', 'not in', ('Controleur d’état', 'Bureau d’étude')), ('partner_type', '=', False)], 'required': [('partner_type', 'in', ('Controleur d’état', 'Bureau d’étude'))]}" domain="[('supplier_rank','>', 0)]" context="{'default_supplier_rank': 1}"/>
+                                <field name="department_id" attrs="{'invisible': [('employee_id', '=', False)]}"/>
+                            </tree>
+                        </field>
+                        <group>
+                            <group>
+                                <field name="consultation_concurrents_type" widget="radio" class="oe_edit_only" options="{'horizontal': true}"/>
+                            </group>
+                            <group>
+                                <field name="attachment_concurrent_unique_filename" invisible="1"/>
+                                <field name="attachment_concurrent_unique" filename="attachment_concurrent_unique_filename" attrs="{'required': [('consultation_concurrents_type', '=', 'concurrent_unique')]}"/>
+                            </group>
+                        </group>
+                        <!-- <label for="concurrent_details_ids" string="Commission de validation" style="margin-bottom:10px;"/> -->
+                        <field name="concurrent_details_ids" options='{"no_open":True}' widget='one2many' context="{'consultation_concurrents_type': consultation_concurrents_type, 'concurrent_details_ids': concurrent_details_ids}">
+                            <tree editable="bottom">
+                                <field name="name" domain="[('supplier_rank','>', 0)]" context="{'default_supplier_rank': 1}"/>
+                                <field name="attachment_consultation_letter_filename" invisible="1"/>
+                                <field name="attachment_consultation_letter" filename="attachment_consultation_letter_filename"/>
+                            </tree>
+                        </field>
+                        <group>
+                            <group>
+                                <field name="attachment_pv_de_comm_signe_filename" invisible="1"/>
+                                <field name="attachment_pv_de_comm_signe" filename="attachment_pv_de_comm_signe_filename"/>
+                            </group>
+                            <group>
+                                <field name="attachment_dec_de_la_comm_filename" invisible="1"/>
+                                <field name="attachment_dec_de_la_comm" filename="attachment_dec_de_la_comm_filename"/>
+                            </group>
+                        </group>
+                        <group>
+                            <button name="print_consultant_report" string="Générer PV d'examen des devis" type="object" class="btn-primary"/>
+                        </group>
+                    </page>
+                    <page string="Autre Information" name="autre_info" attrs="{'invisible': [('contract_type', 'not in', ('Consultation / BC', 'Contrat / Convention'))]}">
+                        <group>
+                            <group>
+                                <field name="ordering_date" attrs="{'readonly': [('state','not in',('draft','preparation','in_progress','open','ongoing'))]}"/>
+                                <field name="schedule_date" attrs="{'readonly': [('state','not in',('draft','preparation','in_progress','open','ongoing'))]}"/>
+                            </group>
+                        </group>
+                    </page>
+
+                    <page name="terms" string="Termes" attrs="{'invisible': [('contract_type', '!=', 'Contrat / Convention')]}">
+                        <field name="requisition_terms_ids" readonly="1">
+                            <tree string="Termes" editable="bottom">
+                                <field name="term"/>
+                                <field name="date_debut"/>
+                                <field name="date_fin"/>
+                                <field name="etat"/>
+                            </tree>
+                        </field>
+                    </page>
+
+                </notebook>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Purchase Requisition menu hide -->
+    <record model="ir.ui.menu" id="purchase_requisition.menu_purchase_requisition_pro_mgt">
+        <field name="groups_id" eval="[(6,0,[ref('make_invisible')])]"/>
+    </record>
+
+    <!--Action For Lignes de demandes Qualifiées -->
+    <record id="action_qualify_purchase_request_line" model="ir.actions.act_window">
+        <field name="name">Purchase Request Lines</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">purchase.request.line</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('request_state','=','approved')]</field>
+        <field name="search_view_id" ref="purchase_request.purchase_request_line_search"/>
+    </record>
+
+    <!--Action For Appel d’offres / Marché -->
+    <record model="ir.actions.act_window" id="action_requisition_for_appeal_offers">
+        <field name="name">Appel d’offres</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">purchase.requisition</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="context">{"contract_type":'Appel d’offres'}</field>
+        <field name="domain">[('contract_type','=','Appel d’offres')]</field>
+        <field name="search_view_id" ref="purchase_requisition.view_purchase_requisition_filter"/>
+    </record>
+
+    <!--Action For Contrat / Convention -->
+    <record id="action_requisition_for_contract_convention" model="ir.actions.act_window">
+        <field name="name">Contrat / Convention</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">purchase.requisition</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="context">{"contract_type":'Contrat / Convention'}</field>
+        <field name="domain">[('contract_type','=','Contrat / Convention')]</field>
+        <field name="search_view_id" ref="purchase_requisition.view_purchase_requisition_filter"/>
+    </record>
+
+    <!--Action For Consultation / BC -->
+    <record id="action_requisition_for_consultation" model="ir.actions.act_window">
+        <field name="name">Consultation / BC</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">purchase.requisition</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="context">{"contract_type":'Consultation / BC'}</field>
+        <field name="domain">[('contract_type','=','Consultation / BC')]</field>
+        <field name="search_view_id" ref="purchase_requisition.view_purchase_requisition_filter"/>
+    </record>
+
+    <!--Action For Régie -->
+    <record id="action_requisition_for_regie" model="ir.actions.act_window">
+        <field name="name">Régie</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">purchase.requisition</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="context">{"contract_type":'Régie'}</field>
+        <field name="domain">[('contract_type','=','Régie')]</field>
+        <field name="search_view_id" ref="purchase_requisition.view_purchase_requisition_filter"/>
+    </record>
+
+
+
+    <!-- New Menu Operation in Purchase -->
+    <menuitem
+        id="menu_purchase_request_operation"
+        name="Opérations"
+        sequence="2"
+        parent="purchase.menu_purchase_root"/>
+
+    <!--Nouvelle opération menu-->
+    <menuitem id="menu_purchase_agreement_nouvelle" 
+        name="Opération"
+        parent="menu_purchase_request_operation"
+        action="purchase_requisition.action_purchase_requisition" sequence="1"/>
+
+    <!--Lignes de demandes Qualifiées menu-->
+    <menuitem id="menu_purchase_request_line_qualify" 
+        name="Lignes de demandes Qualifiées"
+        parent="purchase.menu_procurement_management"
+        action="action_qualify_purchase_request_line" sequence="20"/>
+
+    <!--Appel d’offres / Marché menu-->
+    <menuitem id="menu_appel_offers" 
+        name="Appel d’offres / Marché"
+        parent="menu_purchase_request_operation"
+        action="action_requisition_for_appeal_offers" sequence="3"/>
+
+    <!--Contrat / Convention menu-->
+    <menuitem id="menu_contract_convention" 
+        name="Contrat / Convention"
+        parent="menu_purchase_request_operation"
+        action="action_requisition_for_contract_convention" sequence="4"/>
+
+    <!--Consultation / BC menu-->
+    <menuitem id="menu_consultation" 
+        name="Consultation / BC"
+        parent="menu_purchase_request_operation"
+        action="action_requisition_for_consultation" sequence="5"/>
+
+    <!--Régie menu-->
+    <menuitem id="menu_régie" 
+        name="Régie"
+        parent="menu_purchase_request_operation"
+        action="action_requisition_for_regie" sequence="5"/>
+
+    
+
+</odoo>

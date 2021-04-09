@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <record id="invoice_in_folder_wizard_view" model="ir.ui.view">
+            <field name="name">invoice.in.folder.wizard.view</field>
+            <field name="model">invoice.in.folder.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Multi-factures">
+                    <group col="4">
+                       <separator string="Select your file :" colspan="4"/>
+                         <field name="data" filename="fname" attrs="{'invisible':[('state','=','false')]}" />
+                         <field name="fname" invisible="1" />
+                         <field name="state" invisible="1" />
+                      <newline/>
+                    </group>
+                    <footer>
+                        <button string="Lancer" class="oe_highlight" type="object" name="load_folder"/>
+                        ou
+                        <button string="Annuler" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+
+        <act_window id="action_invoice_in_folder_wizard"
+                    name="Multi-factures"
+                    res_model="invoice.in.folder.wizard"
+                    src_model="account.invoice"
+                    view_mode="form"
+                    target ="new"
+                    key2="client_action_multi"
+                    groups="account.group_account_manager"
+                    />
+
+        
+
+    </data>
+</openerp>
