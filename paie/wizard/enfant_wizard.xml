@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <openerp>
+    <data>
+        <record id="childs_list" model="ir.ui.view">
+        <field name="model">hr.employee.wizard</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <group>
+                <field name="enfant_ids" nolabel="1">
+                    <tree editable="bottom">
+                        <field name="nom"/>
+                        <field name="prenom"/>
+                        <field name="date_naissance"/>
+                        <field name="handicape"/>
+                        <field name="acte_naissance"/>
+                    </tree>
+               </field>
+            </group>
+        <footer>
+            <button name="confirm"
+                    string="Confirmer"
+                    type="object"
+                    class="oe_highlight"/>
+            or
+           <button string="Cancel" class="oe_link" special="cancel"/>
+        </footer>
+        </field>
+        </record>
+    </data>
+ </openerp>

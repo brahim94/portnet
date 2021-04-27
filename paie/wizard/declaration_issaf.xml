@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="export_issaf_view" model="ir.ui.view">
+            <field name="name"> Déclaration ISSAF </field>
+            <field name="model">issaf.wizard</field>
+            <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <form string="Déclaration ISSAF">
+                        <group colspan="4" >
+                             <group>
+                                <field name="periode"/>
+                            </group>
+                            <group>
+                                <field name="start_date" readonly="1"/>
+                                <field name="end_date" readonly="1"/>
+                            </group>
+                        </group>
+                    <footer>
+                    <button name="button_report_excel" string="Export" type="object"/>
+                    or
+                    <button special="cancel" string="Cancel" class="oe_link"/>
+                    </footer>
+                    </form>
+                </field>
+        </record>
+        <record id="export_issaf_action" model="ir.actions.act_window">
+                <field name="name">Declrataion ISSAF</field>
+                <field name="res_model">issaf.wizard</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+                <field name="view_id" ref="export_issaf_view"/>
+                <field name="target">new</field>
+        </record>
+        <menuitem name="Déclaration ISSAF" id="menu_issaf_wizard" action="export_issaf_action" groups="paie.group_payroll_officer" parent="hr_payroll.menu_hr_root_payroll" sequence="11"/>
+        <record id="get_wizard_view_issaf" model="ir.ui.view">
+            <field name="name">sql.file.get.wizard.view</field>
+            <field name="model">dec.issaf.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Export CSV" >
+                     <group colspan="4">
+	                     <separator string="Export Terminé" colspan="4"/>
+	                     <field name="name_file" invisible="1" colspan="4"/>
+	                     <separator string=" " colspan="4"/>
+	                     <field name="data" nolabel="1" readonly="1" filename="name_file" colspan="4"/>
+                         <footer>
+	                     	<button icon="gtk-close" special="cancel" string="Fermer"/>
+	                     </footer>
+                    </group>
+                </form>
+            </field>
+        </record>
+    </data>
+</openerp>
+
+

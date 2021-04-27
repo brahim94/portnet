@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+     <openerp>
+        <data>
+            <record model="ir.ui.view" id="enfant_form_view">
+                <field name="name">Enfant</field>
+                <field name="model">enfant</field>
+                <field name="arch" type="xml">
+                     <form name="enfant">
+                        <group col="4">
+                            <field name="nom"/>
+                            <field name="prenom"/>
+                            <field name="date_naissance"/>
+                            <field name="handicape"/>
+                            <field name="acte_naissance"/>
+                        </group>
+                    </form>
+                </field>
+            </record>
+             <record model="ir.ui.view" id="enfant_form_tree">
+                <field name="name">Enfant</field>
+                <field name="model">enfant</field>
+                <field name="arch" type="xml">
+                     <tree name="enfant">
+                        <field name="nom"/>
+                        <field name="prenom"/>
+                        <field name="date_naissance"/>
+                         <field name="handicape"/>
+                        <field name="acte_naissance"/>
+                    </tree>
+                </field>
+            </record>
+            <record id="action" model="ir.actions.act_window">
+                <field name="name">Enfant</field>
+                <field name="res_model">enfant</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="view_mode">form,tree</field>
+                <field name="domain">[('employee_id', '=' ,active_id)]</field>
+
+            </record>
+        </data>
+     </openerp>

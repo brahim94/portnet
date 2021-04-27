@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+        <record id="export_ordre_de_virement_view" model="ir.ui.view">
+            <field name="name"> Ordre de virement </field>
+            <field name="model">ordre.virement.wizard</field>
+            <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <form string="Ordre de virement">
+                        <group colspan="4" >
+                             <group>
+                                <field name="periode"/>
+                            </group>
+                            <group>
+                                <field name="start_date" readonly="1"/>
+                                <field name="end_date" readonly="1"/>
+                            </group>
+                        </group>
+                    <footer>
+                    <button name="button_report_pdf" string="Export" type="object"/>
+                    or
+                    <button special="cancel" string="Cancel" class="oe_link"/>
+                    </footer>
+                    </form>
+                </field>
+        </record>
+
+        <record id="ordre_de_virement_action" model="ir.actions.act_window">
+                <field name="name">Ordre de virement</field>
+                <field name="res_model">ordre.virement.wizard</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+                <field name="view_id" ref="export_ordre_de_virement_view"/>
+                <field name="target">new</field>
+        </record>
+
+        <menuitem name="Ordre de virement" id="menu_ordre_de_virement_wizard" action="ordre_de_virement_action" parent="hr_payroll.menu_hr_root_payroll" sequence="14"/>
+</data>
+</openerp>

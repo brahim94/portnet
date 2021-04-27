@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<record id="export_livre_paie_view" model="ir.ui.view">
+    <field name="name"> Livre De Paie </field>
+    <field name="model">hr.payslip.wizard</field>
+    <field name="type">form</field>
+        <field name="arch" type="xml">
+        <form string="Livre De Paie">
+        <group colspan="4" >
+            <group>
+                <field name="periode"/>
+            </group>
+            <group>
+                <field name="start_date" readonly="1" />
+                <field name="end_date" readonly="1"/>
+            </group>
+        </group>
+        <footer>
+        <button name="export_livre_paie" string="Livre de paie pdf" type="object"/>
+            <button name="export_livre_paie_excel" string="Livre de paie excel" type="object"/>
+
+        or
+        <button special="cancel" string="Cancel" class="oe_link"/>
+        </footer>
+        </form>
+        </field>
+</record>
+
+<record id="export_livre_paie_action" model="ir.actions.act_window">
+        <field name="name">Livre De Paie</field>
+        <field name="res_model">hr.payslip.wizard</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="export_livre_paie_view"/>
+        <field name="target">new</field>
+</record>
+<menuitem name="Livre De Paie" id="menu_export_livre_paie_wizard" action="export_livre_paie_action" groups="paie.group_payroll_officer" parent="hr_payroll.menu_hr_root_payroll" sequence="10"/>
+
+
+        <record id="get_wizard_view_livre" model="ir.ui.view">
+            <field name="name">sql.file.get.wizard.view</field>
+            <field name="model">livre.paie.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Export CSV" >
+                     <group colspan="4">
+	                     <separator string="Export Terminé" colspan="4"/>
+	                     <field name="name_file" invisible="1" colspan="4"/>
+	                     <separator string=" " colspan="4"/>
+	                     <field name="data" nolabel="1" readonly="1" filename="name_file" colspan="4"/>
+                         <footer>
+	                     	<button icon="gtk-close" special="cancel" string="Fermer"/>
+	                     </footer>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+</data>
+</openerp>

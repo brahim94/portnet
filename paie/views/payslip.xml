@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+     <openerp>
+        <data>
+            <record model="ir.ui.view" id="view_hr_payslip_form">
+                <field name="name">payslip</field>
+                <field name="model">hr.payslip</field>
+                <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+                <field name="arch" type="xml">
+                    <xpath expr="//field[@name='credit_note']" position="after">
+                        <field name="regul_pret"/>
+                    </xpath>
+                    <xpath expr="//form/sheet/div/button/field[@name='payslip_count']" position="attributes">
+                        <attribute name="string">Détails du calcul du bulletin</attribute>
+                    </xpath>
+                    <xpath expr="//form/sheet/notebook/page[@string='Salary Computation']/field/form/group/field[@name='code']" position="attributes">
+                        <attribute name="invisible">True</attribute>
+                    </xpath>
+                    <xpath expr="//form/sheet/notebook/page[@string='Salary Computation']/field/tree/field[@name='code']" position="attributes">
+                        <attribute name="invisible">True</attribute>
+                    </xpath>
+                    <xpath expr="//form/sheet/notebook/page[@string='Details By Salary Rule Category']/field/tree/field[@name='code']" position="attributes">
+                        <attribute name="invisible">True</attribute>
+                    </xpath>
+                     <xpath expr="//separator[@string='Other Inputs']" position="replace">
+                      <separator string="Période" invisible="1"/>
+                    </xpath>
+                   <xpath expr="//field[@name='input_line_ids']" position="replace">
+                       <separator string="Jours acquis/Solde congés"/>
+                       <group>
+                           <group>
+                               <field name="jours_acquis" colspan="2"/>
+                           </group>
+                           <group>
+                               <field name="solde_conge"/>
+                               <field name="reliquat"/>
+                               <field name="solde_pris"/>
+                               <field name="solde_acquis"/>
+                               <button name="sum_jrs_acquis" attrs="{'invisible': [('state','!=','draft')]}" type="object" string="calculer solde de congé" class="oe_highlight"/>
+                               <button name="sum_jrs_acquis" attrs="{'invisible': [('state','=','draft')]}" type="object" string="calculer solde de congé" class="oe_highlight" groups="paie.group_calculer_solde_conge"/>
+                           </group>
+                       </group>
+                       <separator string="Evénements"/>
+                        <field name="events" colspan="4" nolabel="1" context="{'default_employee_id':employee_id}">
+                            <tree string="Events" readonly="1" >
+                                <field name="event_type"/>
+                                <field name="impact_salaire"/>
+                                <!--field name="impact_conge"/-->
+                            </tree>
+                       </field>
+                   </xpath>
+                    <xpath expr="//page[@string='Salary Computation']" position="after">
+                       <page string="Primes variables">
+                           <field name="rubriques_ids">
+                               <tree editable="bottom">
+                                   <field name="name" attrs="{'readonly': [('modifiable','=',False)]}"/>
+                                   <field name="montant" attrs="{'readonly': [('modifiable','=',False)]}"/>
+                                   <field name="modifiable" invisible="1" />
+                               </tree>
+                           </field>
+                       </page>
+                       <page string="Reprise" >
+                           <p>Cet onglet reprend les cumuls du précédent bulletins. Ces valeurs ne doivent normalement pas être modifiées sauf pour forcer des calculs sur les bulletins.</p>
+                           <group> <!-- cf méthode primes_variables pour le lient avec la règle utilisée -->
+                               <field name="payslip_used_for_cumuls"  help="C'est depuis ce bulletin que les cumuls ci-dessous sont remontés" readonly="True"></field>
+                               <field name="nbr_mois"                 help="Nombre de mois sur lequel les régularisations ont été appliquées"></field>
+                               <field name="brutCNSSma"               help="utilise la règle cumul_BRUT"></field>
+                               <field name="brutnimposable"           help="utilise la règle cumul_BRUTNIMPOSABLE"></field>
+                               <field name="cumul_Net_imposable"      help="utilise la règle C_IMPR et cumul_Net_imposable"></field>
+                               <field name="cumul_Net_imposable_nr"   help="utilise la règle C_IMP et payslip.cumul_Net_imposable_nr"></field>
+                               <field name="cumul_IRPP"               help="utilise la règle cuml_IRPP"></field>
+                               <field name="ded_cachrges_famil"       help="utilise la règle cumul_NbrPerso"></field>
+                               <field name="cumul_FPRO"               help="utilise la règle cumul_FPRO"></field>
+                               <field name="cumul_deductions_log"     help="utilise la règle ded_pret_immob cumul_ded_log"></field>
+                               <field name="cumul_interet"            help="utilise la règle cumul_ded_interet_pret plus regul_ded_pret_immob"></field>
+                               <field name="cumul_jours"              help="utilise la règle cumul_nbr_jrs"></field>
+                               <field name="cumul_regul_jr_ir"        help="utilise la règle cumul_regul_jr_ir"></field>
+                               <field name="cumul_epargne"            help="Non opérationnel"></field>
+                               <field name="cumul_CAAD"               help="utilise la règle cumul_caad"></field>
+                               <field name="cumul_MODEP"              help="utilise la règle cumul_modep"></field>
+                               <field name="cumul_assurance"          help="utilise la règle cumul_assurance"></field>
+                               <field name="cumul_Charges_salariales" help="utilise la règle cumul_CS"></field>
+                               <field name="cumul_recore_sal"         help="utilise la règle cumul_recore_sal"></field>
+                               <field name="cumul_cnops"         help="utilise la règle cumul_cnops"></field>
+                               <field name="cumul_rcar_rc"         help="utilise la règle cumul_rcar_rc"></field>
+                               <field name="cumul_rcar_rg"         help="utilise la règle cumul_rcar_rg"></field>
+                               <field name="cumul_tcompma"           help="utilise la règle cumul_TCOMPMA"></field>
+                               <field name="arrprec"                  help="Arrondi du mois précédent"></field>
+                               <field name="regul" invisible="1"></field>
+                           </group>
+                       </page>
+                        <page string="Régularisation" help="Cet onglet n'est utilisé que pour la régularisation des jours de l'ir">
+                            <group>
+                                <field name="regul_jr_ir"/>
+                                <field name="regul_mt_ir"/>
+                            </group>
+
+
+                        </page>
+                   </xpath>
+                    <xpath expr="//form/sheet/notebook/page[@string='Accounting Information']/group/group[@string='Miscellaneous']/field[@name='payslip_run_id']" position="replace">
+                        <field name="payslip_run_id"/>
+                    </xpath>
+                </field>
+            </record>
+            <record model="ir.ui.view" id="view_hr_payslip_filter_inherit">
+                <field name="name">payslip</field>
+                <field name="model">hr.payslip</field>
+                <field name="inherit_id" ref="hr_payroll.view_hr_payslip_filter"/>
+                <field name="arch" type="xml">
+                    <xpath expr="//filter[@string='Employees']" position="after">
+                        <filter icon="terp-document-new" string="Simulation" name="simulation" domain="[('simulation','=','True')]" help="simulations"/>
+                        <filter string="Période" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'date_from'}" />
+                    </xpath>
+                </field>
+            </record>
+            <record id="hr_payroll.act_hr_employee_payslip_list" model="ir.actions.act_window">
+                <field name="res_model">hr.payslip</field>
+                <field name="name">Payslips</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+                <field name="context">{'search_default_employee_id': [active_id],'search_default_simulation':1, 'default_employee_id': active_id}</field>
+            </record>
+            <delete model="ir.actions.report.xml" id="hr_payroll.action_report_payslip"/>
+            <delete model="ir.actions.report.xml" id="hr_payroll.payslip_details_report"/>
+        </data>
+    </openerp>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <openerp>
+    <data>
+        <record model="ir.ui.view" id="poste_form_view">
+
+            <field name="name">Fonction</field>
+            <field name="model">poste</field>
+            <field name="arch" type="xml">
+                 <form name="Fonction">
+                           <group>
+                                        <group>
+                                            <field name="job_id" string="Fonction" />
+                                            <field name="employee_id" string="Employé" />
+                                            <field name="responsable_id" string="Responsable" />
+                                            <field name="executive_manager" string="Directeur" />
+                                            <field name="department_id"  required="1" string="Département" on_change="onchange_department_id(department_id)"/>
+                                        </group>
+                                        <group>
+                                            <group col="4" colspan="2">
+                                                <field name="date_debut_poste" required="1"  />
+                                                <field name="date_fin_poste" required="1" />
+                                            </group>
+                                            <group col="4" colspan="2">
+                                                <field name="moniteur_id"  />
+                                                <field name="responsable" />
+                                            </group>
+                                        </group>
+                                    </group>
+                                        <group col="4">
+                                            <field name="adresse_pro"/>
+                                        </group>
+                                    <group>
+                                        <group>
+                                            <field name="code_postal_pro"/>
+                                            <field name="pays_pro"/>
+                                            <field name="email_pro" widget="email" string="Email"/>
+                                        </group>
+                                        <group>
+                                            <field name="ville_pro"/>
+                                            <field name="tel_fixe_pro"/>
+                                            <field name="tel_mobile_pro" string="Téléphone mobile"/>
+                                        </group>
+                                    </group>
+                </form>
+            </field>
+        </record>
+         <record model="ir.ui.view" id="poste_form_tree">
+
+            <field name="name">Fonction</field>
+            <field name="model">poste</field>
+            <field name="arch" type="xml">
+                 <tree name="Fonctions" delete="false">
+                     <field name="job_id" string="Fonction" />
+                     <field name="employee_id" string="Employé" />
+                     <field name="responsable"/>
+                     <field name="responsable_id"/>
+                     <field name="executive_manager" string="Directeur" />
+                     <field name="moniteur_id"/>
+                     <field name="date_debut_poste"/>
+                     <field name="date_fin_poste"/>
+                     <field name="department_id"/>
+                 </tree>
+            </field>
+        </record>
+
+
+        <!--record id="action_event" model="ir.actions.act_window">
+            <field name="name">Fonctions</field>
+            <field name="res_model">hr.event</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('employee_id.id', '=' ,active_id)]</field>
+        </record-->
+        <menuitem name="Evénements" parent="hr.menu_hr_root" id="menu_open_ask_events" sequence="21"/>
+        <!--menuitem parent="menu_open_ask_events" id="menu_open_ask_events_new" action="action_event"/-->
+        <record id="action_prime" model="ir.actions.act_window">
+            <field name="name">Primes</field>
+            <field name="res_model">hr.payslip.primes_variables</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <!--menuitem parent="hr_payroll.menu_hr_root_payroll" id="menu_add_primes_variables" action="action_prime"/-->
+
+
+    </data>
+ </openerp>

@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+     <openerp>
+        <data>
+
+            <record model="ir.ui.view" id="hr_contract_view_search-v1">
+                <field name="name">hr.contract.view.search</field>
+                <field name="model">hr.contract</field>
+                <field name="inherit_id" ref="hr_contract.hr_contract_view_search"/>
+                <field name="arch" type="xml">
+                    <xpath expr="//search/field[@name='name']" position="after">
+                        <filter string="Période d'essai dépassée"
+                                name="end_trial_period"
+                                domain="[('trial_date_end','&lt;',(context_today()+relativedelta(months=1)).strftime('%%Y-%%m-01')),
+                                ('trial_date_end','&gt;=',time.strftime('%%Y-%%m-01'))]"/>
+                        <filter string="Période d'essai en cours"
+                                name="in_progress_trial_period"
+                                domain="[('trial_date_end','&gt;=',context_today().strftime('%%Y-%%m-%%d'))]"/>
+                        <!--filter name="Période d'essai dépassée" domain="[('trial_date_end','&lt;=',current_date)]"/-->
+                    </xpath>
+                </field>
+            </record>
+            <record model="ir.ui.view" id="pay_form_v">
+                <field name="name">payslip</field>
+                <field name="model">hr.contract</field>
+                <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+                <field name="arch" type="xml">
+                    <xpath expr="//field[@name='struct_id']" position="replace">
+                    </xpath>
+            </field>
+</record>
+            <record id="hr_contract_type_vierm" model="ir.ui.view">
+            <field name="name">hr.contract.type.form</field>
+            <field name="model">hr.contract</field>
+                <field name="inherit_id" ref="hr_payroll.hr_contract_form_inherit"/>
+
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='schedule_pay']" position="replace">
+                        <field name="schedule_pay" invisible="1"/>
+            </xpath>
+            </field>
+        </record>
+
+            <record id="hr_contract_type_view_form" model="ir.ui.view">
+            <field name="name">hr.contract.type.form</field>
+            <field name="model">hr.contract.type</field>
+                <field name="inherit_id" ref="hr_contract.hr_contract_type_view_form"/>
+
+            <field name="arch" type="xml">
+                <xpath expr="//form/group" position="inside">
+                    <field name="rubrique_ids" widget="many2many_tags" string="Rubriques par défaut sur le contrat"/>
+                </xpath>
+            </field>
+        </record>
+            <record model="ir.ui.view" id="contract_tree_view">
+                <field name="name">contract</field>
+                <field name="model">hr.contract</field>
+                <field name="inherit_id" ref="hr_contract.hr_contract_view_tree"/>
+                <field name="arch" type="xml">
+                    <xpath expr="//tree" position="replace">
+                        <tree>
+                            <field name="name"/>
+                            <field name="employee_id"/>
+                            <field name="matricule" />
+                            <field name="type_id"/>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="trial_date_end"/>
+                        </tree>
+                    </xpath>
+                </field>
+            </record>
+            <record model="ir.ui.view" id="employee_contract_form_view">
+                <field name="name">contract</field>
+                <field name="model">hr.contract</field>
+                <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+                <field name="arch" type="xml">
+                    <xpath expr="//form" position="replace">
+                        <form>
+                            <header>
+                                <button name="add_avenant" string="créer un avenant" type="object" class="oe_read_only"
+                                    context="{'default_contract_id':active_id, 'default_postes': postes}"
+                                />
+                                <button name="edit_avenant" string="modifier un avenant" type="object" class="oe_highlight"
+                                     attrs="{'invisible': [('avenant_ids','=',[])]}"/>
+                            </header>
+                            <sheet>
+                                <div class="oe_title">
+                                <group col="2">
+                                    <field name="name" placeholder="Contract Reference" string="Référence du contrat" />
+                                </group>
+                                <group>
+                                    <group>
+                                        <field name="employee_id" string="Employé" on_change="onchange_employee_id(employee_id)" context="{'employee_id': employee_id,'matricule': matricule}"/>
+                                        <field name="postes" widget="selection" string="Poste"/>
+                                        <field name="matricule"/>
+                                        <field name="actif" string="Actif"/>
+                                    </group>
+                                    <group col="2">
+                                        <field name="qualif" invisible="1"/>
+                                        <field name="niveau" invisible="1"/>
+                                        <field name="coef" invisible="1"/>
+                                    </group>
+                                </group>
+                                </div>
+                             <group name="duration_group" string="Contrat">
+                                 <group>
+                                     <field name="type_id" string="Type de contrat"/>
+                                     <field name="mode_paiement" string="Fréquence de paie" required="1" readonly="1" />
+                                     <field name="working_hours" string="Nombre H/Semaine de travail" invisible="1"/>
+                                     <field name="struct_id"/>
+                                     <field name="wage" invisible="1"/>
+                                     <field name="horaire_salarie" readonly="1"/>
+                                     <field name="temps_plein" readonly="1"/>
+                                     <field name="horaire_hebdo" readonly="1"/>
+                                     <label for="nbr_jr_conge" string="Nombre jours de congé"/>
+                                     <div>
+                                         <field name="nbr_jr_conge" class="oe_inline"/><label string="par mois"/>
+                                     </div>
+                                     <field name="net_augmente" readonly="1"/>
+                                 </group>
+                                 <group >
+                                     <label for="date_start" string="Période contrat"/>
+                                     <div>
+                                        <field name="date_start" class="oe_inline" required="1" /> - <field name="date_end" required="1" class="oe_inline"/>
+                                     </div>
+                                       <label for="duree_essai" string="Durée période d'essai"/>
+                                     <div>
+                                         <field name="duree_essai" class="oe_inline"/><label string="en mois"/>
+                                     </div>
+                                     <label for="trial_date_start" string="Dates" style="text-align:right"/>
+                                     <div>
+                                        <field name="trial_date_start" class="oe_inline"/> - <field name="trial_date_end" class="oe_inline"/>
+                                     </div>
+
+                                     <label for="renouvelable" string="Renouvelable"/>
+                                     <div>
+                                         <field name="renouvelable" class="oe_inline"/><label string="nombre de fois"/>
+                                     </div>
+                                     <label for="preavis" string="Préavis"/>
+                                     <div>
+                                         <field name="preavis" class="oe_inline"/><label string="en mois"/>
+                                     </div>
+                                     <field name="date_anciennetee" required="1"/>
+                                     <field name="taux_augmentation"/>
+                                     <field name="net_negocie"/>
+                                 </group>
+                              </group>
+                              <separator string="Salaire, Avantages et primes"/>
+                                    <field name="rubrique_ids" >
+                                        <tree editable="bottom">
+                                            <field name="name" options="{'no_create_edit': True}"/>
+                                            <field name="montant"/>
+                                            <field name="modifiable"/>
+                                        </tree>
+                                    </field>
+                                     <!--group>
+                                     <field name="ind_representation"/>
+                                     <field name="prime_panier"/>
+                                     <field name="le_13_mois"/>
+                                     <field name="nbr_jr_conge"/>
+                                     <button name="autres_primes" string="Autres avantages" type="object"/>
+                                 </group>
+                             </group-->
+
+                             <separator string="Avenants" attrs="{'invisible': [('avenant_ids','=',[])]}"/>
+                             <field name="avenant_ids" attrs="{'invisible': [('avenant_ids','=',[])]}">
+                                 <tree string="Avenants" readonly="1">
+                                     <field name="postes"/>
+                                     <field name="struct_id"/>
+                                     <field name="horaire_salarie"/>
+                                     <field name="date_start"/>
+                                     <field name="date_end"/>
+                                 </tree>
+                             </field>
+                                <field name="event_ids" readonly="1"/>
+
+                       </sheet>
+                       </form>
+                    </xpath>
+                </field>
+            </record>
+        <record model="ir.ui.view" id="hr_kanban_view_contracts">
+            <field name="name">HR - Contracts Kanban</field>
+        <field name="model">hr.contract</field>
+        <field name="priority">10</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="name"/>
+                <field name="employee_id" domain="[('status','=', 'valide')]"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_vignette oe_semantic_html_override">
+                            <a type="open"><img t-att-src="kanban_image('hr.contract', 'image_small', record.id.value)" class="oe_kanban_image"/></a>
+                            <div class="oe_kanban_details">
+
+                                <div name="tags"/>
+                                <ul>
+                                    <li>Référence du contrat: <field name="name"></field></li>
+                                    <li>Employé: <field name="employee_id"></field></li>
+                                    <li>Type du contrat: <field name="type_id"></field></li>
+                                    <li>Du: <field name="date_start"></field> Au: <field name="date_end"></field></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+
+        </field>
+    </record>
+    <record id="hr_contract.action_hr_contract" model="ir.actions.act_window">
+            <field name="name">Contracts</field>
+            <field name="res_model">hr.contract</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{'search_default_current':1}</field>
+            <field name="search_view_id" ref="hr_contract.hr_contract_view_search"/>
+        </record>
+
+        <record id="view_employee_search_custom" model="ir.ui.view">
+            <field name="name">view.contract.search.custom</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@string='Contract Type']" position="after">
+                    <filter string="Catégorie salariale" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'struct_id'}" />
+                </xpath>
+                <xpath expr="//filter[@string='Catégorie salariale']" position="after">
+                    <filter string="Date début" icon="terp-stock_symbol-selection" domain="[]" context="{'group_by':'date_start'}" />
+                </xpath>
+            </field>
+        </record>
+
+            <record id="hr_payroll_account_contract_form_inherit" model="ir.ui.view">
+            <field name="name">hr.contract.view.form.inherit</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_payroll_account.hr_contract_form_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@string='Accounting']" position="replace">
+                   <group >
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        </data>
+    </openerp>

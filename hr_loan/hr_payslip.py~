@@ -1,0 +1,92 @@
+# -*- coding: utf-8 -*-
+import locale
+from openerp import exceptions
+from datetime import datetime, timedelta
+import time
+from openerp import netsvc
+from openerp.tools.translate import _
+from openerp import fields, models, api, tools, workflow
+from openerp.tools import (
+    DEFAULT_SERVER_DATE_FORMAT,
+    )
+from openerp.tools import float_compare, float_is_zero
+from lxml import etree
+from openerp.osv.orm import setup_modifiers
+import re
+
+
+class HrPayslip(models.Model):
+    _inherit = 'hr.payslip' 
+
+    #spec portnet
+    loan=fields.Float(compute='get_loan',store=True)
+    ded_pret_plaf=fields.Float(compute='get_loan',store=True)
+    ded_pret=fields.Float(compute='get_loan',store=True)
+    ##
+    ##spec portnet
+    @api.one
+    @api.depends('employee_id','periode')
+    def get_loan(self):
+        import pdb
+
+        self.loan=0
+        somme=0
+        somme_ded=0
+        somme_ded_net=0
+        array=[]
+        loan_ids=self.env['hr.loan.line'].search([['employee_id','=',self.employee_id.id],['paid','=',False]])
+        for loan in loan_ids:
+            if loan.loan_id.payment_start_date<=loan.paid_period.date_start and loan.paid==False:
+                somme=somme+loan.paid_amount
+                array.append(loan)
+        self.loan=somme
+        for a in array:
+            for ar in a:
+                if ar.loan_id.type_loan=='social':
+                    somme_ded=somme_ded+ar.loan_interest
+                else:
+                    somme_ded_net=somme_ded_net+ar.loan_interest
+        self.ded_pret=somme_ded
+        self.ded_pret_plaf=somme_ded_net
+        return array
+    ##  
+
+
+
+    @api.multi
+    def hr_verify_sheet(self):
+        res = super(HrPayslip, self).hr_verify_sheet()
+        ##spec portnet
+        arr=self.get_loan()
+        for ar in arr:
+            for l in ar:
+                l.paid=True
+        ##
+        events=self.env['hr.salary.rule'].search([['code','=',str(self.id)]])
+        for evt in events:
+            evt.unlink()
+        self.check_payroll()
+        return res
+
+
+    @api.multi
+    def check_payroll(self):
+        import pdb
+        #pdb.set_trace()
+        if self.employee_id:
+            ##spec portnet
+            hol=self.env['hr.holidays.status'].search([])
+            holiday_status=self.env['hr.holidays.status'].search([['name','=','Congés payés']])
+            ##
+            payrolls = self.search([['date_from','<=',self.date_from],['date_to','>=',self.date_from],'|',['date_from','<=',self.date_to],['date_to','>=',self.date_to],['employee_id','=',self.employee_id.id],['state','=','done' ]])
+            if len(payrolls)>0:
+                raise exceptions.Warning('Vous ne pouvez pas avoir deux bulletins validés pour un employé dans la même période!')
+            else:
+                ##spec
+                if not holiday_status:
+                    raise exceptions.Warning('''Le type de congé demandé n'existe pas''')
+                else:
+                    ##
+                    xs=self.env['hr.holidays'].create({'holiday_type': 'employee','name':'Jours acquis du %s'%self.periode.name, 'number_of_days_temp': self.jours_acquis,'type':'add','employee_id':self.employee_id.id,'state':'cancel','holiday_status_id':holiday_status.id})
+                    workflow.trg_validate(self._uid, 'hr.holidays', xs.id, 'validate', self._cr)
+

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <openerp>
+    <data>
+        <record id="primes" model="ir.ui.view">
+        <field name="model">hr.contract.wizard</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <group>
+                <field name="prime_ids" nolabel="1">
+                    <tree editable="bottom">
+                        <field name="nom"/>
+                        <field name="montant"/>
+                    </tree>
+               </field>
+            </group>
+        <footer>
+            <button name="confirm"
+                    string="Confirmer"
+                    type="object"
+                    class="oe_highlight"/>
+            or
+           <button string="Cancel" class="oe_link" special="cancel"/>
+        </footer>
+        </field>
+        </record>
+    </data>
+ </openerp>

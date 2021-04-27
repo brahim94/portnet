@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+     <openerp>
+        <data>
+
+            <record model="ir.ui.view" id="pay_form_view">
+                <field name="name">payslip</field>
+                <field name="model">hr.payslip.run</field>
+                <field name="inherit_id" ref="hr_payroll.hr_payslip_run_form"/>
+                <field name="arch" type="xml">
+                    <xpath expr="//button[@name='%(hr_payroll.action_hr_payslip_by_employees)d']" position="replace">
+                         <button name="%(hr_payroll.action_hr_payslip_by_employees)d" type="action" states="draft" string="Generate Payslips" class="oe_highlight" groups="paie.group_payroll_officer,base.group_hr_user"/>
+                    </xpath>
+                    <xpath expr="//button[@name='close_payslip_run']" position="replace">
+                        <button name="close_payslip_run" type="object" string="Close" states="draft" class="oe_highlight" groups="paie.group_hr_payroll_manager"/>
+                    </xpath>
+                    <xpath expr="//button[@name='close_payslip_run']" position="after">
+                        <button string="Comptabiliser"  type="object" states="close" name="comptabiliser" groups="paie.group_hr_payroll_accounting"/>
+                    </xpath>
+                    <xpath expr="//field[@name='journal_id']" position="after">
+
+                       <field name="move_id" string="Entrée comptable" readonly="1" widget="many2many_tags" options="{'no_create_edit': True}" />
+                    </xpath>
+                    <xpath expr="//field[@name='date_start']" position="before">
+                       <field name="periode" string="Période" domain="[('state_paie','=',False),('special','=',False),('state','=','draft')]"/>
+                    </xpath>
+                    <xpath expr="//label[@string='Period']" position="replace">
+                      <label for="date_start" string="Période" />
+                    </xpath>
+                    <field name="date_start"  position="attributes">
+                        <attribute name="readonly">True</attribute>
+                    </field>
+                    <field name="date_end"  position="attributes">
+                        <attribute name="readonly">True</attribute>
+                    </field>
+                </field>
+            </record>
+            <record model="ir.ui.view" id="paysli_form_view">
+                <field name="name">payslip</field>
+                <field name="model">hr.payslip</field>
+                <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+                <field name="arch" type="xml">
+
+                    <xpath expr="//field[@name='date_from']" position="before">
+                       <field name="periode" string="Période" domain="[('special','=',False)]"/>
+                    </xpath>
+
+                    <xpath expr="//field[@name='name']" position="after">
+                       <field name="readonly" />
+                        <field name="etat_du_lot" invisible="1" />
+                    </xpath>
+
+                    <xpath expr="//field[@name='name']" position="replace">
+                       <field  name="name" string="Nom du bulletin"/>
+                    </xpath>
+
+                    <xpath expr="//label[@string='Period']" position="replace">
+                      <label for="date_from" string="Période" />
+                    </xpath>
+                    <xpath expr="//button[@name='hr_verify_sheet']" position="replace">
+                        <button string="Valider" name="hr_verify_sheet" states="draft" class="oe_highlight"/>
+                    </xpath>
+
+                    <xpath expr="//button[@name='refund_sheet']" position="replace">
+                        <button string="Mettre à l'état brouillon" name="draft_payslip" type="object"
+                                attrs="{'invisible': ['|',('state','!=','done'),('etat_du_lot','!=',True)]}"
+                                />
+                    </xpath>
+
+                    <field name="date_from"  position="attributes">
+                        <attribute name="readonly">True</attribute>
+
+                    </field>
+                        <xpath expr="//page[@string='Details By Salary Rule Category']" position="replace">
+                        <page string="Details By Salary Rule Category">
+                            <field name="details_by_salary_rule_category" context="{'group_by':'category_id'}" domain="[('appears_on_payslip', '=', True)]">
+                                <tree string="Payslip Lines" colors="blue:total == 0">
+                                    <field name="category_id"/>
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="total"/>
+                                    <field name="total_prec"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </xpath>
+                    <field name="date_to"  position="attributes">
+                        <attribute name="readonly">True</attribute>
+                    </field>
+                </field>
+            </record>
+
+
+            <record model="ir.ui.view" id="paysli_tree_view_inh">
+                <field name="name">payslip</field>
+                <field name="model">hr.payslip</field>
+                <field name="inherit_id" ref="hr_payroll.view_hr_payslip_tree"/>
+                <field name="arch" type="xml">
+                    <xpath expr="//field[@name='employee_id']" position="after">
+                       <field  name="matricule"/>
+                    </xpath>
+                </field>
+            </record>
+
+        <menuitem action="hr_payroll.action_view_hr_payslip_form" id="menu_department_tree" parent="hr_payroll.menu_hr_root_payroll" groups="paie.group_payroll_officer"/>
+        </data>
+</openerp>

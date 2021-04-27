@@ -1,0 +1,77 @@
+# -*- coding: utf-8 -*-
+from openerp import fields, models, api
+
+
+class User(models.Model):
+    _inherit = 'res.users'
+
+
+    def _get_name(self):
+        if 'nom' not in self._context and 'prenom' not in self._context:
+            return ''
+        else:
+            if self._context['nom'] and self._context['prenom']:
+                return self._context['nom']+' '+self._context['prenom']
+            else:
+                return ''
+
+    name = fields.Char('Name', default=_get_name)
+
+    def create(self, cr, uid, vals, context=None):
+        name=''
+        if 'nom' in context and 'prenom' in context:
+            name= context['nom']+' '+context['prenom']
+        if name!='':
+            if vals['name']==context['nom']+' '+context['prenom']:
+                x=super(User, self).create(cr, uid, vals, context=None)
+                return x
+            else:
+                vals.update({'name':context['nom']+' '+context['prenom']})
+                x=super(User, self).create(cr, uid, vals, context=None)
+                return x
+        else:
+            x=super(User, self).create(cr, uid, vals, context=None)
+            return x
+
+from openerp.tools import (
+    DEFAULT_SERVER_DATE_FORMAT,
+    )
+from datetime import datetime
+
+class hrHolidays(models.Model):
+    _inherit='hr.holidays'
+
+    def get_periods(self):
+
+        today = datetime.today()
+        period =today.strftime("%m")+'/'+today.strftime("%Y")
+        date_limite_ids=self.env['hr.date.event'].search([])
+        if date_limite_ids:
+            date_limite=date_limite_ids[0]
+            date_limite=str(datetime.today().year)+'-'+str(datetime.today().month)+'-'+str(date_limite.date_limite).zfill(2)
+        next_period=str(today.month+1).zfill(2)+'/'+today.strftime("%Y")
+        if date_limite and today<= datetime.strptime(date_limite, DEFAULT_SERVER_DATE_FORMAT) :
+            periods = self.env['account.period'].search([['name','=',period]])
+        else:
+            periods = self.env['account.period'].search([['name','=',next_period]])
+        periods = self.env['account.period'].search([['date_start','>=',periods[0].date_start]])
+        return [('id','in',periods.ids)]
+
+    def get_default_period(self):
+        today = datetime.today()
+        period =today.strftime("%m")+'/'+today.strftime("%Y")
+
+        date_limite_ids=self.env['hr.date.event'].search([])
+        if date_limite_ids:
+            date_limite=date_limite_ids[0]
+            date_limite=str(datetime.today().year)+'-'+str(datetime.today().month)+'-'+str(date_limite.date_limite).zfill(2)
+
+        next_period=str(today.month+1).zfill(2)+'/'+today.strftime("%Y")
+        if date_limite and today<= datetime.strptime(date_limite, DEFAULT_SERVER_DATE_FORMAT) :
+            periods = self.env['account.period'].search([['name','=',period]])
+        else:
+            periods=periods = self.env['account.period'].search([['name','=',next_period]])
+        return periods or False
+
+
+    periode = fields.Many2one('account.period','Période',domain=get_periods,default=get_default_period)

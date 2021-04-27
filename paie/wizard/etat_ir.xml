@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+        <record id="export_etat_ir_view" model="ir.ui.view">
+            <field name="name">Etat IR </field>
+            <field name="model">etat.ir.wizard</field>
+            <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <form string="Etat IR">
+                        <group colspan="4" >
+                             <group>
+                                <field name="periode"/>
+                            </group>
+                            <group>
+                                <field name="start_date" readonly="1"/>
+                                <field name="end_date" readonly="1"/>
+                            </group>
+                        </group>
+                    <footer>
+                    <button name="button_report_pdf" string="Export" type="object"/>
+                    or
+                    <button special="cancel" string="Cancel" class="oe_link"/>
+                    </footer>
+                    </form>
+                </field>
+        </record>
+
+        <record id="etat_ir_action" model="ir.actions.act_window">
+                <field name="name">Etat IR</field>
+                <field name="res_model">etat.ir.wizard</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+                <field name="view_id" ref="export_etat_ir_view"/>
+                <field name="target">new</field>
+        </record>
+
+        <menuitem name="Etat IR" id="menu_etat_ir_wizard" action="etat_ir_action" parent="hr_payroll.menu_hr_root_payroll" sequence="14"/>
+</data>
+</openerp>

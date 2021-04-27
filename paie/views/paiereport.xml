@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report
+            id="paie_report_id"
+            model="hr.payslip"
+            string="BULLETIN DE PAIE"
+            report_type="qweb-pdf"
+            name="paie.report_document_paie"
+            file="paie.report_document_paie"
+                />
+        <record id="paperformat_BulletinDePaie" model="report.paperformat">
+            <field name="name">Bulletin de paie</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">80</field>
+            <field name="page_width">175</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">3</field>
+            <field name="margin_bottom">3</field>
+            <field name="margin_left">3</field>
+            <field name="margin_right">3</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">3</field>
+            <field name="dpi">80</field>
+        </record>
+        <template id="commercial_layout">
+                 <t t-call="paie.paie_layout_header" />
+                 <t t-raw="0" />
+                 <!--<t t-call="paie.paie_layout_footer" />-->
+        </template>
+        <template id="paie_layout_header">
+             <t t-foreach="docs" t-as="o">
+                <div class="header">
+                    <div class="row">
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <div class="col-xs-5"></div>
+                        <div class="col-xs-4" style="background-color:#568eff;color:#ffffff;">
+                            <h5>BULLETIN DE PAIE</h5>
+                        </div>
+                        <div class="col-xs-3"> <div t-if="o.state=='draft'"><span t-field="o.state"></span> </div></div>
+                        <br/>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-3"></div>
+                        <div class="col-xs-9">
+                            <br/>
+                            <table style="border: 1px solid black;width:100%;font-size:12px;" cellpadding="50" cellspacing="50">
+                                <tr>
+                                    <td rowspan="2"></td>
+                                    <td><B>Période</B> </td>
+                                    <td> Du :<span t-field="o.date_from"/></td>
+                                    <td> Au :<span t-field="o.date_to"/></td>
+                                </tr>
+                                <tr>
+                                    <td><B>Matricule</B>:</td>
+                                    <td colspan="2"><span t-field="o.employee_id.matricule"/></td>
+
+                                </tr>
+                                <tr>
+                                    <td><center><B> <span t-field="o.employee_id.name"/></B></center></td>
+                                    <td ></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                            <br/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                        <table   style="border: 1px solid black;width:100%;font-size:12px;"  >
+                            <tr>
+                                <td style="padding-left: 7px;padding-right: 7px;"><B> N°RCAR:</B> <span t-field="o.employee_id.num_rcar"/></td>
+                                <td><B>CIN:</B>  <span t-field="o.employee_id.cin"/></td>
+                                <td style="font-size:10px;"><B>Fonction:</B> <span t-field="o.employee_id.poste_ids[0].job_id.name"/></td>
+                            </tr>
+                            <tr>
+                                 <td style="padding-left: 7px;padding-right: 7px;"><B>Mutuelle:</B> <span t-field="o.employee_id.matricule_cnss"/></td>
+                                <td ><B>Date de naissance:</B> <span t-field="o.employee_id.birthday"/></td>
+                                <td rowspan="2"><B>Direction:</B>  <span t-field="o.employee_id.poste_ids[0].department_id.name"/></td>
+                            </tr>
+                            <tr>
+                               <td style="padding-left: 7px;padding-right: 7px;"><B>Retraite:</B> <span t-field="o.employee_id.num_retraite"/></td>
+                                <td ><B>Situation Fam.:</B> <span t-field="o.employee_id.marital"/></td>
+
+                            </tr>
+                            <tr>
+                                <td style="padding-left: 7px;"><B>Mode de paiement:</B> <span t-field="o.employee_id.mode_de_paiement"/></td>
+                                <td><B>Nbre Enfants:</B>   <span t-esc="o.get_nbr_enfant()"/>             </td>
+                                <td><B>Date d'embauche:</B> <span t-field="o.contract_id.date_start"/></td>
+                            </tr>
+                            <tr>
+                                <td style="padding-left: 7px;"><B>Compte bancaire:</B> <span t-esc="o.get_rib()"/></td>
+                                <td><B>Nbre Déduction:</B>   <span t-esc="o.get_nbr_deduction()"/></td>
+                                <td><B></B></td>
+                            </tr>
+                        </table>
+
+                            <table style="border: 1px solid black;width:50%;font-size:11px;border-top:0px;">
+                                            <tr>
+                                                <th style="padding-left: 7px;padding-right: 7px; border: 1px solid black;">Reliquat N-1</th>
+                                                <th style="padding-left: 7px;padding-right: 7px;border: 1px solid black;">Acquis/Année</th>
+                                                <th style="padding-left: 7px;padding-right: 7px;border: 1px solid black;width: 110px;">Pris/Année (avec ICCP)</th>
+                                                <th style="padding-left: 7px;padding-right: 7px;border: 1px solid black;">Solde congé</th>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align: right;padding-left: 7px;padding-right: 7px;border: 1px solid black;"><span t-field="o.reliquat"/></td>
+                                                <td style="text-align: right;padding-left: 7px;padding-right: 7px;border: 1px solid black;"><span t-field="o.solde_acquis"/></td>
+                                                <td style="text-align: right;padding-left: 7px;padding-right: 7px;border: 1px solid black;"><span t-field="o.solde_pris"/></td>
+                                                <td style="text-align: right;padding-left: 7px;padding-right: 7px;border: 1px solid black;"><span t-field="o.solde_conge"/></td>
+                                            </tr>
+                                        </table>
+
+                      </div>
+                </div>
+                </div>
+             </t>
+        </template>
+
+        <!--<template id="paie_layout_footer">-->
+            <!--<t t-foreach="docs" t-as="o">-->
+             <!--<div class="footer">-->
+                 <!--<row>-->
+                    <!--<div class="col-xs-12">-->
+                        <!--<table wstyle="border: 1px solid black; width:50%">-->
+                            <!--<tr>-->
+                                <!--<th style="padding-left: 7px;padding-right: 7px; border: 1px solid black;">Reliquat N-1</th>-->
+                                <!--<th style="padding-left: 7px;padding-right: 7px;border: 1px solid black;">Acquis/Année</th>-->
+                                <!--<th style="padding-left: 7px;padding-right: 7px;border: 1px solid black;">Pris/Année</th>-->
+                                <!--<th style="padding-left: 7px;padding-right: 7px;border: 1px solid black;">Solde congé</th>-->
+                            <!--</tr>-->
+                            <!--<tr>-->
+                                <!--<td style="text-align: right;padding-left: 7px;padding-right: 7px;border: 1px solid black;"><span t-field="o.reliquat"/></td>-->
+                                <!--<td style="text-align: right;padding-left: 7px;padding-right: 7px;border: 1px solid black;"><span t-field="o.solde_acquis"/></td>-->
+                                <!--<td style="text-align: right;padding-left: 7px;padding-right: 7px;border: 1px solid black;"><span t-field="o.solde_pris"/></td>-->
+                                <!--<td style="text-align: right;padding-left: 7px;padding-right: 7px;border: 1px solid black;"><span t-field="o.solde_conge"/></td>-->
+                            <!--</tr>-->
+                        <!--</table></div>-->
+                 <!--</row>-->
+                 <!--<row><div class="col-xs-12">-->
+                      <!--&lt;!&ndash;strong>Pour vous aider à faire valoir vos droits, conservez ce bulletin de paie sans limitation de durée.</strong&ndash;&gt;-->
+                 <!--</div>-->
+                 <!--</row>-->
+             <!--</div>-->
+            <!--</t>-->
+        <!--</template>-->
+        <template id="report_document_paie">
+                <t t-foreach="docs" t-as="o">
+
+                    <t t-call="paie.commercial_layout">
+                        <div class="page" stype="display: -webkit-box;">
+                            <style>
+   th{
+ border-left:2px solid;
+border-right:2px solid;
+border-bottom:2px solid;
+border-top:2px solid;
+}
+ td {
+    text-align: left;
+    padding: 8px;
+    border-left:2px solid;
+    border-right:2px solid;
+    }
+table {
+    border-collapse: collapse;
+}
+</style>
+
+
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <table style="position: relative;margin-top: -30px;border: 1px solid black;width:100%;font-size:11px;" >
+                                    <thead>
+                                        <tr >
+                                            <th rowspan="2"><strong><center>N°</center></strong></th>
+                                            <th rowspan="2" colspan="4"><strong><center>Désignation</center></strong></th>
+                                            <th rowspan="2" colspan="2" ><strong><center>Nombre</center></strong></th>
+                                            <th rowspan="2" ><strong><center>Base</center></strong></th>
+                                            <th colspan="3" ><strong><center>Part salariale</center></strong></th>
+                                        </tr>
+                                        <tr >
+                                            <th ><strong><center>Taux</center></strong></th>
+                                            <th ><strong><center>Gain</center></strong></th>
+                                            <th ><strong><center>Retenue</center></strong></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="line-height:1px;border-bottom: 2px solid;" align="right">
+                                        <tr t-foreach="o.details_by_salary_rule_category" t-as="l">
+                                            <div t-if="l.total!=0 and l.appears_on_payslip !=0 or l.code in ['BRUTNIMPOSABLE']">
+                                                <div t-if="l.code not in ['NET','JrTravailParMois']">
+                                                    <td style="border-bottom=None">
+                                                        <span t-field="l.code_rub"/>
+                                                    </td>
+                                                    <td colspan="4">
+                                                        <div class="text-right" t-if="l.code=='BRUTNIMPOSABLE' or l.code=='SALC' or l.code=='CS'">
+                                                        <b><span  t-field="l.name"/></b>
+                                                        </div>
+                                                        <!--<div t-if="l.code not in ['BRUT','SALC']">-->
+                                                        <div t-if="l.code not in ['BRUTNIMPOSABLE','SALC','part_pat_rcar_rc','rcar_rg_pat','CS','ded_pret_immob','pret_immob']">
+                                                        <span  t-field="l.name"/>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-right" colspan="2" align="right">
+                                                            <div t-if="l.code=='sal_mensuel'">
+                                                                <span t-esc="o.nbr_jr_trav()"/>
+                                                            </div>
+                                                        <div t-if="l.code in ['reprcong2']">
+                                                            <div t-if="o.get_base_with_taux()['nbr_jours']>0"><span t-esc="o.get_base_with_taux()['nbr_jours']"/></div>
+                                                        </div>
+                                                        <div t-if="l.code in [unicode('congpayé2', 'utf-8')]">
+                                                            <div t-if="o.get_base_with_taux()['nbr_jours']>0"><span t-esc="o.get_base_with_taux()['nbr_jours']"/></div>
+                                                        </div>
+                                                        <div t-foreach="o.line_ids" t-as="y">
+
+                                                             <div t-if="y.name=='Maladie' and l.category_id.code=='AbsMaladie'">
+                                                                <span t-field="y.quantity"/>
+                                                            </div>
+                                                        </div>
+                                                        <div t-if="l.code=='rappel_salaire_jrs'">
+                                                                <span t-esc="o.get_nbr_jr_rappel_salaire()"/>
+                                                            </div>
+                                                        <div t-if="l.code in ['iccp'] ">
+                                                               <div t-if="o.get_base_with_taux()['nbr_iccp']>0"><span t-esc="o.get_base_with_taux()['nbr_iccp']"/></div>
+                                                            </div>
+                                                        <div t-if="l.code in ['reprise_absence_irr'] ">
+                                                            <div t-if="o.get_base_with_taux()['nbr_reprise_abs_irr']>0"><span t-esc="o.get_base_with_taux()['nbr_reprise_abs_irr']"/></div>
+                                                        </div>
+                                                        <div t-if="l.code in ['stc'] ">
+                                                            <div t-if="o.get_base_with_taux()['nbr_stc']>0"><span t-esc="o.get_base_with_taux()['nbr_stc']"/></div>
+                                                        </div>
+                                                        <div t-if="l.code in ['congespayes'] ">
+                                                            <div t-foreach="o.details_by_salary_rule_category" t-as="x">
+                                                                <div t-if="x.code=='NJR'">
+                                                                    <div t-if="x.total!=0">
+                                                                        <span t-field="x.total"/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div t-if="l.code in ['repriseconge'] ">
+                                                            <div t-foreach="o.details_by_salary_rule_category" t-as="x">
+                                                                <div t-if="x.code=='NJR'">
+                                                                    <div t-if="x.total!=0">
+                                                                        <span t-field="x.total"/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-right">
+                                                         <div t-if="l.code in ['CNSS ma'] ">
+                                                        <div t-foreach="o.line_ids" t-as="x">
+                                                                <div t-if="x.code=='C1ma'"><span t-field="x.amount"/></div>
+                                                        </div></div>
+                                                                <div t-if="l.code  in ['retraite','mutuelle','C1ma']"><span t-field="l.amount"/>
+                                                        </div>
+                                                         <div t-if="l.name=='Maladie'">
+                                                             <span t-esc="o.get_salaire_journalier()"/>
+
+                                                        </div>
+                                                        <div t-if="l.code=='CNSS ma'">
+                                                            <div t-foreach="o.line_ids" t-as="z">
+                                                                <div t-if="z.code=='BASE' and z.total&gt;6000">6 000,00</div>
+                                                            </div>
+                                                        </div>
+                                                        <div t-if="l.code=='CNSS ma' ">
+                                                            <div t-foreach="o.line_ids" t-as="p">
+                                                            <div t-if="p.code=='BASE' and p.total&lt;6000"><span t-field="p.total"/></div>
+                                                            </div>
+                                                        </div>
+                                                        <div t-if="l.code=='caad' ">
+                                                            <div t-if="o.get_base_with_taux()['base_caad']>0"><span t-esc="o.get_base_with_taux()['base_caad']"/></div>
+                                                        </div>
+                                                        <div t-if="l.code=='part_sal_sc' ">
+                                                            <div t-if="o.get_base_with_taux()['base_part_sal_sc']>0"><span t-esc="o.get_base_with_taux()['base_part_sal_sc']"/></div>
+                                                        </div>
+                                                        <div t-if="l.code=='partsalsm' ">
+                                                            <div t-if="o.get_base_with_taux()['base_partsalsm']>0"><span t-esc="o.get_base_with_taux()['base_partsalsm']"/></div>
+                                                        </div>
+                                                        <div t-if="l.code=='rappel_salaire_jrs' ">
+                                                            <div t-if="o.get_base_with_taux()['base_rappel_salaire_jrs']>0"><span t-esc="o.get_base_with_taux()['base_rappel_salaire_jrs']"/></div>
+                                                        </div>
+                                                        <div t-if="l.code=='rcar_rc' ">
+                                                            <div t-if="o.get_base_with_taux()['base_rcar_rc']>0"><span t-esc="o.get_base_with_taux()['base_rcar_rc']"/></div>
+                                                        </div>
+                                                        <div t-if="l.code=='rcar_rg' ">
+                                                            <div t-if="o.get_base_with_taux()['base_rcar_rg']>0"><span t-esc="o.get_base_with_taux()['base_rcar_rg']"/></div>
+                                                        </div>
+                                                        <div t-if="l.code=='recore_sal' ">
+                                                            <div t-if="o.get_base_with_taux()['base_recore_sal']>0"><span t-esc="o.get_base_with_taux()['base_recore_sal']"/></div>
+                                                        </div>
+                                                        <div t-if="l.code=='ANCIENNETE' ">
+                                                            <div t-if="o.get_base_with_taux()['base_ANCIENNETE']>0"><span t-esc="o.get_base_with_taux()['base_ANCIENNETE']"/></div>
+                                                        </div>
+                                                        <div t-if="l.code in [unicode('congpayé2', 'utf-8')]">
+                                                            <div t-if="o.get_base_with_taux()['base_congpaye2']>0"><span t-esc="o.get_base_with_taux()['base_congpaye2']"/></div>
+                                                        </div>
+                                                        <div t-if="l.code=='iccp' ">
+                                                            <div t-if="o.get_base_with_taux()['base_iccp']>0"><span t-esc="o.get_base_with_taux()['base_iccp']"/></div>
+                                                        </div>
+                                                        <div t-if="l.code=='reprcong2' ">
+                                                            <div t-if="o.get_base_with_taux()['base_reprcong2']>0"><span t-esc="o.get_base_with_taux()['base_reprcong2']"/></div>
+                                                        </div>
+                                                        <div t-if="l.code=='reprise_absence_irr' ">
+                                                            <div t-if="o.get_base_with_taux()['base_reprise_absence_irr']>0"><span t-esc="o.get_base_with_taux()['base_reprise_absence_irr']"/></div>
+                                                        </div>
+                                                        <div t-if="l.code=='stc' ">
+                                                            <div t-if="o.get_base_with_taux()['base_stc']>0"><span t-esc="o.get_base_with_taux()['base_stc']"/></div>
+                                                        </div>
+                                                        <div t-if="l.code=='congespayes' ">
+                                                            <div t-if="o.get_base_with_taux()['base_congespayes']>0"><span t-esc="o.get_base_with_taux()['base_congespayes']"/></div>
+                                                        </div>
+                                                        <div t-if="l.code=='repriseconge' ">
+                                                            <div t-if="o.get_base_with_taux()['base_repriseconge']>0"><span t-esc="o.get_base_with_taux()['base_repriseconge']"/></div>
+                                                        </div>
+
+                                                    </td>
+                                                    <td class="text-right" >
+                                                        <div  t-if="l.salary_rule_id.taux_rapport>0">
+                                                            <span t-field="l.salary_rule_id.taux_rapport"/>
+                                                        </div>
+                                                        <div  t-if="l.salary_rule_id.taux_rapport==0">
+                                                        <div  t-if="l.code=='ANCIENNETE'">
+                                                            <span t-esc="o.get_base_with_taux()['taux_anciennete']"/>
+                                                        </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <div  t-if="l.category_id.code in ['prime_adha','BASE','mensuel','congePaye','INDM','BRUTNIMPOSABLE','AP','rembourssement','TOTAL','note_frais'] or l.code in ['arr_prec','congespayes','frais_dep','allocation','regul_ind_transport_v','regul_ind_represent_v','rappel','notes_frais',unicode('congpayé2', 'utf-8'),'iccp','rappel_allocation','rappel_salaire_jrs']">
+                                                            <t t-if="l.category_id.code == 'TOTAL'">
+                                                                <b><span t-field="l.total"/></b>
+                                                            </t>
+                                                            <t t-if="l.category_id.code != 'TOTAL'">
+                                                                <span t-field="l.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <!--<div  t-if="l.category_id.code not in ['BASE','mensuel','congePaye','INDM','BRUT','AP','rembourssement','TOTAL'] and l.code not in ['arr_prec','frais_dep','congespayes'] "><span t-field="l.total"/></div>-->
+                                                        <div  t-if="l.category_id.code not in ['prime_adha', 'BASE','mensuel','congePaye','INDM','BRUTNIMPOSABLE','AP','rembourssement','TOTAL','note_frais'] and l.code not in ['prime_adha','arr_prec','frais_dep','congespayes','part_pat_rcar_rc','rcar_rg_pat','allocation','ded_pret_immob','pret_immob','regul_ind_transport_v','regul_ind_represent_v','rappel','notes_frais',unicode('congpayé2', 'utf-8'),'iccp','rappel_allocation','rappel_salaire_jrs'] ">
+                                                            <t t-if="l.category_id.code == 'CotSal'">
+                                                                <b><span t-field="l.total"/></b>
+                                                            </t>
+                                                            <t t-if="l.code == 'reprisesalaire'">
+                                                                <div t-if="o.get_base_with_taux()['rub_reprisesalaire']>0"><span t-esc="o.get_base_with_taux()['rub_reprisesalaire']"/></div>
+                                                            </t>
+                                                            <t t-if="l.category_id.code != 'CotSal'">
+                                                                <t t-if="l.code != 'reprisesalaire'">
+                                                                    <span t-field="l.total"/>
+                                                                </t>
+                                                            </t>
+                                                        </div>
+                                                    </td>
+                                                </div>
+                                            </div>
+                                        </tr>
+                                          <tr>
+                                            <td></td>
+                                            <td colspan="4"></td>
+                                            <td colspan="2" ></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td colspan="4"></td>
+                                            <td colspan="2" ></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                                                                  <tr>
+                                            <td></td>
+                                            <td colspan="4"></td>
+                                            <td colspan="2" ></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+
+                            </table>
+                            <br/>
+                            <table style="border-spacing: 0px 0px;width:100%;font-size:11px;">
+                                <tr>
+                                    <th width="11%" style="padding-left: 7px;padding-right: 7px;">Cumuls</th>
+                                    <th width="11%" style="padding-left: 7px;padding-right: 7px;">Brut imposable</th>
+                                    <th width="11%" style="padding-left: 7px;padding-right: 7px;">Net imposable</th>
+                                    <th width="11%" style="padding-left: 7px;padding-right: 7px;">Retenues cnss</th>
+                                    <!--th width="9%" style="padding-left: 7px;padding-right: 7px;">Frais <br/>Professionnels</th-->
+                                    <th width="11%" style="padding-left: 7px;padding-right: 7px;">Retenues retraite</th>
+                                    <th width="11%" style="padding-left: 7px;padding-right: 7px;">Retenues Ass<br/>Maladie</th>
+                                    <th width="11%" style="padding-left: 7px;padding-right: 7px;">Retenues Impôts</th>
+                                    <th width="11%" style="padding-left: 7px;padding-right: 7px;">Jours IGR</th>
+
+                                    <th width="15%" style="padding-left: 7px;padding-right: 7px;border-left: 2px solid;border-right: 2px solid;border-bottom: 2px solid;border-top:2px solid;background-color:#568eff;"><font color="#ffffff">NET A PAYER</font></th>
+                                </tr>
+                                <tr>
+                                    <td >
+                                        Période
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="o.get_cumuls_annuel()['BrutCNSSma']"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="o.get_cumuls_annuel()['Net_imposable']"/>
+                                    </td>
+                                    <td class="text-right">
+                                        0,00
+                                    </td>
+                                    <!--td class="text-right">
+                                        <span t-esc="o.get_cumuls_annuel()['FPRO']"/>
+                                    </td-->
+                                    <td class="text-right">
+                                        <span t-esc="o.get_cumuls_annuel()['recore_sal']"/>
+                                    </td>
+                                    <td class="text-right">
+                                        0,00
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="o.get_cumuls_annuel()['code_irpp']"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="o.get_cumuls_annuel()['regul_jr_ir']"/>
+                                    </td>
+                                    <td rowspan="2" style="text-align:center; border-left:2px solid;border-right:2px solid;border-bottom:2px solid;border-top:2px solid;" >
+                                        <span t-esc="o.get_cumuls_annuel()['Net_a_payer']"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-left:2px solid;border-right:2px solid;border-bottom:2px solid;border-top:2px solid;">
+                                        Année
+                                    </td>
+                                    <td class="text-right" style="border-left:2px solid;border-right:2px solid;border-bottom:2px solid;border-top:2px solid;">
+                                        <span t-esc="o.get_cumuls_annuel()['cumul_BrutCNSSma']"/>
+                                    </td>
+                                    <td class="text-right" style="border-left:2px solid;border-right:2px solid;border-bottom:2px solid;border-top:2px solid;">
+                                        <span t-esc="o.get_cumuls_annuel()['cumul_Net_imposable']"/>
+                                    </td>
+                                    <td class="text-right" style="border-left:2px solid;border-right:2px solid;border-bottom:2px solid;border-top:2px solid;">
+                                        0,00
+                                    </td>
+                                    <!--td class="text-right" style="border-left:2px solid;border-right:2px solid;border-bottom:2px solid;border-top:2px solid;">
+                                        <span t-esc="o.get_cumuls_annuel()['cumul_FPRO']"/>
+                                    </td-->
+                                    <td class="text-right" style="border-left:2px solid;border-right:2px solid;border-bottom:2px solid;border-top:2px solid;">
+                                        <span t-esc="o.get_cumuls_annuel()['cumul_recore_sal']"/>
+                                    </td>
+                                    <td class="text-right" style="border-left:2px solid;border-right:2px solid;border-bottom:2px solid;border-top:2px solid;">
+                                        0,00
+                                    </td>
+                                    <td class="text-right" style="border-left:2px solid;border-right:2px solid;border-bottom:2px solid;border-top:2px solid;">
+                                        <span t-esc="o.get_cumuls_annuel()['cumul_code_irpp']"/>
+                                    </td>
+                                    <td class="text-right" style="border-left:2px solid;border-right:2px solid;border-bottom:2px solid;border-top:2px solid;">
+                                        <span t-esc="o.get_cumuls_annuel()['cumul_jours travaillés']"/>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <tr>
+                                <th>Pour vous aider à faire valoir vos droits, conserver ce bulletin de paie sans limitation de durée.<br/>
+                                    Sauf erreur ou omission
+                                </th>
+                            </tr>
+
+                            <br/>
+                        </div>
+                    </t>
+                </t>
+        </template>
+        <template id="report_paie_custom">
+            <t t-call="report.html_container">
+                <t t-foreach="doc_ids" t-as="doc_id">
+                    <t t-raw="translate_doc(doc_id, doc_model, 'employee_id.address_id.lang', 'paie.report_document_paie')"/>
+                </t>
+            </t>
+        </template>
+    </data>
+</openerp>

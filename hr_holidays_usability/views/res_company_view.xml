@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+<record id="view_company_form" model="ir.ui.view">
+    <field name="name">hr_holidays_usability.res.company.form</field>
+    <field name="model">res.company</field>
+    <field name="inherit_id" ref="base.view_company_form"/>
+    <field name="arch" type="xml">
+        <group name="account_grp" position="after">
+            <group string="Leaves" name="holidays">
+                <field name="mass_allocation_default_holiday_status_id"/>
+            </group>
+        </group>
+
+        <xpath expr="//field[@name='currency_id']" position="after">
+             <field name="hours_per_day"/>
+         </xpath>
+
+    </field>
+</record>
+
+</data>
+</openerp>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+     <openerp>
+        <data>
+            <record model="ir.ui.view" id="xxxview_company_form">
+                <field name="name">res</field>
+                <field name="model">res.company</field>
+                <field name="inherit_id" ref="base.view_company_form"/>
+                <field name="arch" type="xml">
+                   <xpath expr="//sheet/notebook/page/group/group/field[@name='currency_id']" position="after">
+                        <field name="mode_de_gestion" />
+                       <field name="type_id"/>
+                    </xpath>
+                </field>
+            </record>
+        </data>
+    </openerp>

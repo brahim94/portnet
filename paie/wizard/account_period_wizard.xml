@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="account_period_wizard" model="ir.ui.view">
+            <field name="name"> Ouvrir/Fermer une période </field>
+            <field name="model">account.period.wizard</field>
+            <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <form string="Ouvrir/Fermer une période">
+                        <group colspan="4" >
+                             <group>
+                                <field name="periode"/>
+                                 <field name="state_paie"/>
+                            </group>
+
+                        </group>
+                    <footer>
+                        <button name="ouvrir" string="Ouvrir la période" type="object" attrs="{'invisible': [('state_paie','=',False)]}"/>
+                        <button name="fermer" string="Fermer la période" type="object" attrs="{'invisible': [('state_paie','=',True)]}"/>
+
+                    or
+                    <button special="cancel" string="Cancel" class="oe_link"/>
+                    </footer>
+                    </form>
+                </field>
+        </record>
+         <record id="account_period_wizard_action" model="ir.actions.act_window">
+                <field name="name">Ouvrir/Fermer période </field>
+                <field name="res_model">account.period.wizard</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+                <field name="view_id" ref="account_period_wizard"/>
+                <field name="target">new</field>
+        </record>
+
+        <menuitem name="Ouvrir/Fermer période" id="menu_account_period_wizard" action="account_period_wizard_action" parent="hr_payroll.menu_hr_root_payroll" sequence="11"/>
+
+    </data>
+</openerp>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <!-- explicit list view definition -->
+    <!--
+    <record model="ir.ui.view" id="hr_holidays_usability_extra.list">
+      <field name="name">hr_holidays_usability_extra list</field>
+      <field name="model">hr_holidays_usability_extra.hr_holidays_usability_extra</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+    -->
+
+    <!-- actions opening views on models -->
+    <!--
+    <record model="ir.actions.act_window" id="hr_holidays_usability_extra.action_window">
+      <field name="name">hr_holidays_usability_extra window</field>
+      <field name="res_model">hr_holidays_usability_extra.hr_holidays_usability_extra</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    -->
+
+    <!-- server action to the one above -->
+    <!--
+    <record model="ir.actions.server" id="hr_holidays_usability_extra.action_server">
+      <field name="name">hr_holidays_usability_extra server</field>
+      <field name="model_id" ref="model_hr_holidays_usability_extra_hr_holidays_usability_extra"/>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": self._name,
+        }
+      </field>
+    </record>
+    -->
+  
+    <!-- Top menu item -->
+    <!--
+    <menuitem name="hr_holidays_usability_extra" id="hr_holidays_usability_extra.menu_root"/>
+    -->
+    <!-- menu categories -->
+    <!--
+    <menuitem name="Menu 1" id="hr_holidays_usability_extra.menu_1" parent="hr_holidays_usability_extra.menu_root"/>
+    <menuitem name="Menu 2" id="hr_holidays_usability_extra.menu_2" parent="hr_holidays_usability_extra.menu_root"/>
+    -->
+    <!-- actions -->
+    <!--
+    <menuitem name="List" id="hr_holidays_usability_extra.menu_1_list" parent="hr_holidays_usability_extra.menu_1"
+              action="hr_holidays_usability_extra.action_window"/>
+    <menuitem name="Server to list" id="hr_holidays_usability_extra" parent="hr_holidays_usability_extra.menu_2"
+              action="hr_holidays_usability_extra.action_server"/>
+    -->
+  </data>
+</openerp>

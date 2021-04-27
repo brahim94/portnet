@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="employee_cin_form_view">
+            <field name="name">employee.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr_timesheet.hr_timesheet_employee_extd_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="replace">
+                    <header>
+                        <!--button name="validation_poste" string="Validation Poste" type="object" class="oe_highlight"/>
+                        <button name="modification_poste" string="Modification Poste" type="object"
+                            attrs="{'invisible':[('status' , '=', 'brouillon')]}" class="oe_highlight"/-->
+                        <button name="action_valider" string="Valider" status="brouillon" attrs="{'invisible': [('status', '=', 'valide')]}"  type="object" class="oe_highlight" groups="base.group_hr_manager,paie.group_hr_officer"/>
+                        <button name="button_holidays_history" string="Calculer l'historique de congé" type="object" class="oe_highlight" groups="base.group_hr_manager,paie.group_hr_officer"/>
+                        <button name="button_initialize_history" string="Initialisé l'historique de congé" type="object" class="oe_highlight" groups="base.group_hr_manager,paie.group_hr_officer"/>
+                        <field name="status" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <field name="image_medium" widget='image' class="oe_left oe_avatar" />
+                        <div class="oe_title">
+                            <h3 class="oe_fade">
+                                <group col="2">
+                                    <field name="nom" string="Nom" required="1"/>
+                                    <field name="prenom" required="1"/>
+                                    <field name="id" invisible="1"/>
+                                    <field name="user_id" required="1" string="Utilisateur lié" on_change="onchange_user(user_id)" domain="[('partner_id.employee','=',False)]"
+                                           context="{'nom':nom,'prenom':prenom,'default_groups_ref': ['base.group_user']}" attrs="{'readonly': [('id', '!=', False)]}"/>
+                                    <field name="matricule" string="Matricule" required="1" />
+                                    <field name="categorie_id" required="1"/>
+                                    <field name="active" string="Actif"/>
+                                </group>
+                            </h3>
+                        </div>
+                        <div class="oe_right oe_button_box" name="button_box">
+                            <button name="%(hr_contract.act_hr_employee_2_hr_contract)d" class="oe_stat_button" icon="fa-book" type="action" groups="base.group_hr_manager">
+                                <field name="contracts_count" widget="statinfo" string="Contracts"/>
+                            </button>
+                            <button name="%(hr_holidays.act_hr_employee_holiday_request)d" type="action" class="oe_stat_button" icon="fa-calendar" groups="base.group_hr_user">
+                                <field name="leaves_count" widget="statinfo" string="Leaves"/>
+                            </button>
+                        </div>
+                        <notebook>
+                            <page string="Détails personnel" name="Détails_personnel">
+                                <separator string="Coordonnées" />
+                                <group col="4">
+                                    <!--field string="Adresse personnelle" name="address_home_id"
+                                        context="{'show_address': 1, 'default_customer': False}"
+                                        options='{"always_reload": True, "highlight_first_line": True}'/-->
+                                    <field name="adresse_personnelle"/>
+                                </group>
+                                <group>
+                                    <group>
+                                        <field name="code_postal"/>
+                                        <field name="pays_id"/>
+                                        <field name="email"/>
+                                    </group>
+                                    <group>
+                                        <field name="ville"/>
+                                        <field name="telephone_mobile"/>
+                                        <field name="telephone_fixe"/>
+                                    </group>
+                                </group>
+                                <separator string="Etat civil"/>
+                                <group>
+                                    <group>
+                                        <field name="birthday" string="Né(e) le"></field>
+                                        <field name="country_id" string="Nationalité"/>
+                                        <field name="matricule_cnss" string="N° de sécurité sociale"/>
+                                        <field name="num_retraite"/>
+                                        <field name="marital" string="Situation familiale"/>
+                                        <field name="nbre_enfants"/>
+                                        <field name="deduire_charges_enfants" attrs="{'invisible': ['|',('gender','=','male'),('nbre_enfants','=',0)]}"/>
+                                    </group>
+                                    <group>
+                                        <field name="lieu_de_naissance"/>
+                                        <field name="gender" string="Sexe"/>
+                                        <field name="num_rcar"/>
+                                        <field name="cin" string="CIN"/>
+                                        <!--field name="date_change_situation_familiale" string="depuis le"/-->
+                                        <button name="details_enfants" string="détails enfants" type="object" attrs="{'invisible': [('nbre_enfants','=',0)]}"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <group string="Compétences">
+                                        <field name="niveau_etudes" String="Niveau d'études" />
+                                        <field name="diplome"/>
+                                    </group>
+                                    <group string="Autres">
+                                        <group>
+                                            <field name="carte_sejour"/>
+                                            <field name="contrat"/>
+                                        </group>
+                                        <group>
+                                            <field name="validite"/>
+                                            <field name="date_validite_contrat"/>
+                                        </group>
+                                    </group>
+                                </group>
+                                <group string="Notes">
+                                    <div>
+                                        <field name="notes" placeholder="Autres Informations ..." colspan="4"/>
+                                    </div>
+                                </group>
+                            </page>
+                            <page name="informations_sur_lemploi" string="Informations sur l'emploi">
+                                <!-- Second page content -->
+
+                                <group string="Poste">
+                                    <group>
+                                        <field name="job_id" string="Titre du poste" attrs="{'readonly': [('id', '!=', False)]}" required="1"/>
+                                        <field name="parent_id" string="Responsable" attrs="{'readonly': [('id', '!=', False)]}" />
+                                        <field name="executive_manager" string="Directeur" attrs="{'readonly': [('id', '!=', False)]}" />
+                                        <field name="department_id" attrs="{'readonly': [('id', '!=', False)]}" required="1" string="Département" on_change="onchange_department_id(department_id)"/>
+                                    </group>
+                                    <group>
+                                        <group col="4" colspan="2">
+                                            <field name="date_debut" required="1" attrs="{'readonly': [('id', '!=', False)]}" />
+                                            <field name="date_fin" required="1" attrs="{'readonly': [('id', '!=', False)]}"/>
+                                        </group>
+                                        <group col="4" colspan="2">
+                                            <field name="coach_id" attrs="{'readonly': [('id', '!=', False)]}" />
+                                            <field name="manager" attrs="{'readonly': [('id', '!=', False)]}"/>
+                                        </group>
+                                    </group>
+                                </group>
+                                <group col="4">
+                                    <!--field string="Adresse professionnelle" name="address_id" on_change="onchange_address_id(address_id)"
+                                        context="{'show_address': 1, 'default_customer': False}"
+                                        options='{"always_reload": True, "highlight_first_line": True}'/-->
+                                    <field name="adresse_pro"/>
+                                </group>
+                                <group>
+                                    <group>
+                                        <field name="code_postal_pro"/>
+                                        <field name="pays_pro"/>
+                                        <field name="email_pro" widget="email" string="Email"/>
+                                    </group>
+                                    <group>
+                                        <field name="ville_pro"/>
+                                        <field name="tel_fixe_pro"/>
+                                        <field name="tel_mobile_pro" string="Téléphone mobile"/>
+                                    </group>
+                                </group>
+                                <field name="poste_ids"  attrs="{'invisible': [('id', '==', False)]}">
+                                    <tree string="Postes">
+                                        <field name="job_id" />
+                                        <field name="department_id"/>
+                                        <field name="responsable_id"/>
+                                        <field name="moniteur_id"/>
+                                        <field name="responsable"/>
+                                        <field name="date_debut_poste"/>
+                                        <field name="date_fin_poste"/>
+                                        <!--button name="delete" type="object" icon="gtk-undelete"/-->
+                                    </tree>
+                                </field>
+
+                            </page>
+                            <page name="comptabilité_et_finance" string="Comptabilité et Finance">
+                                <!-- Second page content -->
+                                <group string="Banque">
+                                    <field name="banque"/>
+
+                                    <field name="mode_de_paiement"/>
+                                    <label for="rib" string="Numéro de compte bancaire"/>
+                                    <table>
+                                        <tr>
+                                            <td  width="80">
+                                                <field name="rib_code_ville" string="Numéro de compte bancaire" attrs="{'required':[('mode_de_paiement' , '=', '1')]}" />
+                                            </td>
+                                            <td  width="80">
+                                                <field name="rib_code_banque" string="Numéro de compte bancaire" attrs="{'required':[('mode_de_paiement' , '=', '1')]}" />
+                                            </td>
+                                            <td  width="160">
+                                                <field name="rib_code_guichet" string="Numéro de compte bancaire" attrs="{'required':[('mode_de_paiement' , '=', '1')]}" />
+                                            </td>
+                                            <td  width="240">
+                                                <field name="rib_numero_de_banque" string="Numéro de compte bancaire" attrs="{'required':[('mode_de_paiement' , '=', '1')]}" />
+                                            </td>
+                                            <td  width="60">
+                                                <field name="cle_rib" string="Numéro de compte bancaire" attrs="{'required':[('mode_de_paiement' , '=', '1')]}" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Code ville</td>
+                                            <td>Code banque</td>
+                                            <td>Code guichet</td>
+                                            <td>Numéro de compte</td>
+                                            <td>Clé rib</td>
+                                        </tr>
+                                    </table>
+                                </group>
+                                <group string="Comptes liés">
+                                    <group>
+                                        <field name="property_account_receivable" string="Débit Rémunération" />
+                                        <!--field name="property_account_receivable_1" string="Débit Frais Professionnels"/-->
+                                    </group>
+                                    <group>
+                                        <field name="property_account_payable" string="Crédit Rémunération" />
+                                        <!--field name="property_account_payable_1" string="Crédit Frais Professionnels" /-->
+                                    </group>
+                                </group>
+                                <!--group string="Feuilles de temps">
+                                    <group>
+                                        <field name="product_id" string="Produit" domain="[('type','=','service')]"/>
+                                    </group>
+                                    <group>
+                                        <field name="journal_id" string="Journal analytique"/>
+                                    </group>
+                                </group-->
+                            </page>
+                            <page name="notes_de_frais" string="Notes de frais">
+                                <field name="employee_ids" readonly="0" context="{'default_employee_id':active_id}">
+                                    <tree string="Expense Lines">
+                                        <field name="name"/>
+                                        <field name="state"/>
+                                        <field name="date"/>
+                                        <field name="amount" sum="Total Amount"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="Présence" String="Présence">
+                                <field name="conge_ids" readonly="0">
+                                    <tree colors="red:state == 'refuse';blue:state == ' draft';black:state in ('confirm','validate','validate1')" string="Leaves Summary">
+                                        <field name="category_id" invisible="1"/>
+                                        <field name="department_id" invisible="1"/>
+                                        <field name="type"/>
+                                        <field name="name"/>
+                                        <field name="holiday_status_id"/>
+                                        <field name="number_of_days" string="Number of Days" sum="Remaining Days"/>
+                                        <field name="date_from"/>
+                                        <field name="date_to"/>
+                                        <field name="posted_date"/>
+                                        <field name="state"/>
+                                    </tree>
+
+                                </field>
+                                <separator string="Solde de congés"/>
+                                <field name="conges_ids" context="{'default_employee_id':active_id}">
+                                        <tree >
+                                            <field name="year" required="1"/>
+                                            <field name="solde" required="1" sum="Solde"/>
+                                            <field name="solde_annuel" sum="Solde annuel"/>
+                                            <!--<field name="solde_compute" invisible="1"/>-->
+                                        </tree>
+                                </field>
+                            </page>
+                            <page name="Evénements" string="Evénements" >
+                                <field name="event_ids" context="{'default_employee_id':active_id}">
+                                    <tree string="Evénéments" >
+                                        <field name="event_type" />
+                                        <field name="impact_salaire"/>
+                                        <!--field name="impact_conge"/-->
+                                        <field name="justif"/>
+                                    </tree>
+
+                                </field>
+                            </page>
+                            <page string="Contrat Complémentaire" name="Contrat Complémentaire">
+                                <field name="contrat_compl_ids" context="{'default_employee_id':active_id}"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </xpath>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="employee_cin_tree_view">
+            <field name="name">employee.cin</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="colors">red:status!='valide'</attribute>
+                </xpath>
+                <xpath expr="//tree" position="inside">
+                    <field name="status" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='work_phone']" position="after">
+                    <field name="identification_id"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_employee_search_kzc" model="ir.ui.view">
+            <field name="name">view.employee.search.kzc</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_filter"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//group" position="before">
+                    <filter string="Valide" domain="[('status', '=', 'valide')]"/>
+                </xpath>
+                <xpath expr="//filter[@string='Valide']" position="after">
+                    <filter string="A valider" domain="[('status', '!=', 'valide')]"/>
+                </xpath>
+
+                <xpath expr="//field[@name='department_id']" position="after">
+                    <field name="matricule"/>
+                </xpath>
+                <xpath expr="//field[@name='matricule']" position="after">
+                    <field name="identification_id"/>
+                </xpath>
+                <xpath expr="//field[@name='category_ids']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+
+                <xpath expr="//group/filter[@string='Coach']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//group/filter[@string='Job']" position="attributes">
+                    <attribute name="string">Titre du poste</attribute>
+                </xpath>
+
+            </field>
+        </record>
+
+
+
+        <!--delete model="ir.ui.menu" id="hr.menu_view_employee_category_form"/-->
+        <!--delete model="ir.ui.menu" id="hr_payroll.menu_action_hr_contribution_register_form"/-->
+
+                <record model="ir.ui.view" id="contract_comp_form_view_1">
+                <field name="name">Contrat complémentaire</field>
+                <field name="model">hr.contrat.complementaire</field>
+                    <field name="arch" type="xml">
+                        <form>
+                            <sheet>
+                                <group>
+                                    <field name="employee_id" invisible="0" />
+                                    <field name="type_contrat"/>
+                                    <field name="compte_versement"/>
+                                    <field name="cotisation_fixe"/>
+                                    <field name="montant_retraite" attrs="{'invisible': [('cotisation_fixe','=',False)]}"/>
+                                </group>
+                                <group>
+                                    <group>
+                                        <field name="date_effet"/>
+                                    </group>
+                                    <group>
+                                        <field name="date_fin_cont_comp"/>
+                                    </group>
+                                </group>
+                            </sheet>
+                        </form>
+                    </field>
+                </record>
+
+        <record model="ir.ui.view" id="contract_comp_tree">
+            <field name="name">Contrat complémentaire</field>
+            <field name="model">hr.contrat.complementaire</field>
+            <field name="arch" type="xml">
+                <tree name="Contrat Complémentaire">
+                    <field name="employee_id"/>
+                    <field name="type_contrat"/>
+                    <field name="cotisation_fixe"/>
+                    <field name="date_effet"/>
+                    <field name="compte_versement"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_contract_comp_add" model="ir.actions.act_window">
+            <field name="name">Contrat Complémentaire</field>
+            <field name="res_model">hr.contrat.complementaire</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+
+
+  </data>
+ </openerp>

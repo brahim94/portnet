@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <openerp>
+    <data>
+        <record model="ir.ui.view" id="hr_employee_categorie_form_view">
+            <field name="name">Catégorie de l'employé</field>
+            <field name="model">hr.employee.categorie</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name" string="Catégorie"/>
+                            <field name="structure_id" string="Structure salariale"/>
+                        </group>
+                    </sheet>
+                </form>
+
+            </field>
+        </record>
+        <record model="ir.ui.view" id="categorie_form_tree">
+            <field name="name">Catégorie de l'employé</field>
+            <field name="model">hr.employee.categorie</field>
+            <field name="arch" type="xml">
+                <tree name="Catégorie de l'employé">
+                    <field name="name" string="Catégorie"/>
+                    <field name="structure_id" string="Structure salariale"/>
+                </tree>
+            </field>
+        </record>
+        <record id="hr_employee_categorie_view_search" model="ir.ui.view">
+            <field name="name">Catégorie de l'employé</field>
+            <field name="model">hr.employee.categorie</field>
+            <field name="arch" type="xml">
+                <search string="Search Employee Category">
+                   <field name="name" string="Catégorie"/>
+                   <field name="structure_id" string="Structure salariale"/>
+               </search>
+            </field>
+        </record>
+        <record id="action_employee_categorie" model="ir.actions.act_window">
+            <field name="name">Catégorie de l'employé</field>
+            <field name="res_model">hr.employee.categorie</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem action="action_employee_categorie" name="Catégorie de l'employé" parent="hr.menu_hr_configuration" id="menu_open_ask_emp_categories" sequence="8"/>
+
+  </data>
+ </openerp>

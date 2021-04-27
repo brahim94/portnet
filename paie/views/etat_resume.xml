@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report
+            id="paie_report_etat_resume"
+            model="hr.etat.resume.wizard"
+            string="Etat Résumé des Cotisations"
+            report_type="qweb-pdf"
+            name="paie.report_document_etat_resume"
+            file="paie.report_document_etat_resume"
+                />
+        <record id="paie.paie_report_etat_resume" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="paie.paperformat_lowmain" />
+        </record>
+        <template id="commercial_layout_er">
+                 <t t-call="paie.paie_layout_header_er" />
+                 <t t-raw="0" />
+                 <!--t t-call="paie.paie_layout_footer" /-->
+        </template>
+        <template id="paie_layout_header_er">
+            <t t-foreach="docs" t-as="o">
+                <div class="header">
+                    <br/>
+                    <table width="100%" style="border: 1px solid black;  background-color:#90EE90; color:black cellspacing:50">
+                        <tr><td style="padding-left: 7px;padding-right: 7px;">Date du jour<![CDATA[ &nbsp;]]>  : <span t-esc="o.get_date_now()" /></td></tr>
+                        <tr><td style="padding-left: 7px;padding-right: 7px;">Heure
+                            <![CDATA[ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]> : <span t-esc="o.get_time_now()" /></td></tr>
+                        <tr><td> <center><h4>Etat Résumé des Cotisations Mensuel <!--div t-if="o.state=='draft'"><span t-field="o.state"></span> </div--></h4></center></td></tr>
+                        <tr><td><center>Période du    au</center></td></tr>
+                        <tr><td style="padding-left: 7px;padding-right: 7px;">Edition en <![CDATA[ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]> : DIRHAMS</td></tr>
+                    </table>
+                </div>
+                    Société:
+             </t>
+        </template>
+        <template id="report_document_etat_resume">
+            <t t-foreach="docs" t-as="o">
+                    <t t-call="paie.commercial_layout_er">
+                        <div class="page">
+                            <style>
+                            table{
+	border-collapse: collapse;
+
+}
+th,td{
+
+    border-left: 1px solid black;
+border-right: 1px solid black;
+}
+                                th{border-top:1px solid black;border-bottom:1px solid black;}
+</style>
+                            <table width="100%" style="border: 1px solid black;">
+                                <tr style="background-color:#90EE90;">
+                                    <td rowspan="2" width="25%"><center>Rubriques de cotisations</center></td>
+                                    <td rowspan="2" width="7.5%"><center>Taux salarial</center></td>
+                                    <td rowspan="2" width="7.5%"><center>Taux patronal</center></td>
+                                    <td rowspan="2" width="7.5%"><center>Taux global</center></td>
+                                    <td rowspan="2" width="9%"><center>Assiette de cotisation</center></td>
+                                    <td rowspan="2" width="9%"><center>Base</center></td>
+                                    <td rowspan="2" width="9%"><center>Montant salarial</center></td>
+                                    <td rowspan="2" width="9%"><center>Montant patronal</center></td>
+                                    <td rowspan="2" width="9%"><center>Montant global</center></td>
+                                    <td colspan="2" width="7.5%"><center>Effectifs</center></td>
+                                </tr>
+                                <tr style="background-color:#90EE90;">
+                                    <th style="padding-left: 7px;padding-right: 7px;">H.</th>
+                                    <th style="padding-left: 7px;padding-right: 7px;">F.</th>
+                                </tr>
+                                <tr>
+                                    <td style="border-left:1px solid; padding-left: 7px;padding-right: 7px; font-size:13">Retraite complémentaire</td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right">0,00</div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right">0,00</div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right">0,00</div></td>
+                                    <td><div class="text-right"><span t-esc="o.get_sum()['cumul_BRUT']"/></div></td>
+                                    <td><div class="text-right"><span t-esc="o.get_sum()['cumul_BRUT']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_sum()['epargne_retraite']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right">0,00</div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_sum()['epargne_retraite']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_effectifs()['nbr_h']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_effectifs()['nbr_f']"/></div></td>
+                                </tr>
+                                <tr style="padding-top:4px">
+                                    <td style="border-left:1px solid; padding-left: 7px;padding-right: 7px; font-size:13;background-color:yellow;">Total sans caisse</td>
+                                    <td style="padding-left: 7px;padding-right: 7px;padding-top:4px"></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;padding-top:4px"></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;padding-top:4px"></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;background-color:yellow;padding-top:4px"><div class="text-right">0,00</div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;background-color:yellow;padding-top:4px"><div class="text-right">0,00</div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;background-color:yellow;padding-top:4px"><div class="text-right">0,00</div></td>
+                                    <td style="padding-top:4px"></td>
+                                    <td style="padding-top:4px"></td>
+                                </tr>
+
+                                <!--tr>
+                                    <td style="border-left:1px solid; padding-left: 7px;padding-right: 7px; font-size:13">Cotisation CNSS</td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right">4,48</div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right">8,60</div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right">13,08</div></td>
+                                    <td><div class="text-right"><span t-esc="o.get_sum()['brut_cnss']"/></div></td>
+                                    <td><div class="text-right"></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_sum()['cotcnss']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_sum()['cotcnsspat']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_sum()['totcnss']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_effectifs()['nbr_h']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_effectifs()['nbr_f']"/></div></td>
+                                </tr-->
+                                  <tr>
+                                    <td style="border-left:1px solid; padding-left: 7px;padding-right: 7px; font-size:13">RCAR RG PLAFONNE</td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right">6,00</div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right">12,00</div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right">18,00</div></td>
+                                    <td><div class="text-right"><span t-esc="o.get_sum()['totbrut']"/></div></td>
+                                    <td><div class="text-right"><span t-esc="o.get_sum()['base_rcar_rg']"/>   </div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_sum()['rcar_rg']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_sum()['rcar_rg_pat']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_sum()['totrcarrg']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_effectifs()['nbr_h']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_effectifs()['nbr_f']"/></div></td>
+                                </tr>
+
+                                   <tr>
+                                    <td style="border-left:1px solid; padding-left: 7px;padding-right: 7px;font-size:13">RCAR RG COMPLEMENT</td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right">3,00</div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right">3,00</div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right">6,00</div></td>
+                                    <td><div class="text-right"><span t-esc="o.get_sum()['totbrut']"/></div></td>
+                                    <td><div class="text-right"><span t-esc="o.get_sum()['base_rcar_rc']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_sum()['rcar_rc']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_sum()['part_pat_rcar_rc']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_sum()['totrcar_rc']"/></div></td>
+
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_effectifs()['nbr_h']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_effectifs()['nbr_f']"/></div></td>
+                                </tr>
+
+                                <tr>
+                                    <td style="border-left:1px solid; padding-left: 7px;padding-right: 7px;font-size:13">Secteur Commun CNOPS</td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right">2,50</div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right">2,50</div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right">5,00</div></td>
+                                    <td><div class="text-right"><span t-esc="o.get_sum()['totbrut']"/></div></td>
+                                    <td><div class="text-right"><span t-esc="o.get_sum()['base_cnops']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_sum()['cnops']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_sum()['cnops_pat']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_sum()['totcnops']"/></div></td>
+
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_effectifs()['nbr_h']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_effectifs()['nbr_f']"/></div></td>
+                                </tr>
+
+                                 <tr>
+                                    <td style="border-left:1px solid; padding-left: 7px;padding-right: 7px;font-size:13">Secteur Mutualiste MODE</td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right">2,00</div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right">0,00</div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right">2,00</div></td>
+                                    <td><div class="text-right"><span t-esc="o.get_sum()['totbrut']"/></div></td>
+                                    <td><div class="text-right"><span t-esc="o.get_sum()['base_modep']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_sum()['modep']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_sum()['modep']"/></div></td>
+
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_effectifs()['nbr_h']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_effectifs()['nbr_f']"/></div></td>
+                                </tr>
+
+                                 <tr>
+                                    <td style="border-left:1px solid; padding-left: 7px;padding-right: 7px;font-size:13">CAAD MODEP</td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right">0,80</div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right">0,80</div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right">1,60</div></td>
+                                    <td><div class="text-right"><span t-esc="o.get_sum()['totbrut']"/></div></td>
+                                    <td><div class="text-right"><span t-esc="o.get_sum()['base_caad']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_sum()['caad']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_sum()['caad_pat']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_sum()['totcaad']"/></div></td>
+
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_effectifs()['nbr_h']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_effectifs()['nbr_f']"/></div></td>
+                                </tr>
+
+                                 <tr>
+                                    <td style="border-left:1px solid; padding-left: 7px;padding-right: 7px;font-size:13">SAHAM Assistance</td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"></div></td>
+                                    <td><div class="text-right"><span t-esc="o.get_sum()['totbrut']"/></div></td>
+                                    <td><div class="text-right"></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_sum()['saham']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_sum()['issaf_pat']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_sum()['totsaham']"/></div></td>
+
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_effectifs()['nbr_h']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_effectifs()['nbr_f']"/></div></td>
+                                </tr>
+
+                                 <!--tr>
+                                    <td style="border-left:1px solid; padding-left: 7px;padding-right: 7px;font-size:13">Regul Secteur Mutualiste MODEP</td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right">2,00</div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right">4,00</div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right">6,00</div></td>
+                                    <td><div class="text-right"><span t-esc="o.get_sum()['cumul_BRUT']"/></div></td>
+                                    <td><div class="text-right"><span t-esc="o.get_sum()['base_modep']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_sum()['modep']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_sum()['modep_pat']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_sum()['totmodep']"/></div></td>
+
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_effectifs()['nbr_h']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_effectifs()['nbr_f']"/></div></td>
+                                </tr>
+
+                                 <tr>
+                                    <td style="border-left:1px solid; padding-left: 7px;padding-right: 7px;font-size:13">Regul CAAD MODEP</td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right">0,80</div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right">0,80</div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right">1,60</div></td>
+                                    <td><div class="text-right"><span t-esc="o.get_sum()['cumul_BRUT']"/></div></td>
+                                    <td><div class="text-right"><span t-esc="o.get_sum()['base_caad']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_sum()['caad']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_sum()['caad_pat']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_sum()['totcaad']"/></div></td>
+
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_effectifs()['nbr_h']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_effectifs()['nbr_f']"/></div></td>
+                                </tr-->
+
+                                <tr>
+                                    <td style="border-left:1px solid; padding-left: 7px;padding-right: 7px;font-size:13">Secteur Mutualiste MODEP art P</td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right">0,00</div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right">4,00</div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right">4,00</div></td>
+                                    <td><div class="text-right"><span t-esc="o.get_sum()['totbrut']"/></div></td>
+                                    <td><div class="text-right"><span t-esc="o.get_sum()['base_modep_pat']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_sum()['modep_pat']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_sum()['modep_pat']"/></div></td>
+
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_effectifs()['nbr_h']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_effectifs()['nbr_f']"/></div></td>
+                                </tr>
+
+
+
+
+
+                                   <!--tr>
+                                    <td style="border-left:1px solid; padding-left: 7px;padding-right: 7px;font-size:13;background-color:yellow;">Total CNSS</td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;background-color:yellow;"><div class="text-right"><span t-esc="o.get_sum()['totcnsssal']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;background-color:yellow;"><div class="text-right"><span t-esc="o.get_sum()['totcnsspat']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;background-color:yellow;"><div class="text-right"><span t-esc="o.get_sum()['cnssglobal']"/></div></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr-->
+
+                                   <tr>
+                                    <td style="border-left:1px solid; padding-left: 7px;padding-right: 7px;font-size:13;background-color:yellow;">Total CIMR</td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;background-color:yellow;"><div class="text-right">0,00</div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;background-color:yellow;"><div class="text-right">0,00</div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;background-color:yellow;"><div class="text-right">0,00</div></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+
+                                   <tr>
+                                    <td style="border-left:1px solid; padding-left: 7px;padding-right: 7px;font-size:13;background-color:yellow;">Total Mutuelle</td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;background-color:yellow;"><div class="text-right">0,00</div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;background-color:yellow;"><div class="text-right">0,00</div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;background-color:yellow;"><div class="text-right">0,00</div></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+
+                                   <tr>
+                                    <td style="border-left:1px solid; padding-left: 7px;padding-right: 7px;font-size:13;background-color:yellow;">Total AT/RC</td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;background-color:yellow;"><div class="text-right">0.00</div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;background-color:yellow;"><div class="text-right">0.00</div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;background-color:yellow;"><div class="text-right">0.00</div></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+
+                                   <tr>
+                                    <td style="border-left:1px solid; padding-left: 7px;padding-right: 7px;font-size:13">Frais Professionnels</td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right">20,00</div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right">0,00</div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right">20,00</div></td>
+                                    <td><div class="text-right"><span t-esc="o.get_sum()['totbrut']"/></div></td>
+                                    <td><div class="text-right"></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_sum()['fpro']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_sum()['fpro']"/></div></td>
+
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_effectifs()['nbr_h']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"><div class="text-right"><span t-esc="o.get_effectifs()['nbr_f']"/></div></td>
+                                </tr>
+
+                                   <tr>
+                                    <td style="border-left:1px solid; padding-left: 7px;padding-right: 7px;font-size:13;background-color:yellow;" >Total ETAT</td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;background-color:yellow;"><div class="text-right"><span t-esc="o.get_sum()['fpro']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;background-color:yellow;"><div class="text-right">0,00</div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;background-color:yellow;"><div class="text-right"><span t-esc="o.get_sum()['fpro']"/></div></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+
+                                   <tr>
+                                    <td style="border-left:1px solid; padding-left: 7px;padding-right: 7px;front-size:13;background-color:yellow;">Total</td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;"></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;background-color:yellow;"><div class="text-right"><span t-esc="o.get_sum()['total']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;background-color:yellow;"><div class="text-right"><span t-esc="o.get_sum()['totcnsspat']"/></div></td>
+                                    <td style="padding-left: 7px;padding-right: 7px;background-color:yellow;"><div class="text-right"><span t-esc="o.get_sum()['totalglobal']"/></div></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </table>
+
+                            </div>
+                        </t>
+                    </t>
+        </template>
+    </data>
+</openerp>

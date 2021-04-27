@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+     <openerp>
+        <data>
+
+            <record model="ir.ui.view" id="view_hr_payslip_line_filter_inherit">
+                <field name="name">hr.payslip.line.view</field>
+                <field name="model">hr.payslip.line</field>
+                <field name="inherit_id" ref="hr_payroll.view_hr_payslip_line_filter"/>
+                <field name="arch" type="xml">
+                    <xpath expr="//group" position="inside">
+                        <filter string="Bulletin de paie" name="slip_id" icon="terp-folder-yellow" context="{'group_by':'slip_id'}"/>
+                        <filter string="Nom" name="name" icon="terp-folder-yellow" context="{'group_by':'name'}"/>
+                        <filter string="Code" name="code" icon="terp-folder-yellow" context="{'group_by':'code'}"/>
+                        <filter string="Période" name="periode_id" icon="terp-folder-yellow" context="{'group_by':'periode_id'}"/>
+                    </xpath>
+                    <xpath expr="//field[@name='slip_id']" position="after">
+                    <field name="employee_id"/>
+                    <field name="category_id"/>
+                </xpath>
+                </field>
+            </record>
+            <record id="view_hr_payslip_line_tree" model="ir.ui.view">
+                <field name="name">hr.payslip.line.tree.inh</field>
+                <field name="model">hr.payslip.line</field>
+                <field name="priority" eval="8"/>
+                <field name="arch" type="xml">
+                    <tree string="Lignes bulletins de paie">
+                        <field name="employee_id"/>
+                        <field name="slip_id"/>
+                        <field name="periode_id"/>
+                        <field name="sequence"/>
+                        <field name="category_id"/>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="quantity"/>
+                        <field name="rate"/>
+                        <field name="amount"/>
+                        <field name="total"/>
+                        <field name="total_prec"/>
+                        <field name="amount_select" invisible="1"/>
+                        <field name="register_id" invisible="1"/>
+                    </tree>
+                </field>
+            </record>
+
+            <record model="ir.ui.view" id="view_hr_payslip_line_graph">
+                <field name="name">hr.payslip.line</field>
+                <field name="model">hr.payslip.line</field>
+                <field name="arch" type="xml">
+                    <graph string="Lignes Bulletin" type="bar">
+                        <field name="name" type="row"/>
+                        <field name="amount" type="measure"/>
+                    </graph>
+            </field>
+            </record>
+
+            <record id="action_payslip_lignes" model="ir.actions.act_window">
+                <field name="name">Lignes bulletins de paie</field>
+                <field name="res_model">hr.payslip.line</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="view_mode">tree,form,graph</field>
+            </record>
+
+            <menuitem action="action_payslip_lignes" name="Lignes bulletins de paie" parent="hr_payroll.menu_hr_root_payroll" id="menu_payslip_lines" sequence="11"/>
+
+        </data>
+    </openerp>

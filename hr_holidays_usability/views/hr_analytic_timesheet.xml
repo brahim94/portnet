@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <record id="hr_timesheet_line_tree_inherit" model="ir.ui.view">
+            <field name="name">hr.timesheet.line.tree.inherit</field>
+            <field name="model">hr.analytic.timesheet</field>
+            <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_tree"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="emp_id" required="1" options="{'no_open': True, 'no_create': True}" />
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="hr_timesheet_sheet_emp_inherit" model="ir.ui.view">
+            <field name="name">hr.timesheet.sheetemp.inherit</field>
+            <field name="model">hr_timesheet_sheet.sheet</field>
+            <field name="inherit_id" ref="hr_timesheet_sheet.hr_timesheet_sheet_form"/>
+            <field name="arch" type="xml">
+
+                <div class="oe_title" position="replace">
+                    <div class="oe_title">
+                        <field string='Employé'  name="employee_id" on_change="onchange_employee_id(employee_id)" class="oe_inline" options="{'no_open': True}" />
+                        <field name="user_id" invisible="1"/>
+                    </div>
+                </div>
+
+            </field>
+        </record>
+    </data>
+
+
+
+</openerp>

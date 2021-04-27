@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>
+		<record id="view_hr_holidays_form" model="ir.ui.view">
+			<field name="name">hr.holidays.inherited.form</field>
+			<field name="model">hr.holidays</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="hr_holidays.edit_holiday_new" />
+			<field name="arch" type="xml">
+                <xpath expr="//button[@name='reset']" position="replace">
+                    <button string="Reset to Draft" name="reset" type="workflow"
+                            attrs="{'invisible': [('state', '!=', 'confirm')]}"/>
+                        </xpath>
+                 <xpath expr="//button[@name='refuse']" position="replace">
+                     <button string="Refuse" name="refuse"  type="workflow" attrs="{'invisible': ['|',('current_user_is_approver', '=', False),('state','in',['refuse','draft','validate'])]}"/>
+                    <!--button string="Refuse" name="refuse" attrs="{'invisible': [('state','=','validate')]}" type="workflow" groups="base.group_hr_user"/-->
+                </xpath>
+				<button name="second_validate" position="replace">
+					<button string="Validate" name="action_validate" states="confirm"
+						type="object" groups="hr_holidays.group_hr_holidays_manager,base.group_system"
+						class="oe_highlight" />
+				</button>
+				<button name="validate" position="replace">
+					<field name="current_user_is_approver" invisible="True" />
+					<button string="Approve" name="action_approve" type="object"
+						attrs="{'invisible': ['|', ('current_user_is_approver', '!=', True), ('state', '!=', 'confirm')]}"
+						class="oe_highlight" />
+				</button>
+				<field name="department_id" position="after">
+					<field name="pending_approver" groups="paie.group_hr_leave_confirmaion"/>
+                    <field name="can_reset_holiday" invisible="1"/>
+				</field>
+				<xpath expr="//sheet/group[1]" position="after">
+					<notebook>
+						<page string="Approbations">
+							<field name="approbations">
+								<tree>
+									<field name="approver" />
+									<field name="date" />
+								</tree>
+							</field>
+						</page>
+					</notebook>
+				</xpath>
+			</field>
+		</record>
+
+		<record id="open_holidays_approve" model="ir.actions.act_window">
+			<field name="name">Holidays requests to validate</field>
+			<field name="res_model">hr.holidays</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form,calendar</field>
+			<field name="context">{'default_type':'remove'}</field>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+					Click here to create a new leave request.
+				</p>
+			</field>
+			<field name="domain">['|', ('pending_approver_user','=', uid), ('pending_transfered_approver_user','=', uid), ('type','=','remove'),('state','!=','draft')]</field>
+		</record>
+
+		<menuitem id="hr_holidays.menu_request_approve_holidays"
+			name="Leaves" parent="hr_holidays.menu_open_ask_holidays" groups="base.group_user"
+			action="open_holidays_approve" sequence="1" />
+
+		<record id="open_holidays_allocation_approve" model="ir.actions.act_window">
+			<field name="name">Holidays allocations to validate</field>
+			<field name="res_model">hr.holidays</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form,calendar</field>
+			<field name="context">{'default_type':'add'}</field>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+					Click here to create a new holidays allocation request.
+				</p>
+			</field>
+			<field name="domain">[('type','=','add'), ('pending_approver_user', '=', uid)]</field>
+			<field name="search_view_id" ref="hr_holidays.view_hr_holidays_filter" />
+		</record>
+
+		<menuitem id="hr_holidays.menu_request_approve_allocation"
+			groups="base.group_user" name="Leaves Allocation"
+			parent="hr_holidays.menu_open_ask_holidays" action="open_holidays_allocation_approve"
+			sequence="2" />
+
+        <record model="workflow.transition" id="hr_holidays.holiday_confirm2refuse"><!-- 2. submitted->refused (refuse signal) -->
+            <field name="act_from" ref="hr_holidays.act_confirm"/>
+            <field name="act_to" ref="hr_holidays.act_refuse"/>
+            <field name="signal">refuse</field>
+            <field name="condition">True</field>
+            <field name="group_id" ref="base.group_user"/>
+        </record>
+
+
+
+        <record model="workflow.transition" id="hr_holidays.holiday_validate2refuse"><!-- 3. accepted->refused (refuse signal) -->
+        <field name="act_from" ref="hr_holidays.act_validate"/>
+            <field name="act_to" ref="hr_holidays.act_refuse"/>
+            <field name="signal">refuse</field>
+            <field name="condition">True</field>
+            <field name="group_id" ref="paie.group_hr_leave_confirmaion"/>
+        </record>
+        <record model="workflow.transition" id="hr_holidays.holiday_validate1_refuse"><!-- 4. first_accepted->refused (refuse signal) -->
+        <field name="act_from" ref="hr_holidays.act_validate1"/>
+            <field name="act_to" ref="hr_holidays.act_refuse"/>
+            <field name="signal">refuse</field>
+            <field name="condition">True</field>
+            <field name="group_id" ref="paie.group_hr_leave_confirmaion"/>
+        </record>
+
+
+       <record model="workflow.transition" id="hr_holidays.holiday_confirm2draft"><!-- 2. submitted->draft (reset signal) -->
+           <field name="act_from" ref="hr_holidays.act_confirm"/>
+           <field name="act_to" ref="hr_holidays.act_draft"/>
+           <field name="signal">reset</field>
+           <field name="condition">can_reset_holiday</field>
+           <field name="group_id" ref="base.group_user"/>
+
+           <!--field name="group_id" ref="paie.group_hr_leave_confirmaion"/-->
+
+       </record>
+
+
+
+
+
+    <record model="workflow.activity" id="hr_holidays.act_draft"> <!-- draft -->
+        <field name="wkf_id" ref="hr_holidays.wkf_holidays" />
+        <field name="name">draft</field>
+        <field name="flow_start" eval="True"/>
+        <field name="kind">function</field>
+        <field name="action">holidays_reset()</field>
+    </record>
+
+    <record model="workflow.activity" id="hr_holidays.act_confirm"> <!-- submitted -->
+        <field name="wkf_id" ref="hr_holidays.wkf_holidays" />
+        <field name="name">confirm</field>
+        <field name="flow_start" eval="False"/>
+        <field name="kind">function</field>
+        <field name="action">holidays_confirm()</field>
+        <field name="split_mode">OR</field>
+    </record>
+
+
+	</data>
+</openerp>

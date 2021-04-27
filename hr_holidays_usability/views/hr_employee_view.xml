@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+<data>
+
+<record id="view_employee_form_leave_inherit" model="ir.ui.view">
+    <field name="name">hr_holidays_usability.hr.employee.form</field>
+    <field name="model">hr.employee</field>
+    <field name="inherit_id" ref="hr_holidays.view_employee_form_leave_inherit"/>
+    <field name="arch" type="xml">
+        <!-- too difficult to hide the inside of the Leave group
+        so I hide the whole group and re-create one -->
+        <group string="Leaves" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </group>
+        <group string="Leaves" position="after">
+            <group name="holidays" string="Holidays">
+                <field name="holiday_exclude_mass_allocation"/>
+            </group>
+        </group>
+    </field>
+</record>
+
+</data>
+</openerp>

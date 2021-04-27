@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+     <openerp>
+        <data>
+            <record model="ir.ui.view" id="salary_rule_form_view">
+                <field name="name">salary rule</field>
+                <field name="model">hr.salary.rule</field>
+                <field name="inherit_id" ref="hr_payroll.hr_salary_rule_form"/>
+                <field name="arch" type="xml">
+                    <xpath expr="//form" position="inside">
+                       <div class="oe_chatter">
+                           <field name="message_follower_ids" widget="mail_followers"/>
+                           <field name="message_ids" widget="mail_thread"/>
+                       </div>
+
+                   </xpath>
+                   <xpath expr="//field[@name='sequence']" position="after">
+                       <field name="date_debut" required="1"/>
+                       <field name="date_fin" required="1"/>
+                       <!--field name="niveau"/-->
+                       <field name="code_rub" />
+                       <field name="negociable"/>
+                   </xpath>
+
+                   <xpath expr="//page[@string='Child Rules']/field[@name='parent_rule_id']" position="attributes">
+                       <attribute name="invisible">True</attribute>
+                   </xpath>
+                   <xpath expr="//page[@string='Inputs']" position="attributes">
+                       <attribute name="invisible">True</attribute>
+                   </xpath>
+                    <xpath expr="//field[@name='appears_on_payslip']" position="after">
+                       <field name="taux_rapport"/>
+                   </xpath>
+                </field>
+            </record>
+        </data>
+     </openerp>

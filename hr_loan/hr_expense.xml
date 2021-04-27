@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+     <openerp>
+        <data>
+
+            <record model="ir.ui.view" id="expense_expense_form_view">
+                <field name="name">expense form</field>
+                <field name="model">hr.expense.expense</field>
+                <field name="inherit_id" ref="hr_expense.view_expenses_form"/>
+                <field name="arch" type="xml">
+
+                    <field name="state" position="attributes">
+                        <attribute name="statusbar_visible">draft,confirm,confirm1,confirm2,accepted,done,paid</attribute>
+                    </field>
+                    <button name="refuse" position="attributes">
+                        <attribute name="states">confirm,confirm1,confirm2</attribute>
+                        <attribute name="groups">hr_loan.group_expense_resp,hr_loan.group_expense_drh,hr_loan.group_expense_dg</attribute>
+                    </button>
+                    <!--<button name="refuse" position="after">-->
+                        <!--<button name="refuse1" states="confirm1" string="Refuse" type="object" groups="hr_loan.group_expense_drh"/>-->
+                        <!--<button name="refuse2" states="confirm2" string="Refuse" type="object" groups="hr_loan.group_expense_dg"/>-->
+                    <!--</button>-->
+                    <!--<button name="draft" position="after">-->
+                        <!--<button name="expense_draft" states="cancelled" string="Remettre en brouillon" type="object" groups="hr_loan.group_expense_resp"/>-->
+                    <!--</button>-->
+                    <button name="draft" position="attributes">
+                        <attribute name="states">confirm,cancelled</attribute>
+                        <attribute name="groups">hr_loan.group_expense_resp,hr_loan.group_expense_drh,hr_loan.group_expense_dg</attribute>
+                    </button>
+                    <button name="validate" position="attributes">
+                        <attribute name="groups">hr_loan.group_expense_resp</attribute>
+                    </button>
+                    <button name="validate" position="after">
+                        <button name="validate1" states="confirm1" string="Approve" type="workflow" groups="hr_loan.group_expense_drh" class="oe_highlight"/>
+                        <button name="validate2" states="confirm2" string="Approve" type="workflow" groups="hr_loan.group_expense_dg" class="oe_highlight"/>
+                    </button>
+                    <button name="done" position="attributes">
+                        <attribute name="groups">hr_loan.group_expense_drh</attribute>
+                    </button>
+                    <button name="action_view_move" position="attributes">
+                        <attribute name="groups">hr_loan.group_expense_resp</attribute>
+                    </button>
+
+
+                    <xpath expr="//field[@name='name']" position="after">
+                        <field name="periode" attrs="{'readonly': [('state','not in',['draft','confirm','confirm1'] )]}" required="1" options="{'no_open': True}"/>/>
+                        <field name="type" attrs="{'readonly': [('state','not in',['draft','confirm'] )]}" required="1"/>
+
+                    </xpath>
+                     <xpath expr="//field[@name='employee_id']" position="replace">
+                        <field name="employee_id" on_change="onchange_employee_id(employee_id)" options="{'no_open': True}"/>
+
+                    </xpath>
+                    <xpath expr="//field[@name='user_valid']" position="replace">
+                        <field name="user_valid" attrs="{'invisible': [('state','=','draft')]}" options="{'no_open': True}" context="{'default_groups_ref': ['base.group_user', 'base.group_partner_manager', 'base.group_hr_user']}"/>
+                    </xpath>
+                    <xpath expr="//field[@name='currency_id']" position="replace">
+                        <field name="currency_id" options="{'no_open': True}" groups="base.group_multi_currency" on_change="onchange_currency_id(currency_id, company_id)"/>
+                    </xpath>
+
+                    <xpath expr="//field[@name='department_id']" position="replace">
+                         <field name="department_id" options="{'no_open': True}"/>
+                         <field name="mission" attrs="{'readonly': [('state','not in',['draft','confirm'] )]}"/>
+                         <field name="date_debut_mission" attrs="{'readonly': [('state','not in',['draft','confirm'] )]}" required="1"/>
+                         <field name="date_fin_mission" attrs="{'readonly': [('state','not in',['draft','confirm'] )]}" required="1"/>
+                    </xpath>
+                </field>
+            </record>
+
+            <record id="expense_attente1" model="ir.actions.act_window">
+            <field name="name">NdF en attente du responsable</field>
+            <field name="res_model">hr.expense.expense</field>
+            <field name="view_type">form</field>
+            <field name="search_view_id" ref="hr_expense.view_hr_expense_filter"/>
+            <field name="view_id" ref="hr_expense.view_expenses_tree"/>
+            <field name="domain">[('state','=','confirm')]</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to register new expenses.
+              </p><p>
+                Odoo will ensure the whole process is followed; the expense
+                sheet is validated by manager(s), the employee is reimbursed
+                from his expenses, some expenses must be re-invoiced to the
+                customers.
+              </p>
+            </field>
+        </record>
+        <menuitem action="expense_attente1" id="menu_expenses_en_attente1" parent="hr_expense.next_id_49" groups="hr_loan.group_expense_resp"/>
+
+        <record id="expense_attente2" model="ir.actions.act_window">
+            <field name="name">NdF en attente du DRH</field>
+            <field name="res_model">hr.expense.expense</field>
+            <field name="view_type">form</field>
+            <field name="search_view_id" ref="hr_expense.view_hr_expense_filter"/>
+            <field name="view_id" ref="hr_expense.view_expenses_tree"/>
+            <field name="domain">[('state','=','confirm1')]</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to register new expenses.
+              </p><p>
+                Odoo will ensure the whole process is followed; the expense
+                sheet is validated by manager(s), the employee is reimbursed
+                from his expenses, some expenses must be re-invoiced to the
+                customers.
+              </p>
+            </field>
+        </record>
+        <menuitem action="expense_attente2" id="menu_expenses_en_attente2" parent="hr_expense.next_id_49" groups="hr_loan.group_expense_drh"/>
+
+        <record id="expense_attente3" model="ir.actions.act_window">
+            <field name="name">NdF en attente du DG</field>
+            <field name="res_model">hr.expense.expense</field>
+            <field name="view_type">form</field>
+            <field name="search_view_id" ref="hr_expense.view_hr_expense_filter"/>
+            <field name="view_id" ref="hr_expense.view_expenses_tree"/>
+            <field name="domain">[('state','=','confirm2')]</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to register new expenses.
+              </p><p>
+                Odoo will ensure the whole process is followed; the expense
+                sheet is validated by manager(s), the employee is reimbursed
+                from his expenses, some expenses must be re-invoiced to the
+                customers.
+              </p>
+            </field>
+        </record>
+        <menuitem action="expense_attente3" id="menu_expenses_en_attente3" parent="hr_expense.next_id_49" groups="hr_loan.group_expense_dg"/>
+
+            <!-- workflow -->
+
+            <record id="act_accepted1" model="workflow.activity">
+                <field name="wkf_id" ref="hr_expense.wkf_expenses"/>
+                <field name="name">accepted1</field>
+                <field name="kind">function</field>
+                <field name="action">expense_accept1()</field>
+            </record>
+
+            <record id="act_accepted2" model="workflow.activity">
+                <field name="wkf_id" ref="hr_expense.wkf_expenses"/>
+                <field name="name">accepted2</field>
+                <field name="kind">function</field>
+                <field name="action">expense_accept2()</field>
+            </record>
+
+
+            <delete id="hr_expense.t2" model="workflow.transition"/>
+
+            <record id="t2" model="workflow.transition">
+                <field name="act_from" ref="hr_expense.act_confirm"/>
+                <field name="act_to" ref="hr_expense.act_accepted"/>
+                <field name="signal">validate</field>
+                <field name="group_id" ref="hr_loan.group_expense_resp"/>
+            </record>
+
+            <delete id="hr_expense.t8" model="workflow.transition"/>
+
+            <record id="t8" model="workflow.transition">
+                <field name="act_from" ref="hr_expense.act_accepted"/>
+                <field name="act_to" ref="act_accepted1"/>
+                <field name="signal">validate1</field>
+                <field name="group_id" ref="hr_loan.group_expense_drh"/>
+            </record>
+
+            <record id="t8_1" model="workflow.transition">
+                <field name="act_from" ref="act_accepted1"/>
+                <field name="act_to" ref="act_accepted2"/>
+                <field name="signal">validate2</field>
+                <field name="group_id" ref="hr_loan.group_expense_dg"/>
+            </record>
+
+            <record id="t8_2" model="workflow.transition">
+                <field name="act_from" ref="act_accepted2"/>
+                <field name="act_to" ref="hr_expense.act_done"/>
+                <field name="signal">done</field>
+                <field name="group_id" ref="hr_loan.group_expense_resp"/>
+            </record>
+
+            <delete id="hr_expense.t6" model="workflow.transition"/>
+
+            <record id="t6" model="workflow.transition">
+                <field name="act_from" ref="hr_expense.act_accepted"/>
+                <field name="act_to" ref="hr_expense.act_refused"/>
+                <field name="signal">refuse</field>
+                <field name="group_id" ref="hr_loan.group_expense_resp"/>
+            </record>
+
+            <record id="t6_1" model="workflow.transition">
+                <field name="act_from" ref="act_accepted1"/>
+                <field name="act_to" ref="hr_expense.act_refused"/>
+                <field name="signal">refuse1</field>
+                <field name="group_id" ref="hr_loan.group_expense_drh"/>
+            </record>
+
+            <record id="t6_2" model="workflow.transition">
+                <field name="act_from" ref="act_accepted2"/>
+                <field name="act_to" ref="hr_expense.act_refused"/>
+                <field name="signal">refuse2</field>
+                <field name="group_id" ref="hr_loan.group_expense_dg"/>
+            </record>
+
+            <delete id="hr_expense.t10" model="workflow.transition"/>
+
+            <!--<record id="t10" model="workflow.transition">-->
+                <!--<field name="act_from" ref="hr_expense.act_refused"/>-->
+                <!--<field name="act_to" ref="hr_expense.act_draft"/>-->
+                <!--<field name="signal">draft</field>-->
+                <!--<field name="group_id" ref="hr_loan.group_expense_resp"/>-->
+            <!--</record>-->
+
+            <delete id="hr_expense.t7" model="workflow.transition"/>
+
+            <record id="t7" model="workflow.transition">
+                <field name="act_from" ref="hr_expense.act_confirm"/>
+                <field name="act_to" ref="hr_expense.act_draft"/>
+                <field name="signal">draft</field>
+                <field name="group_id" ref="hr_loan.group_expense_resp"/>
+            </record>
+
+            <record id="hr_expense.t4" model="workflow.transition">
+                <field name="act_from" ref="hr_expense.act_confirm"/>
+                <field name="act_to" ref="hr_expense.act_refused"/>
+                <field name="signal">refuse</field>
+                <field name="group_id" ref="hr_loan.group_expense_resp"/>
+            </record>
+
+        </data>
+    </openerp>

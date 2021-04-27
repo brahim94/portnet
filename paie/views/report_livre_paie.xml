@@ -1,0 +1,1609 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="paperformat_lowmain" model="report.paperformat">
+            <field name="name">French Bank Check</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">20</field>
+            <field name="margin_bottom">35</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">20</field>
+            <field name="dpi">90</field>
+        </record>
+        <report
+            id="paie_report_livre_paie"
+            model="hr.payslip.wizard"
+            string="Livre De Paie"
+            report_type="qweb-pdf"
+            name="paie.report_document_livre_paie"
+            file="paie.report_document_livre_paie"
+                />
+        <record id="paie.paie_report_livre_paie" model="ir.actions.report.xml">
+    <field name="paperformat_id" ref="paie.paperformat_lowmain" />
+</record>
+        <template id="commercial_layout_lp">
+                 <t t-call="paie.paie_layout_header_lp" />
+                 <t t-raw="0" />
+        </template>
+        <template id="paie_layout_footer_lp">
+            <t t-foreach="docs" t-as="o">
+
+            </t>
+        </template>
+        <template id="paie_layout_header_lp">
+            <t t-foreach="docs" t-as="o">
+                <div class="header">
+                    <br/>
+                    <table width="100%" style="border: 1px solid black;  background-color:#90EE90; color:black cellspacing:50">
+                        <tr>
+                            <td style="padding-left: 7px;padding-right: 7px;">
+                                Date du jour<![CDATA[ &nbsp;]]>  : <span t-esc="o.get_date_now()" />
+                            </td>
+                            <td style="padding-left: 7px;padding-right: 7px;">Heure
+                                <![CDATA[ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]> : <span t-esc="o.get_time_now()" />
+                            </td>
+                            <td style="padding-left: 7px;padding-right: 7px;">Edition en <![CDATA[ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]]> : DIRHAMS</td>
+                            <td></td>
+                            <td class="text-right" style="padding-right: 7px;">
+                                Page:<span class="page"/>/<span class="topage"/>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td colspan="3"><center><h4>Livre de Paie : Période du <span t-field="o.start_date"/> au <span t-field="o.end_date"/></h4></center></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                Société:<span t-field="res_company.name"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+             </t>
+        </template>
+        <template id="report_document_livre_paie">
+            <t t-call="paie.commercial_layout_lp">
+            <div class="page">
+                <t t-foreach="docs" t-as="o">
+                    <t t-foreach="o.get_bulletin_done_ids()" t-as="y">
+                    <table width="100%" style="border: 1px solid black;" padding-left=" 7px;" padding-right= "7px;">
+                        <thead>
+                            <tr style="background-color:#90EE90;">
+                                <th style="padding-left: 7px;padding-right: 7px;"><strong>Ventilation par Salarié</strong></th>
+                                <t t-foreach="y"  t-as="i">
+                                    <th style="padding-left: 7px;padding-right: 7px;border: 1px solid black;" rowspan="2" ><strong><center><span t-field="i.employee_id.name" /></center></strong></th>
+                                </t>
+                                <t t-if="y==o.get_bulletin_done_ids()[-1]">
+                                    <th style="padding-left: 7px;padding-right: 7px;border: 1px solid black;" rowspan="2" ><strong><center>Total</center></strong></th>
+                                </t>
+                            </tr>
+                            <tr style="background-color:#90EE90;color:#black;">
+                                <th colspan="2" style="padding-left: 10px;padding-right: 7px;"><strong>Rubriques</strong></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <td rowspan="2" style="width:40%;border: 1px solid black;">
+                                <table style="width:100%;font-size:10px">
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Salaire de base</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Congés payés</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Reprise/Congé</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Congés payés–</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Reprise/congé–</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Jours I.C.C.P</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Rappel sur salaire</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Rappel/Salaire ( jrs)</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Reprise/Salaire</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Reprise sur salaire</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Absence STC</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Reprise absence irrégulière</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Indémnité de logement</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Rappel Ind de logement</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Indémnité de fonction</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Rappel Ind de fonction</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Indémnité de performance</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Rappel Ind de performance</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Prime d'ancienneté</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Prime exceptionnelle</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Prime de merite</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Prime de naissance</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Prime d'astreinte</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Prime de responsabilité</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Rappel prime de responsabilité</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Prime scolarité</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Prime Aid Adha</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Prime achoura impo</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Prime achoura</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Indemnité de Représentation</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Rappel Ind de Représentation</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Régul Ind de Représentation</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Indemnité de Transport</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Régul indemnité de Transport</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Indemnité de caisse</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Régul indemnité de caisse</td></tr>
+                                    <tr style="background-color:Yellow;"><td style="padding-left: 7px;padding-right: 7px;" >Total Brut</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">RCAR RG PLAFONNE</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">RCAR RG COMPLEMENT</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Secteur Commun CNOPS</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Secteur Mutualise MODE</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">CAAD MODEP</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">SAHAM Assitance</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Retraite complémentaire</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Cotisation RECORE</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Frai Professionnels</td></tr>
+                                    <tr style="width:100%; background-color:Yellow;"><td style="padding-left: 7px;padding-right: 7px;">Cotisation salariales</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">HT Prêt Habitat principal</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Déduction logement</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Net imposable</td></tr>
+                                    <tr><td style="background-color:Yellow;padding-left: 7px;padding-right: 7px;">Prélévement IR</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Remb All.Familiale</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Rappel All.Familiale</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Remb Frais Déplacement</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Remb Notes de frais</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Avance sur salaire</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Acompte régulier Remb Ecart Retraite Compl</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Arrondi du mois précédent</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Arrondi du mois en cours</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Nbre personnes à Charges</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Déduction Personnes à charges</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Présence Jrs du mois</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Brut soumis à CNSS</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Cotisations Patronales</td></tr>
+                                    <tr><td style="background-color:Yellow;padding-left: 7px;padding-right: 7px;">Net à payer</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Total des hres travaillées</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Congés acquis dans le mois</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Congés pris dans le mois</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Coût total</td></tr>
+                                    <tr><td style="padding-left: 7px;padding-right: 7px;">Nombre de salariés</td></tr>
+                                </table>
+                            </td>
+                            <t t-foreach="y" t-as="i">
+                                <td style="border: 1px solid black;">
+                                    <div class="text-right">
+                                        <table style="width:100%;font-size:10px">
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;" >
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='BASE'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;" >
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code==unicode('congpayé2', 'utf-8')">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;" >
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='reprcong2'">
+                                                                <t t-set="drap" t-value="False"/>
+                                                                <t t-if="ne.total!=0">-<span t-field="ne.total"/></t>
+                                                                <t t-if="ne.total==0"><span t-field="ne.total"/></t>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;height:10px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='congespayes'">
+                                                                <t t-set="drap" t-value="False"/>
+                                                                <span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True">
+                                                            <span>0,00</span>
+                                                        </div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td style="padding-left: 7px;height:10px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='repriseconge'">
+                                                                <t t-set="drap" t-value="False"/>
+                                                                <t t-if="ne.total!=0">-<span t-field="ne.total"/></t>
+                                                                <t t-if="ne.total==0"><span t-field="ne.total"/></t>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True">
+                                                            <span>0,00</span>
+                                                        </div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td style="padding-left: 7px;height:10px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='iccp'">
+                                                                <t t-set="drap" t-value="False"/>
+                                                                <span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True">
+                                                            <span>0,00</span>
+                                                        </div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;" >
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='rappel'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='rappel_salaire_jrs'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='reprisesalaire'">
+                                                                <t t-set="drap" t-value="False"/>
+                                                                <span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;height:10px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='reprise_absence_irr'">
+                                                                <t t-set="drap" t-value="False"/>
+                                                                <t t-if="ne.total!=0">-<span t-field="ne.total"/></t>
+                                                                <t t-if="ne.total==0"><span t-field="ne.total"/></t>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='stc'">
+                                                                <t t-set="drap" t-value="False"/>
+                                                                <t t-if="ne.total!=0">-<span t-field="ne.total"/></t>
+                                                                <t t-if="ne.total==0"><span t-field="ne.total"/></t>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='reprise'">
+                                                                <t t-set="drap" t-value="False"/>
+                                                                <t t-if="ne.total!=0">-<span t-field="ne.total"/></t>
+                                                                <t t-if="ne.total==0"><span t-field="ne.total"/></t>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='IndLogement'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='RIndLogement'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='IndFonction'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='RIndFonction'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='IndPerformance'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='RIndPerformance'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='ANCIENNETE'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;" >
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='prime_except'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;" >
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='prime_merite'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;height:10px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='PRIME_NAISSANCE'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;height:10px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='PRIME_ASTREINTE'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;" >
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='prime_respo'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;" >
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='rappel_prime_respo'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;" >
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='prime_scolarite'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;" >
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='prime_adha'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;" >
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='prime_achoura_impo'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;" >
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='prime_achoura'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='IndRep'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='rappel_IndRep'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='regul_ind_represent_v'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='IndemniteTransport'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='regul_ind_transport_v'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;" >
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='prime_caisse'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='regul_ind_caisse'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr style="width:100%; background-color:Yellow;">
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='BRUTNIMPOSABLE'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='rcar_rg'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='rcar_rc'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='part_sal_sc'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='partsalsm'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='caad'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                             <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='issaf'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='epargne_retraite_v'">
+                                                                <t t-set="drap" t-value="False"/><span t-esc="o.get_retraite_locale(i.employee_id.id)"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='recore_sal'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='FPRO'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr style="width:100%; background-color:Yellow;">
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='CS'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr style="width:100%;">
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='pret_immob'">
+                                                                <t t-set="drap" t-value="False"/><span t-esc="o.get_pret_locale(i.employee_id.id)"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr style="width:100%;">
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='ded_pret_immob'">
+                                                                <t t-set="drap" t-value="False"/><span t-esc="o.get_deduction_logement_locale(i.employee_id.id)"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr style="width:100%;">
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='C_IMPR'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                                <tr style="background-color:Yellow;">
+                                                    <td style="padding-left: 7px;padding-right: 7px;">
+                                                        <t t-set="drap" t-value="True"/>
+                                                        <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                            <div class="text-right">
+                                                                <t t-if="ne.code=='IRPP'">
+                                                                    <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                                </t>
+                                                            </div>
+                                                        </t>
+                                                        <t t-if="drap==True">
+                                                            <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                        </t>
+                                                    </td>
+                                                </tr>
+                                            <tr style="width:100%;">
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='allocation'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr style="width:100%;">
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='rappel_allocation'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr style="width:100%;">
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='frais_dep'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr style="width:100%;">
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='notes_frais'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr style="width:100%;">
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='avance'">
+                                                                <t t-set="drap" t-value="False"/>
+                                                                <t t-if="ne.total!=0">-<span t-field="ne.total"/></t>
+                                                                <t t-if="ne.total==0"><span t-field="ne.total"/></t>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr style="width:100%;">
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='remb'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr style="width:100%;">
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='arr_prec'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='arrondiEnCours'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='NbrPerso'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='DEDPERSO'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='regul_jr_ir'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code==' BrutCNSSma '">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='TCOMPMA'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr style="background-color:Yellow;">
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='NET'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='HoraireMaroc'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <div class="text-right">
+                                                        <span t-field="i.jours_acquis"/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <div class="text-right">
+                                                        <span t-esc="o.get_conge_pris_locale(i.employee_id.id)"/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-left: 7px;padding-right: 7px;">
+                                                    <t t-set="drap" t-value="True"/>
+                                                    <t t-foreach="i.details_by_salary_rule_category" t-as="ne">
+                                                        <div class="text-right">
+                                                            <t t-if="ne.code=='TOTAL'">
+                                                                <t t-set="drap" t-value="False"/><span t-field="ne.total"/>
+                                                            </t>
+                                                        </div>
+                                                    </t>
+                                                    <t t-if="drap==True">
+                                                        <div class="text-right" t-if="drap==True"><span>0,00</span></div>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr><td style="padding-left: 7px;padding-right: 7px;"><div class="text-right">1,00</div></td></tr>
+                                            <tr><td><div style="color:white">4 </div></td></tr>
+                                        </table>
+                                    </div>
+                                </td>
+                            </t>
+                            <t t-if="y==o.get_bulletin_done_ids()[-1]">
+                                <td style="border: 1px solid black;">
+                                    <table style="width:100%;font-size:10px">
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['base']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['congpaye2']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right">
+                                                <t t-if="o.get_sum()['reprcong2']!='0,00'">-<span t-esc="o.get_sum()['reprcong2']"/></t>
+                                                <t t-if="o.get_sum()['reprcong2']=='0,00'">0,00</t>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['congespayes']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right">
+                                                <t t-if="o.get_sum()['repriseconge']!='0,00'">-<span t-esc="o.get_sum()['repriseconge']"/></t>
+                                                <t t-if="o.get_sum()['repriseconge']=='0,00'"><span t-esc="o.get_sum()['repriseconge']"/></t>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['iccp']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['rappelsursalaire']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['rappel_salaire_jrs']"/></div>
+                                            </td>
+                                        </tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right">
+                                                <span t-esc="o.get_sum()['reprise']"/>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right">
+                                                <t t-if="o.get_sum()['reprise_absence_irr']!='0,00'">-<span t-esc="o.get_sum()['reprise_absence_irr']"/></t>
+                                                <t t-if="o.get_sum()['reprise_absence_irr']=='0,00'"><span t-esc="o.get_sum()['reprise_absence_irr']"/></t>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right">
+                                                <t t-if="o.get_sum()['stc']!='0,00'">-<span t-esc="o.get_sum()['stc']"/></t>
+                                                <t t-if="o.get_sum()['stc']=='0,00'"><span t-esc="o.get_sum()['stc']"/></t>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['reprise_abs']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['indlogement']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['rappel_indlogement']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['indfonction']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['rappel_indfonction']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['indperformance']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['rappel_indperformance']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['anciennete']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['prime_except']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['prime_merite']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['prime_naissance']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['prime_astreinte']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['responsabilite']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['rappel_responsabilite']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['prime_scolarite']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['prime_adha']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['prime_achoura_impo']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['prime_achoura']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['representation']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['rappel_representation']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['regul_rep']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['transport']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['regul_trans']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['prime_caisse']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['regul_ind_caisse']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr style="width:100%; background-color:Yellow;">
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['totbrut']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr >
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['rcarplafonne']"/></div>
+                                            </td>
+                                        </tr>
+                                             <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['rcarcomplement']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right">
+                                                    <span t-esc="o.get_sum()['cnops']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['modep']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['caad']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['saham']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_total_retraite_comp()"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['recore_sal']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['fpro']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr style="width:100%; background-color:Yellow;">
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['cot_sal']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_total_pret()['total_paid_amount']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_total_deduction_logement()"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['net_impr']"/></div>
+                                            </td>
+                                        </tr>
+
+                                        <tr style="background-color:Yellow;">
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['ir']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['allocation']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['rappel_allocation']"/></div>
+                                            </td>
+                                        </tr>
+                                         <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['fraisdeplacement']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['notes_frais']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right">
+                                                <t t-if="o.get_sum()['avance']!='0,00'">-<span t-esc="o.get_sum()['avance']"/></t>
+                                                <t t-if="o.get_sum()['avance']=='0,00'"><span t-esc="o.get_sum()['avance']"/></t></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['remb']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['arrprec']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['arrencours']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['nbrpersoch']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['dedperso']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['presence_jrs']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['brutcnssma']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['cot_pat']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr style="background-color:Yellow;">
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_sum()['net']"/></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"> <span t-esc="o.get_sum()['presence']"/></div>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right">
+                                                    <span t-esc="o.get_sum()['jours_acquis']"/>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right">
+                                                    <span t-esc="o.get_total_conge_pris()"/>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"> <span t-esc="o.get_sum()['cout']"/></div>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="padding-left: 7px;padding-right: 7px;">
+                                                <div class="text-right"><span t-esc="o.get_number_bp()"/></div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </t>
+                        </tbody>
+                    </table>
+                    </t>
+                </t>
+            </div>
+            </t>
+
+        </template>
+    </data>
+</openerp>

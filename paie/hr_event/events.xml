@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <openerp>
+    <data>
+        <record model="ir.ui.view" id="event_form_view_1">
+            <field name="name">Evénements</field>
+            <field name="model">hr.event</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+
+                        <button name="action_valider" string="Valider"  type="object" class="oe_highlight" attrs="{'invisible': [('status', '=', 'valide')]}"  groups="base.group_hr_manager,paie.group_hr_officer,paie.group_payroll_officer"/>
+                        <field name="status"  widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group col="4">
+                            <field name="employee_id" invisible="0" />
+                            <field name="event_type" required="1" options="{'no_create_edit': True}"/>
+                            <field name="categorie_type_event" invisible="1"/>
+                        </group>
+                        <group  attrs="{'invisible': [('categorie_type_event','not in',['absMaladie'])]}">
+                            <group>
+                                <field name="date_debut" />
+                                <field name="duree" />
+                            </group>
+                            <group>
+                                <field name="date_fin" />
+                            </group>
+
+                            <group>
+                                <field name="deduire_jr_autorise"/>
+
+                            </group>
+
+                        </group>
+
+                        <group >
+                            <group>
+                                <field name="date" attrs="{'invisible': [('categorie_type_event','not in',['HS','jrslegaux','autres'])]}"/>
+                            </group>
+                            <group>
+                                <field name="duree_jr_leg" attrs="{'invisible': [('categorie_type_event','not in',['jrslegaux'])]}"/>
+                                <field name="heures_supp" attrs="{'invisible': [('categorie_type_event','not in',['HS'])]}"/>
+                            </group>
+                        </group>
+                        <group>
+                             <group>
+                                <field name="justif"/>
+                            </group>
+                            <group>
+                                <field name="impact_salaire"  />
+                            </group>
+                            <group>
+                                <field name="rupture_contrat"/>
+                            </group>
+
+                            <group>
+                                <field name="periode"/>
+                                <!--field name="date_validation" readonly="1"  attrs="{'invisible': [('status','in','brouillon')]}"/-->
+                            </group>
+                        </group>
+                        <group>
+                            <field name="notes"/>
+                        </group>
+                    </sheet>
+                </form>
+
+            </field>
+        </record>
+        <record model="ir.ui.view" id="event_form_tree">
+            <field name="name">Evénement</field>
+            <field name="model">hr.event</field>
+            <field name="arch" type="xml">
+                <tree name="événement">
+                    <field name="employee_id"/>
+                    <field name="event_type"/>
+                    <field name="impact_salaire"/>
+                    <!--field name="impact_conge"/-->
+                    <field name="justif"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_event_add" model="ir.actions.act_window">
+            <field name="name">Evénement</field>
+            <field name="res_model">hr.event</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+         <record id="action_positions" model="ir.actions.act_window">
+
+            <field name="name">Fonctions</field>
+            <field name="res_model">poste</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+          <record id="action_rubrics" model="ir.actions.act_window">
+            <field name="name">Rubriques</field>
+            <field name="res_model">hr.contract.rubrique</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record id="action_type_event" model="ir.actions.act_window">
+            <field name="name">Type d'événement</field>
+            <field name="res_model">hr.event.type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record model="ir.ui.view" id="event_form_view_type_event">
+            <field name="name">Evénements</field>
+            <field name="model">hr.event.type</field>
+            <field name="arch" type="xml">
+                <form name="Type d'événement">
+                    <sheet>
+                        <group>
+                            <field name="name" required="1"/>
+                            <field name="code" required="1"/>
+                        </group>
+                        <group >
+                            <!--field name="salary_rule"/-->
+                            <field name="holiday"/>
+                        </group>
+                        <group >
+                            <group>
+                                <field name="impact_salaire"/>
+                            </group>
+                            <group>
+                                <!--field name="impact_conge"/-->
+                            </group>
+                        </group>
+                        <group>
+                            <field name="category"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="hr_event_view_search" model="ir.ui.view">
+            <field name="name">hr.event.view.search</field>
+            <field name="model">hr.event</field>
+            <field name="arch" type="xml">
+                <search string="Search Contract">
+                   <field name="event_type" string="Type d'événement"/>
+                   <filter string="Impact salaire" icon="terp-go-week" domain="[('impact_salaire','=',True)]"/>
+                   <filter string="Impact congé" icon="terp-go-week" domain="[('impact_conge','=',True)]"/>
+                   <group expand="0" string="Group By">
+                       <filter string="Type d'événement" icon="terp-go-week" domain="[]" context="{'group_by':'event_type'}"/>
+                   </group>
+               </search>
+            </field>
+        </record>
+        <menuitem name="Evénements" parent="hr.menu_hr_root" id="menu_open_ask_events" sequence="21"/>
+        <menuitem parent="menu_open_ask_events" id="menu_open_ask_events_new" action="action_event_add"/>
+        <!--menuitem parent="menu_open_ask_events" id="menu_open_ask_postes" action="action_positions"/-->
+        <menuitem parent="hr.menu_hr_main" id="menu_open_ask_postes" action="action_positions" name="Fonctions"/>
+
+
+        <menuitem parent="menu_open_ask_events" id="menu_open_ask_rubrics" action="action_rubrics"/>
+        <menuitem parent="menu_open_ask_events" id="menu_open_type_event" action="action_type_event"/>
+
+
+        <record id="action_event_date" model="ir.actions.act_window">
+            <field name="name">Date congé/événement</field>
+            <field name="res_model">hr.date.event</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">form</field>
+        </record>
+        <menuitem name="Gestion congé/Evénement" action="action_event_date" parent="hr.menu_hr_configuration" id="menu_open_date_events" sequence="5"/>
+
+
+  </data>
+ </openerp>

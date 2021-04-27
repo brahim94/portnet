@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<record id="export_etat_resume_view" model="ir.ui.view">
+    <field name="name">Etat Résumé des Cotisations</field>
+    <field name="model">hr.etat.resume.wizard</field>
+    <field name="type">form</field>
+        <field name="arch" type="xml">
+        <form string="Etat Résumé des Cotisations">
+        <group colspan="4">
+            <group>
+                <field name="periode"/>
+            </group>
+            <group>
+                <field name="start_date" readonly="1"/>
+                <field name="end_date" readonly="1"/>
+            </group>
+        </group>
+        <footer>
+        <button name="export_etat_resume" string="Export" type="object"/>
+        or
+        <button special="cancel" string="Cancel" class="oe_link"/>
+        </footer>
+        </form>
+        </field>
+</record>
+
+<record id="export_etat_resume_action" model="ir.actions.act_window">
+        <field name="name">Etat Résumé des Cotisations</field>
+        <field name="res_model">hr.etat.resume.wizard</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="export_etat_resume_view"/>
+        <field name="target">new</field>
+</record>
+
+<menuitem name="Etat Résumé des Cotisations" id="menu_export_etat_resume_wizard" groups="paie.group_payroll_officer" action="export_etat_resume_action" parent="hr_payroll.menu_hr_root_payroll" sequence="11"/>
+
+</data>
+</openerp>

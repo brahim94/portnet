@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data> 
+	<record model="ir.ui.view" id="employee_contract_form_view_extra">
+		    <field name="name">contract</field>
+		    <field name="model">hr.contract</field>
+		    <field name="inherit_id" ref="paie.employee_contract_form_view"/>
+		    <field name="arch" type="xml">
+		        <xpath expr="//form/header/button[@name='add_avenant']" position="after">
+		           <button name="action_valider" string="Valider" status="brouillon" attrs="{'invisible': [('status','=','valide')]}"  
+type="object" class="oe_highlight" groups="base.group_hr_manager,paie.group_hr_officer"/>
+		          <field name="status"  widget="statusbar"/></xpath></field>
+
+	</record>
+</data>
+</openerp>

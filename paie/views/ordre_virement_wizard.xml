@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report
+            id="document_ordre_virement"
+            model="ordre.virement.wizard"
+            string="Ordre de Virement"
+            report_type="qweb-pdf"
+            name="paie.report_ordre_virement"
+            file="paie.report_ordre_virement"
+                />
+        <!--record id="paie.report_document_ordre_virement" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="paie.paperformat_lowmain" />
+        </record-->
+        <template id="commercial_layout_ov">
+                 <t t-call="paie.paie_layout_header_ov" />
+                 <t t-raw="0" />
+                 <!--t t-call="paie.paie_layout_footer" /-->
+        </template>
+        <template id="paie_layout_header_ov">
+            <t t-foreach="docs" t-as="o">
+                <div class="header">
+                    <br/>
+                    <div class="row"><div class="col-xs-4">PORTNET-SA</div></div>
+                    <div class="row"><div class="col-xs-5 pull-right">Casablanca le<![CDATA[ &nbsp;]]><span t-esc="o.get_date_now()" /></div></div>
+                    <div class="row"><![CDATA[ &nbsp;]]></div>
+
+                    <div class="row"><div class="col-xs-4 pull-right">BMCE BANK</div></div>
+                    <div class="row"><div class="col-xs-5 pull-right">AGENCE CORPORATE - CASABLANCA</div></div>
+                    <div class="row"><div class="col-xs-5 pull-right">Compte N° : 011 780 00000 921 00000 677 35</div></div>
+                     <div class="row"><![CDATA[ &nbsp;]]></div>
+
+
+
+                </div>
+             </t>
+        </template>
+        <template id="report_ordre_virement">
+            <t t-foreach="docs" t-as="o">
+                    <t t-call="paie.commercial_layout_ov">
+
+                        <div class="page">
+                            <style>
+                            table{
+	border-collapse: collapse;
+
+}
+th,td{
+
+    border-left: 1px solid black;
+border-right: 1px solid black;
+}
+                                th{border-top:1px solid black;border-bottom:1px solid black;}
+                            </style>
+                            <div class="row"><div class="col-xs-11 pull-right">Objet : Ordre de virement des salaires</div></div>
+
+                            <div>    Messieurs,Par le débit de notre compte ouvert chez vous, nous vous demandons de bien vouloir virer la somme de 397 622,08DHS « Trois Cent Quatre Vingt Dix Sept mille six cent vingt-deux Dirhams et Huit Centimes », au profit des personnes suivantes :</div>
+
+                            <table width="100%" style="border: 1px solid black;">
+                                <thead style="background-color:#CCCCCC;">
+                                    <th rowspan="2" width="10%"><center>Matricule</center></th>
+                                    <th rowspan="2" width="15%"><center>Nom</center></th>
+                                    <th rowspan="2" width="15%"><center>Prénom</center></th>
+                                    <th rowspan="2" width="15%"><center>Net à payer</center></th>
+                                    <th rowspan="2" width="25%"><center>N°Compte bancaire</center></th>
+                                    <th rowspan="2" width="20%"><center>Banque</center></th>
+                                </thead>
+                                <tbody>
+                                 <t t-foreach="o.get_bulletin_done_ids()" t-as="y">
+                                    <tr>
+                                        <td ><center><span t-field="y.employee_id.matricule" /></center></td>
+                                        <td ><center><span t-field="y.employee_id.nom" /></center></td>
+                                        <td ><center><span t-field="y.employee_id.prenom" /></center></td>
+                                        <td ><center><span t-esc="o.get_net(y.id)" /> </center></td>
+                                        <td ><center><span t-esc="o.get_rib(y.employee_id.id)" /></center></td>
+                                        <td ><center><span t-field="y.employee_id.banque" /></center></td>
+                                    </tr>
+                                </t>
+                                </tbody>
+                            </table>
+                            </div>
+                        </t>
+                    </t>
+        </template>
+    </data>
+</openerp>

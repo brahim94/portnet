@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <openerp>
+    <data>
+        <record id="payslip_run_wizard" model="ir.ui.view">
+        <field name="model">payslip.run</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <group>
+                <field name="periode" on_change="onchange_period(periode)"/>
+                <!--button string="Valider les bulletins sélectionnés" type="object" name="valider" class="oe_highlight"/-->
+                </group><group>
+                <field name="payslip_ids" nolabel="1">
+                    <tree editable="bottom">
+                        <field name="select_payslip"/>
+                        <field name="payslip_id"/>
+                    </tree>
+               </field>
+            </group>
+        <footer>
+            <button string="Valider les bulletins sélectionnés"
+                    type="object"
+                    name="valider"
+                    class="oe_highlight"/>
+            or
+           <button string="Cancel" class="oe_link" special="cancel"/>
+        </footer>
+        </field>
+        </record>
+        <record id="validation_lot_action" model="ir.actions.act_window">
+                <field name="name">Validation Par Lot</field>
+                <field name="res_model">payslip.run</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+                <field name="view_id" ref="payslip_run_wizard"/>
+                <field name="target">new</field>
+        </record>
+        <menuitem name="Validation par lot" id="menu_payslip_run_wizard" action="validation_lot_action" parent="hr_payroll.menu_hr_root_payroll" sequence="14"/>
+    </data>
+ </openerp>
